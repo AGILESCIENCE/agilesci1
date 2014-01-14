@@ -1,0 +1,3 @@
+filename,s,ql,"549-590.Vela.exp.gz",,,"Map file name"
+l,r,ql,,,,"Longitude l in degrees (galactic)"
+b,r,ql,,-90,90,"Latitude b in degrees (galactic)"

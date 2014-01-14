@@ -1,0 +1,3 @@
+dataprefix,s,ql,"/home/calib/Calib/Kali08/dati/SIM000000_3901_1_Vela",,,"Data file prefix"
+theta,s,ql,"60",,,"Theta string (two digits)"
+phi,s,ql,"45",,,"Phi string (two digits)"

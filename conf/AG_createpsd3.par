@@ -1,0 +1,2 @@
+dataprefix,s,ql,"/home/calib/Calib/Kali08/dati/SIM000000_3901_1_Vela",,,"Data file prefix"
+outprefix,s,ql,"psdfit",,,"Output file prefix"

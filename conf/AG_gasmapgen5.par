@@ -1,0 +1,4 @@
+expfile,s,ql,"${HOME}/work/Sky/total/FM3.119_2/115732800_135604800_ring96.FM3.119_2.exp.gz",,,"Enter exposure file name"
+outfile,s,ql,"!115732800_135604800_ring96.FM3.119_2.gas2.gz",,,"Enter output file name"
+diffusefile,s,ql,"${HOME}/ADC/scientific_analysis/data/100_50000.0.5.SFMG_I0007.disp.conv.sky.gz",,,"Enter diffuse model file name"
+hiresdiffusefile,s,ql,"${HOME}/ADC/scientific_analysis/data/100_50000.0.1.SFMG_I0007.disp.conv.sky.gz",,,"Enter high res diffuse model file name"

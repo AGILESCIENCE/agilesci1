@@ -1,0 +1,7 @@
+infile,s,ql,"/data1/users/chen/Sky/HEALPIX/healpix_4.txt",,,"Grid log index file name"
+logfile,s,ql,"/data1/Commissioning/INDEX/Log.index",,,"Grid log index file name"
+outfile,s,ql,"/data1/users/chen/Sky/126452726_128068918/126452726_128068918.healpix.txt",,,"Output file name"
+tmin,r,ql,126452726,,,"Initial time(sec)"
+tmax,r,ql,128068918,,,"Final time(sec)"
+tdur,r,ql,1200,,,"Minimum duration(sec)"
+radius,r,l,30,,,"Radius of field of view (degrees)"

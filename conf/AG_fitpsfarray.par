@@ -1,0 +1,2 @@
+outfile,s,ql,"/Users/andrew/work/testBUILD20/testfit/testfitpsf2",,,"Output file name"
+psdfile,s,ql,"/Users/andrew/BUILD_GRID_MATRIX_I0010/AG_GRID_G0017_SFMG_I0010.psd.gz",,,"PSD file name"

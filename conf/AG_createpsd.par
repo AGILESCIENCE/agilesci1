@@ -1,0 +1,3 @@
+outfile,s,ql,"AG_GRID_G0017_SFMG_I0023.psd.gz",,,"Output file name"
+psdtemplate,s,ql,"/home/calib/Calib/AG_GRID_G0017_SFMG_I0007.psd.gz",,,"PSD template file name"
+paramfile,s,ql,"psdfit_FMG_table.fits.gz",,,"Parameter table file name"

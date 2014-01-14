@@ -1,0 +1,5 @@
+diffusefile,s,ql,"/Users/andrew/work/diffconv/10000_50000.0.1.sky.gz",,,"Diffuse model file name"
+psdfile,s,ql,"/Users/andrew/work/diffconv/AG_GRID_G0017_SFMG_I0010.psd.gz",,,"Point spread function file name"
+sarfile,s,ql,"/Users/andrew/work/diffconv/AG_GRID_G0017_SFMG_I0010.sar.gz",,,"SAR file name"
+edpfile,s,ql,"/Users/andrew/work/diffconv/AG_GRID_G0017_SFMG_I0010.edp.gz",,,"EDP file name"
+outfile,s,ql,"!/Users/andrew/work/diffconv/10000_50000.0.1.SFMG_I0010.test.conv.sky.gz",,,"Output file name"

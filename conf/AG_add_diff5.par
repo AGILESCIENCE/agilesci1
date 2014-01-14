@@ -1,0 +1,6 @@
+diffusefilelist,s,ql,"/ananke/chen/work/diffconv/SF4G_I0007.difflist",,,"Diffuse model file name"
+edpfile,s,l,"/ananke/chen/BUILD_GRID_SCI/Projects/scientific_analysis/Data/AG_GRID_G0017_SF4G_I0007.edp.gz",,,"EDP file name"
+sarfile,s,l,"/ananke/chen/BUILD_GRID_SCI/Projects/scientific_analysis/Data/AG_GRID_G0017_SF4G_I0007.sar.gz",,,"SAR file name"
+outfile,s,ql,"!/ananke/chen/work/diffconv100_10000.SF4G_I0007.conv.sky",,,"Output file name"
+emin,r,ql,100,,,"Minimum energy (MeV)"
+emax,r,ql,50000,,,"Maximum energy (MeV)"

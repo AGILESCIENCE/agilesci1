@@ -4,7 +4,7 @@
 <dict>
 	<key>EmbeddedEditorHidden:bulgarelli</key>
 	<false/>
-	<key>ExpandedEditorWidth:bulgarelli:displays([(0, 0), (1680, 1050)])</key>
+	<key>ExpandedEditorWidth:bulgarelli:displays([(0, 0), (1920, 1080)]:[(-1680, 0), (1680, 1050)])</key>
 	<integer>850</integer>
 	<key>ExpandedItems:bulgarelli</key>
 	<array/>
@@ -117,7 +117,7 @@
 	<true/>
 	<key>ViewSplitterPosition:bulgarelli</key>
 	<real>0.18286813795566559</real>
-	<key>WindowFrame:bulgarelli:displays([(0, 0), (1680, 1050)])</key>
+	<key>WindowFrame:bulgarelli:displays([(0, 0), (1920, 1080)]:[(-1680, 0), (1680, 1050)])</key>
 	<string>rect(132,110,1050,1149)</string>
 </dict>
 </plist>

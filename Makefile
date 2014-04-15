@@ -16,7 +16,7 @@
 #		* uninstall: add or remove the files and directories that should be uninstalled
 #############################################################################
 
-PROJECT= agilesci2
+PROJECT= agilesci1
 SHELL = /bin/sh
 
 ####### 1) Project names and system
@@ -361,7 +361,7 @@ install: all
 	
 	# For exe installation
 	test -d $(bindir) || mkdir -p $(bindir)	
-	$(COPY_FILE) $(EXE_DESTDIR)/$(EXE_NAME) $(bindir)
+	$(COPY_FILE) $(EXE_DESTDIR)/* $(bindir)
 	#copy icon
 	#test -d $(icondir) || mkdir -p $(icondir)
 	#$(COPY_FILE) $(ICON_DIR)/$(ICON_NAME) $(icondir)

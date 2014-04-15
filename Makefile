@@ -133,10 +133,6 @@ ifneq (, $(findstring cfitsio, $(LINKERENV)))
         INCPATH += -I$(CFITSIO)/include
 	LIBS += -L$(CFITSIO)/lib -lcfitsio
 endif
-ifneq (, $(findstring ctarta, $(LINKERENV)))
-        INCPATH += -I$(CTARTA)/include
-	LIBS += -L$(CTARTA)/lib -lpacket -lRTAtelem
-endif
 
 ifneq (, $(findstring pil, $(LINKERENV)))
         INCPATH += -I$(AGILE)/include
@@ -148,7 +144,7 @@ ifneq (, $(findstring wcs, $(LINKERENV)))
 endif
 ifneq (, $(findstring agile, $(LINKERENV)))
     INCPATH += -I$(AGILE)/include
-	LIBS += -L$(AGILE)/lib -lpacket -lagiletelem -lagilesci
+	LIBS += -L$(AGILE)/lib -lagilesci
 endif 
 
 ifneq (, $(findstring root, $(LINKERENV)))

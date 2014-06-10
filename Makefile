@@ -148,11 +148,11 @@ ifneq (, $(findstring agile, $(LINKERENV)))
 endif 
 
 ifneq (, $(findstring root, $(LINKERENV)))
-    ROOTCFLAGS   := $(shell root-config --cflags)
+    	ROOTCFLAGS   := $(shell root-config --cflags)
 	ROOTLIBS     := $(shell root-config --libs)
 	ROOTGLIBS    := $(shell root-config --glibs)
 	ROOTCONF=-O -pipe -Wall -W -fPIC -D_REENTRANT
-	INCPATH += -I$(ROOTSYS)/include/root
+	INCPATH += $(ROOTCFLAGS)
 	LIBSWROOT = $(LIBS)
 	LIBSWROOT += $(ROOTGLIBS) -lMinuit
 	ALL_CFLAGS += $(ROOTCONF)

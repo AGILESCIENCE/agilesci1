@@ -11,7 +11,7 @@
 using std::cerr;
 using std::cout;
 using std::endl;
-using std::isnan;
+//using std::isnan;
 
 static bool ReadFitsKey(fitsfile* fptr, const char* name, float* value, float defaultVal, int* status)
 {

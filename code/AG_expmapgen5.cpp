@@ -797,14 +797,22 @@ int excalibur(ExpGenParams& params)
             char outfile[2048] = "!";
 			if(numout > 1) {
 				if (params.outfile[0]=='!')
-					sprintf(outfile+1, "TA%d_TB%d_E%d-%d_TH%d-%d_SI-%g_%s",
+					/*sprintf(outfile+1, "TA%d_TB%d_E%d-%d_TH%d-%d_SI-%g_%s",
 							int(obtMin), int(obtMax),
+							int(params.maps[i].emin), int(params.maps[i].emax),
+							int(params.maps[i].fovradmin), int(params.maps[i].fovradmax),
+							params.maps[i].index, params.outfile+1);*/
+					sprintf(outfile+1, "E%d-%d_TH%d-%d_SI-%g_%s",
 							int(params.maps[i].emin), int(params.maps[i].emax),
 							int(params.maps[i].fovradmin), int(params.maps[i].fovradmax),
 							params.maps[i].index, params.outfile+1);
 				else
-					sprintf(outfile, "TA%d_TB%d_E%d-%d_TH%d-%d_SI-%g_%s",
+					/*sprintf(outfile, "TA%d_TB%d_E%d-%d_TH%d-%d_SI-%g_%s",
 							int(obtMin), int(obtMax),
+							int(params.maps[i].emin), int(params.maps[i].emax),
+							int(params.maps[i].fovradmin), int(params.maps[i].fovradmax),
+							params.maps[i].index, params.outfile);*/
+					sprintf(outfile, "E%d-%d_TH%d-%d_SI-%g_%s",
 							int(params.maps[i].emin), int(params.maps[i].emax),
 							int(params.maps[i].fovradmin), int(params.maps[i].fovradmax),
 							params.maps[i].index, params.outfile);

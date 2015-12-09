@@ -113,7 +113,7 @@ ICON_DIR = ui
 ifneq (, $(findstring mpi, $(LINKERENV)))
 CC       = mpic++
 else
-CC       = gcc
+CC       = g++
 endif
 
 #Set INCPATH to add the inclusion paths
@@ -180,7 +180,7 @@ ifneq (, $(findstring apple, $(SYSTEM)))
         endif
 endif 
 
-LINK     = $CC
+LINK     = ${CC}
 #for link
 LFLAGS = -shared -Wl,-soname,$(TARGET1) -Wl,-rpath,$(DESTDIR)
 AR       = ar cqs

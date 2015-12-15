@@ -48,6 +48,7 @@ AG_SPOTFINDER = AG_spotfinder5
 AG_GENAPP = AG_genapp
 AG_FITPSFARRAY = AG_fitpsfarray
 AG_FITPSFARRAY3 = AG_fitpsfarray3
+AG_FITPSFARRAY3_H = AG_fitpsfarray3_H
 AG_CONVERTTOSKYMAP5 = AG_converttoSkyMap5
 AG_PADMAP5 = AG_padMap5
 AG_CREATEPSD = AG_createpsd
@@ -293,6 +294,8 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY) $(OBJECTS_DIR)/AG_fitpsfarray.o $(LIBSWROOT)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY3) $(OBJECTS_DIR)/AG_fitpsfarray3.o $(LIBSWROOT)
+
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY3_H) $(OBJECTS_DIR)/AG_fitpsfarray3_H.o $(LIBSWROOT)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CONVERTTOSKYMAP5) $(OBJECTS_DIR)/AG_converttoSkyMap5.o $(LIBS)
 

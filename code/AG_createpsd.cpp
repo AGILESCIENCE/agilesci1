@@ -43,7 +43,7 @@ using namespace std;
 
 int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename){
 
-	int status;
+	int status = 0;
 	fitsfile * psdold;
 	fits_open_file(&psdold, psdtemplate, READONLY, &status);
 	if (status) {

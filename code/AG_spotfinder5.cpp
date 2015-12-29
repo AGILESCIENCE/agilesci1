@@ -93,7 +93,7 @@ if (argc == 6) {
 			double b = map.b(i, j);
 			double dist = AlikeSphdistDeg(l, b, lcenter, bcenter);
 			if (dist<=radious) 
-				asciiFile << "0.00000e-08 " << l << " " << b << " " << " 2.1 " << typeanal << " 2.0 " << index++ << endl;
+				asciiFile << "0.00000e-08 " << l << " " << b << " " << " 2.1 " << typeanal << " 2.0 S" << index++ << endl;
 			}
 	return 0;
 	}

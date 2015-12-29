@@ -127,7 +127,7 @@ roiMulti.WriteSources(outfilename);
 roiMulti.WriteHtml(outfilename);
 
 fileName = outfilename;
-fileName += "2";roiMulti.Write(fileName.c_str(), false);
+fileName += ".log";roiMulti.Write(fileName.c_str(), false);
 
 return 0;
 }

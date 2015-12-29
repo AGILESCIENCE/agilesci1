@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "CCAC5BAAB70DB1D829FD3F90BF26AA11DAB14768",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "290F4FB8119039BF1F709F3F87672EC12684DE0D" : 0,
+    "CCAC5BAAB70DB1D829FD3F90BF26AA11DAB14768" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "3700119A-204D-46DE-99EE-1D7D4FA900F7",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "290F4FB8119039BF1F709F3F87672EC12684DE0D" : "",
+    "CCAC5BAAB70DB1D829FD3F90BF26AA11DAB14768" : "agilesci1\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "agilesci1",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "agilesci1.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:AGILESCIENCE\/BUILD_GRID_SCI_git.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "290F4FB8119039BF1F709F3F87672EC12684DE0D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:AGILESCIENCE\/agilesci1.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CCAC5BAAB70DB1D829FD3F90BF26AA11DAB14768"
+    }
+  ]
+}

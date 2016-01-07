@@ -35,6 +35,7 @@ AG_CTSMAPGEN = AG_ctsmapgen5
 AG_CTSMAPGENT = AG_ctsmapgenT5
 AG_GASMAPGEN = AG_gasmapgen5
 AG_INTMAPGEN = AG_intmapgen5
+AG_DIFMAPGEN = AG_difmapgen5
 AG_ITERATIVEGENSRCLIST = AG_iterativeGenSrcList5
 AG_THETAMAPGEN = AG_thetamapgen5
 #AG_MULTI2 = AG_multi2
@@ -284,6 +285,8 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_GASMAPGEN) $(OBJECTS_DIR)/AG_gasmapgen5.o  $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTMAPGEN) $(OBJECTS_DIR)/AG_intmapgen5.o $(LIBS)
+         
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFMAPGEN) $(OBJECTS_DIR)/AG_difmapgen5.o $(LIBS)
          
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ITERATIVEGENSRCLIST) $(OBJECTS_DIR)/AG_iterativeGenSrcList5.o $(LIBSWROOT)
 

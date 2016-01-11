@@ -1,0 +1,3 @@
+map1file,s,ql,"map1.gz",,,"First map filename"
+map2file,s,ql,"map2.gz",,,"Second map filename"
+outfile,s,ql,"diff.gz",,,"Map diff filename"

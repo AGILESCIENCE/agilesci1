@@ -282,13 +282,13 @@ int main(int argc,char **argv) {
                     cerr << fName << " written" << endl;
             }
 
-            // get the max sum
+            // get the highest between max and min for each diff sum
             double max = 0.;
             int maxx = -1;
             int maxy = -1;
             for (int y=0; y<sizeY; y++) {
                 for (int x=0; x<sizeX; x++) {
-                    if(sumMap(y, x) > max) {
+                    if(fabs(sumMap(y, x)) > fabs(max)) {
                         max = sumMap(y, x);
                         maxx = x;
                         maxy = y;

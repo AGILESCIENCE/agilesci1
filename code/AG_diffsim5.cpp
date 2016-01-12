@@ -18,7 +18,6 @@
 //       All rights reserved.
 ////////////////////////////////////////////////////////////////////////////////////
 
-// TODO2: maplistsim7 = none (or None)
 // TODO3: test with sources
 
 #include <TRandom3.h>
@@ -92,16 +91,22 @@ int main(int argc,char **argv) {
     if (seed)
         SetSeed(seed);
 
+    bool bothMaps = true;
+    if (string(maplistsimname7).compare("None") == 0 ||
+        string(maplistsimname7).compare("none") == 0)
+        bothMaps = false;
+
     MapList maplistsim7;
-    if (!maplistsim7.Read(maplistsimname7))
-        return -1;
+    if (bothMaps && !maplistsim7.Read(maplistsimname7)) {
+         return -1;
+    }
 
     MapList maplistsim3;
     if (!maplistsim3.Read(maplistsimname3))
         return -1;
 
     MapData mapData7;
-    if (!mapData7.Load(maplistsim7, true)) {
+    if(bothMaps && !mapData7.Load(maplistsim7, true)) {
         cerr << "Error reading the simulation map list 7" << endl;
         return -1;
     }
@@ -129,9 +134,12 @@ int main(int argc,char **argv) {
 
         cout << endl << "AG_diffsim loop #" << i+1 << endl << endl;
 
-        mapData7.MapCoeff::Load(maplistsim7);
-        roiMulti.SetMaps(mapData7);
-        AgileMap* simArr7 = roiMulti.NewSimulationArray(srcSimArr);
+        AgileMap* simArr7 = NULL;
+        if(bothMaps) {
+            mapData7.MapCoeff::Load(maplistsim7);
+            roiMulti.SetMaps(mapData7);
+            simArr7 = roiMulti.NewSimulationArray(srcSimArr);
+        }
 
         mapData3.MapCoeff::Load(maplistsim3);
         roiMulti.SetMaps(mapData3);
@@ -143,17 +151,18 @@ int main(int argc,char **argv) {
                 cerr << "Error writing simulated counts map 3 " << fName << endl;
             else
                 cerr << fName << " written" << endl;
-            sprintf(fName, "%s7_%010d.cts.gz", outfilename, i+1);
-            if (simArr7[0].Write(fName))
-                cerr << "Error writing simulated counts map 7 " << fName << endl;
-            else
-                cerr << fName << " written" << endl;
+            if(bothMaps) {
+                sprintf(fName, "%s7_%010d.cts.gz", outfilename, i+1);
+                if (simArr7[0].Write(fName))
+                    cerr << "Error writing simulated counts map 7 " << fName << endl;
+                else
+                    cerr << fName << " written" << endl;
+            }
         }
         if (opmode & Analysis) {
             const AgileMap& ctsMap3 = simArr3[0];
-            const AgileMap& ctsMap7 = simArr7[0];
             const AgileMap& expMap3 = mapData3.ExpMap(0);
-            const AgileMap& expMap7 = mapData7.ExpMap(0);
+
             // first loop analysis init
             if (i == 0) {
                 sizeY = expMap3.Dim(0);
@@ -166,34 +175,55 @@ int main(int argc,char **argv) {
 
             // compute intensity maps
             AgileMap intMap3;
-            AgileMap intMap7;
             intMap3.ResizeTo(sizeY, sizeX);
-            intMap7.ResizeTo(sizeY, sizeX);
             for (int y=0; y<sizeY; y++) {
                 for (int x=0; x<sizeX; x++) {
                     intMap3(y,x) = ctsMap3(y,x) / expMap3(y,x);
-                    intMap7(y,x) = ctsMap7(y,x) / expMap7(y,x);
                 }
             }
+
+            AgileMap intMap7;
+            if(bothMaps) {
+                const AgileMap& ctsMap7 = simArr7[0];
+                const AgileMap& expMap7 = mapData7.ExpMap(0);
+                intMap7.ResizeTo(sizeY, sizeX);
+                for (int y=0; y<sizeY; y++) {
+                    for (int x=0; x<sizeX; x++) {
+                        intMap7(y,x) = ctsMap7(y,x) / expMap7(y,x);
+                    }
+                }
+            }
+
             if (opmode & SaveMaps) {
                 sprintf(fName, "%s3_%010d.int.gz", outfilename, i+1);
                 if (intMap3.Write(fName))
                     cerr << "Error writing simulated counts map 3 " << fName << endl;
                 else
                     cerr << fName << " written" << endl;
-                sprintf(fName, "%s7_%010d.int.gz", outfilename, i+1);
-                if (intMap7.Write(fName))
-                    cerr << "Error writing simulated counts map 7 " << fName << endl;
-                else
-                    cerr << fName << " written" << endl;
+                if(bothMaps) {
+                    sprintf(fName, "%s7_%010d.int.gz", outfilename, i+1);
+                    if (intMap7.Write(fName))
+                        cerr << "Error writing simulated counts map 7 " << fName << endl;
+                    else
+                        cerr << fName << " written" << endl;
+                }
             }
 
             // absolute diff between intensity maps
             AgileMap diffMap;
             diffMap.ResizeTo(sizeY, sizeX);
-            for (int y=0; y<sizeY; y++) {
-                for (int x=0; x<sizeX; x++) {
-                    diffMap(y,x) = fabs(intMap7(y,x) - intMap3(y,x));
+            if(bothMaps) {
+                for (int y=0; y<sizeY; y++) {
+                    for (int x=0; x<sizeX; x++) {
+                        diffMap(y,x) = fabs(intMap7(y,x) - intMap3(y,x));
+                    }
+                }
+            }
+            else {
+                for (int y=0; y<sizeY; y++) {
+                    for (int x=0; x<sizeX; x++) {
+                        diffMap(y,x) = fabs(intMap3(y,x));
+                    }
                 }
             }
             if (opmode & SaveMaps) {

@@ -18,7 +18,6 @@
 //       All rights reserved.
 ////////////////////////////////////////////////////////////////////////////////////
 
-// TODO1: radius read from .par
 // TODO2: maplistsim7 = none (or None)
 // TODO3: test with sources
 
@@ -32,6 +31,7 @@ const PilDescription c_params[] = {
     { PilInt,    "opmode", "Operation Mode" },
     { PilInt,    "nruns", "Number of runs" },
     { PilInt,    "seed", "Seed" },
+    { PilInt,    "radius", "Radius from the map center" },
     { PilString, "sarfile", "SAR file name" },
     { PilString, "edpfile", "EDP file name" },
     { PilString, "psdfile", "PSD file name" },
@@ -80,6 +80,7 @@ int main(int argc,char **argv) {
     int opmode = mPars["opmode"];
     int nruns = mPars["nruns"];
     int seed = mPars["seed"];
+    int radius = mPars["radius"];
     const char* sarfilename = mPars["sarfile"];
     const char* edpfilename = mPars["edpfile"];
     const char* psdfilename = mPars["psdfile"];
@@ -207,7 +208,6 @@ int main(int argc,char **argv) {
             AgileMap sumMap;
             sumMap.ResizeTo(sizeY, sizeX);
             sumMap.SetElements(0.);
-            int radius = 50;
             for (int y=0; y<sizeY; y++) {
                 for (int x=0; x<sizeX; x++) {
                     if ((x - centerX)*(x - centerX) + (y - centerY)*(y - centerY) < radius*radius) {

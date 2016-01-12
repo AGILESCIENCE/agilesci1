@@ -1,6 +1,7 @@
 opmode,i,ql,1,0,3,"Operation Mode"
 nruns,i,ql,1000,,,"Number of runs"
 seed,i,ql,0,,,"Seed"
+radius,i,ql,30,,,"Radius from the map center"
 sarfile,s,ql,"AG_GRID_G0017_SFMG_I0025.sar.gz",,,"SAR file name"
 edpfile,s,ql,"AG_GRID_G0017_SFMG_I0025.edp.gz",,,"EDP file name"
 psdfile,s,ql,"AG_GRID_G0017_SFMG_I0025.psd.gz",,,"PSD file name"

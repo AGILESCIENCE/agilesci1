@@ -30,6 +30,7 @@ const PilDescription c_params[] = {
     { PilInt,    "opmode", "Operation Mode" },
     { PilInt,    "nruns", "Number of runs" },
     { PilInt,    "seed", "Seed" },
+    { PilInt,    "neighbors", "Number of neighbors to sum (4 or 8)" },
     { PilInt,    "radius", "Radius from the map center" },
     { PilString, "sarfile", "SAR file name" },
     { PilString, "edpfile", "EDP file name" },
@@ -79,6 +80,7 @@ int main(int argc,char **argv) {
     int opmode = mPars["opmode"];
     int nruns = mPars["nruns"];
     int seed = mPars["seed"];
+    int neighbors = mPars["neighbors"];
     int radius = mPars["radius"];
     const char* sarfilename = mPars["sarfile"];
     const char* edpfilename = mPars["edpfile"];
@@ -238,20 +240,39 @@ int main(int argc,char **argv) {
             AgileMap sumMap;
             sumMap.ResizeTo(sizeY, sizeX);
             sumMap.SetElements(0.);
-            for (int y=0; y<sizeY; y++) {
-                for (int x=0; x<sizeX; x++) {
-                    if ((x - centerX)*(x - centerX) + (y - centerY)*(y - centerY) < radius*radius) {
-                        sumMap(y,x) = diffMap(  y,   x) +
-                                      diffMap(  y, x+1) +
-                                      diffMap(y+1, x+1) +
-                                      diffMap(y+1,   x) +
-                                      diffMap(y+1, x-1) +
-                                      diffMap(  y, x-1) +
-                                      diffMap(y-1, x-1) +
-                                      diffMap(y-1,   x) +
-                                      diffMap(y-1, x+1);
+            if (neighbors == 8) {
+                for (int y=0; y<sizeY; y++) {
+                    for (int x=0; x<sizeX; x++) {
+                        if ((x - centerX)*(x - centerX) + (y - centerY)*(y - centerY) < radius*radius) {
+                            sumMap(y,x) = diffMap(  y,   x) +
+                                        diffMap(  y, x+1) +
+                                        diffMap(y+1, x+1) +
+                                        diffMap(y+1,   x) +
+                                        diffMap(y+1, x-1) +
+                                        diffMap(  y, x-1) +
+                                        diffMap(y-1, x-1) +
+                                        diffMap(y-1,   x) +
+                                        diffMap(y-1, x+1);
+                        }
                     }
                 }
+            }
+            else if (neighbors == 4) {
+                for (int y=0; y<sizeY; y++) {
+                    for (int x=0; x<sizeX; x++) {
+                        if ((x - centerX)*(x - centerX) + (y - centerY)*(y - centerY) < radius*radius) {
+                            sumMap(y,x) = diffMap(  y,   x) +
+                                        diffMap(  y, x+1) +
+                                        diffMap(y+1,   x) +
+                                        diffMap(  y, x-1) +
+                                        diffMap(y-1,   x);
+                        }
+                    }
+                }
+            }
+            else {
+                cerr << "Error, wrong number of neighbor's: " << neighbors << endl;
+                return -1;
             }
             if (opmode & SaveMaps) {
                 sprintf(fName, "%s_sumNeigh_%010d.gz", outfilename, i+1);

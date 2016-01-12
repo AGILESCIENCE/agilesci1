@@ -217,14 +217,14 @@ int main(int argc,char **argv) {
             if(bothMaps) {
                 for (int y=0; y<sizeY; y++) {
                     for (int x=0; x<sizeX; x++) {
-                        diffMap(y,x) = fabs(intMap7(y,x) - intMap3(y,x));
+                        diffMap(y,x) = intMap7(y,x) - intMap3(y,x);
                     }
                 }
             }
             else {
                 for (int y=0; y<sizeY; y++) {
                     for (int x=0; x<sizeX; x++) {
-                        diffMap(y,x) = fabs(intMap3(y,x));
+                        diffMap(y,x) = intMap3(y,x);
                     }
                 }
             }

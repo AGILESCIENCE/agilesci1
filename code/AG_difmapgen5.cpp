@@ -27,6 +27,7 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <vector>
 
 #include "fitsio.h"
 #include "pil.h"
@@ -36,7 +37,7 @@
 
 using namespace std;
 
-int AG_difmapgen(char *map1file, char *map2file, char *outfile) {
+int AG_difmapgen(char *map1file, char *map2file, char *outfile, char *outfile4, char *outfile8) {
 	int status = 0;
 	double x0 = 0, y0 = 0;
 	long outpixel[2];
@@ -49,9 +50,9 @@ int AG_difmapgen(char *map1file, char *map2file, char *outfile) {
 
 	long nx = 0, ny = 0;
 
-	fitsfile *map1Fits;
-	fitsfile *map2Fits;
-	fitsfile *outFits;
+	fitsfile *map1Fits = 0;
+	fitsfile *map2Fits = 0;
+    fitsfile *outFits = 0, *outFits4 = 0, *outFits8 = 0;
 
 	if (fits_open_file(&map1Fits, map1file, READONLY, &status) != 0) {
 		printf("Errore in apertura file '%s'\n",  map1file);
@@ -65,8 +66,22 @@ int AG_difmapgen(char *map1file, char *map2file, char *outfile) {
 		printf("Errore in apertura file '%s'\n", outfile);
 		return status;
 	}
+	if (string(outfile4).compare("None") != 0 &&
+	   fits_create_file(&outFits4, outfile4, &status) != 0) {
+		printf("Errore in apertura file '%s'\n", outfile4);
+		return status;
+	}
+	if (string(outfile8).compare("None") != 0 &&
+	   fits_create_file(&outFits8, outfile8, &status) != 0) {
+		printf("Errore in apertura file '%s'\n", outfile8);
+		return status;
+	}
 
-	fits_copy_file(map1Fits, outFits, 1, 1, 1, &status);
+    fits_copy_file(map1Fits, outFits, 1, 1, 1, &status);
+	if (string(outfile4).compare("None") != 0)
+	    fits_copy_file(map1Fits, outFits4, 1, 1, 1, &status);
+	if (string(outfile8).compare("None") != 0)
+	    fits_copy_file(map1Fits, outFits8, 1, 1, 1, &status);
 
 	fits_get_img_param(map2Fits, 3, &bitpix, &naxis, naxes, &status);
 	fits_read_key(map2Fits,TLONG,"NAXIS1",&nx,NULL,&status);
@@ -83,12 +98,16 @@ int AG_difmapgen(char *map1file, char *map2file, char *outfile) {
 	long ncols = Map.Cols();
 
 	long pixel[3] = {1,1,1};
+    vector< vector<double> > diffImage; // hold the diff image as a 2D double matrix
+    diffImage.resize(nrows);
+    for (unsigned int y=0; y<nrows; ++y)
+        diffImage[y].resize(ncols);
 
 	for (outpixel[0]=1;outpixel[0]<=nrows;outpixel[0]++) {
 		for (outpixel[1]=1;outpixel[1]<=ncols;outpixel[1]++) {
 			double pixelsMap2 = 0.0;
 			double pixelsMap1 = 0.0;
-			double pixelsInt = 0.0;
+			double pixelsDiff = 0.0;
 			pixel[0] = outpixel[0];
 			pixel[1] = outpixel[1];
 
@@ -100,15 +119,68 @@ int AG_difmapgen(char *map1file, char *map2file, char *outfile) {
 			fits_read_pix(map1Fits, TDOUBLE, pixel, 1, NULL, &pixelsMap1, NULL, &status);
 			fits_read_pix(map2Fits, TDOUBLE, pixel, 1, NULL, &pixelsMap2, NULL, &status);
 
-			pixelsInt =  pixelsMap2 - pixelsMap1;
-/*
-			if(pixelsInt > 0.01)
-				cout << pixel[0] << ", " << pixel[1] << " " << pixelsMap2 << " - " << pixelsMap1 << " = " << pixelsInt << endl;
-*/
-			fits_write_pix(outFits, TDOUBLE, outpixel, 1, &pixelsInt, &status);
+			pixelsDiff =  pixelsMap2 - pixelsMap1;
+
+			fits_write_pix(outFits, TDOUBLE, outpixel, 1, &pixelsDiff, &status);
+			diffImage[outpixel[0]-1][outpixel[1]-1] = pixelsDiff;
+
 			if (status) throw;
 		}
 	}
+
+	if(string(outfile4).compare("None") != 0) {
+        for (outpixel[0]=1;outpixel[0]<=nrows;outpixel[0]++) {
+            for (outpixel[1]=1;outpixel[1]<=ncols;outpixel[1]++) {
+                const int &y = outpixel[0]-1;
+                const int &x = outpixel[1]-1;
+ 
+                double sum = diffImage[y][x];
+                if (y > 0)
+                    sum += diffImage[y-1][x];
+                if (y < nrows-1)
+                    sum += diffImage[y+1][x];
+                if (x > 0)
+                    sum += diffImage[y][x-1];
+                if (x < ncols-1)
+                    sum += diffImage[y][x+1];
+
+                fits_write_pix(outFits4, TDOUBLE, outpixel, 1, &sum, &status);
+                if (status) throw;
+            }
+        }
+        fits_close_file(outFits4, &status);
+    }
+
+	if(string(outfile8).compare("None") != 0) {
+        for (outpixel[0]=1;outpixel[0]<=nrows;outpixel[0]++) {
+            for (outpixel[1]=1;outpixel[1]<=ncols;outpixel[1]++) {
+                const int &y = outpixel[0]-1;
+                const int &x = outpixel[1]-1;
+ 
+                double sum = diffImage[y][x];
+                if (y > 0)
+                    sum += diffImage[y-1][x];
+                if (y < nrows-1)
+                    sum += diffImage[y+1][x];
+                if (x > 0)
+                    sum += diffImage[y][x-1];
+                if (x < ncols-1)
+                    sum += diffImage[y][x+1];
+                if (y > 0 && x > 0)
+                    sum += diffImage[y-1][x-1];
+                if (y < nrows-1 && x < ncols-1)
+                    sum += diffImage[y+1][x+1];
+                if (y > 0 && x < ncols-1)
+                    sum += diffImage[y-1][x+1];
+                if (y < nrows-1 && x > 0)
+                    sum += diffImage[y+1][x-1];
+
+                fits_write_pix(outFits8, TDOUBLE, outpixel, 1, &sum, &status);
+                if (status) throw;
+            }
+        }
+        fits_close_file(outFits8, &status);
+    }
 
 	fits_close_file(map1Fits, &status);
 	fits_close_file(map2Fits, &status);
@@ -124,12 +196,16 @@ int main(int argc,char **argv)
 	char map1file[FLEN_FILENAME];
 	char map2file[FLEN_FILENAME];
 	char outfile[FLEN_FILENAME];
+	char outfile4[FLEN_FILENAME];
+	char outfile8[FLEN_FILENAME];
 
 	status = PILInit(argc,argv);
 	status = PILGetNumParameters(&numpar);
 	status = PILGetString("map1file", map1file);
 	status = PILGetString("map2file", map2file);
 	status = PILGetString("outfile", outfile);
+	status = PILGetString("outfile4", outfile4);
+	status = PILGetString("outfile8", outfile8);
 
 	status = PILClose(status);
 
@@ -142,15 +218,17 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
 	cout << " "<< endl;
-	cout << "Enter first map filename = "  << map1file << endl;
-	cout << "Enter second map filename = " << map2file << endl;
-	cout << "Enter output map filename = " << outfile << endl;
+	cout << "First map filename = "  << map1file << endl;
+	cout << "Second map filename = " << map2file << endl;
+	cout << "Diff map filename = " << outfile << endl;
+	cout << "Sum 4 neighbor diff map filename = " << outfile4 << endl;
+	cout << "Sum 8 neighbor diff map filename = " << outfile8 << endl;
 	cout << " "<< endl;
 	cout << " "<< endl;
 
 	cout << "AG_difmapgen...............................starting"<< endl;
 	if (status == 0)
-		status = AG_difmapgen(map1file, map2file, outfile);
+		status = AG_difmapgen(map1file, map2file, outfile, outfile4, outfile8);
 	cout << "AG_difmapgen............................... exiting"<< endl;
 	if (status) {
 		if (status != 105) {

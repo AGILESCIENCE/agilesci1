@@ -180,7 +180,14 @@ int main(int argc,char **argv) {
             intMap3.ResizeTo(sizeY, sizeX);
             for (int y=0; y<sizeY; y++) {
                 for (int x=0; x<sizeX; x++) {
-                    intMap3(y,x) = ctsMap3(y,x) / expMap3(y,x);
+                    double intensity;
+                    if(expMap3(y,x) != 0)
+                        intensity = ctsMap3(y,x) / expMap3(y,x);
+                    else
+                        intensity = 0.0;
+                    if(intensity < 0 || intensity > 0.012)
+                        intensity = 0.0;
+                    intMap3(y,x) = intensity;
                 }
             }
 

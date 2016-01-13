@@ -37,7 +37,7 @@
 
 using namespace std;
 
-int AG_difmapgen(char *map1file, char *map2file, char *outfile, char *outfile4, char *outfile8) {
+int AG_difmapgen(char *map1file, char *map2file, char *outfile, char *outfile4, char *outfile8, int radius) {
 	int status = 0;
 	double x0 = 0, y0 = 0;
 	long outpixel[2];
@@ -128,52 +128,44 @@ int AG_difmapgen(char *map1file, char *map2file, char *outfile, char *outfile4, 
 		}
 	}
 
+    int centerX = nrows / 2.0f;
+    int centerY = ncols / 2.0f;
 	if(string(outfile4).compare("None") != 0) {
-        for (outpixel[0]=1;outpixel[0]<=nrows;outpixel[0]++) {
-            for (outpixel[1]=1;outpixel[1]<=ncols;outpixel[1]++) {
-                const int &y = outpixel[0]-1;
-                const int &x = outpixel[1]-1;
- 
-                double sum = diffImage[y][x];
-                if (y > 0)
-                    sum += diffImage[y-1][x];
-                if (y < nrows-1)
-                    sum += diffImage[y+1][x];
-                if (x > 0)
-                    sum += diffImage[y][x-1];
-                if (x < ncols-1)
-                    sum += diffImage[y][x+1];
-
+        for (int y=0; y<nrows; y++) {
+            for (int x=0; x<ncols; x++) {
+                double sum = 0;
+                if ((x - centerX)*(x - centerX) + (y - centerY)*(y - centerY) < radius*radius) {
+                    sum = diffImage[y][  x] +
+                          diffImage[y][x+1] +
+                          diffImage[y+1][x] +
+                          diffImage[y][x-1] +
+                          diffImage[y-1][x];
+                }
+                outpixel[0] = y+1;
+                outpixel[1] = x+1;
                 fits_write_pix(outFits4, TDOUBLE, outpixel, 1, &sum, &status);
                 if (status) throw;
             }
         }
         fits_close_file(outFits4, &status);
     }
-
 	if(string(outfile8).compare("None") != 0) {
-        for (outpixel[0]=1;outpixel[0]<=nrows;outpixel[0]++) {
-            for (outpixel[1]=1;outpixel[1]<=ncols;outpixel[1]++) {
-                const int &y = outpixel[0]-1;
-                const int &x = outpixel[1]-1;
- 
-                double sum = diffImage[y][x];
-                if (y > 0)
-                    sum += diffImage[y-1][x];
-                if (y < nrows-1)
-                    sum += diffImage[y+1][x];
-                if (x > 0)
-                    sum += diffImage[y][x-1];
-                if (x < ncols-1)
-                    sum += diffImage[y][x+1];
-                if (y > 0 && x > 0)
-                    sum += diffImage[y-1][x-1];
-                if (y < nrows-1 && x < ncols-1)
-                    sum += diffImage[y+1][x+1];
-                if (y > 0 && x < ncols-1)
-                    sum += diffImage[y-1][x+1];
-                if (y < nrows-1 && x > 0)
-                    sum += diffImage[y+1][x-1];
+        for (int y=0; y<nrows; y++) {
+            for (int x=0; x<ncols; x++) {
+                double sum = 0;
+                if ((x - centerX)*(x - centerX) + (y - centerY)*(y - centerY) < radius*radius) {
+                    sum = diffImage[  y][  x] +
+                          diffImage[  y][x+1] +
+                          diffImage[y+1][x+1] +
+                          diffImage[y+1][  x] +
+                          diffImage[y+1][x-1] +
+                          diffImage[  y][x-1] +
+                          diffImage[y-1][x-1] +
+                          diffImage[y-1][  x] +
+                          diffImage[y-1][x+1];
+                }
+                outpixel[0] = y+1;
+                outpixel[1] = x+1;
 
                 fits_write_pix(outFits8, TDOUBLE, outpixel, 1, &sum, &status);
                 if (status) throw;
@@ -198,6 +190,7 @@ int main(int argc,char **argv)
 	char outfile[FLEN_FILENAME];
 	char outfile4[FLEN_FILENAME];
 	char outfile8[FLEN_FILENAME];
+	int radius;
 
 	status = PILInit(argc,argv);
 	status = PILGetNumParameters(&numpar);
@@ -206,6 +199,7 @@ int main(int argc,char **argv)
 	status = PILGetString("outfile", outfile);
 	status = PILGetString("outfile4", outfile4);
 	status = PILGetString("outfile8", outfile8);
+	status = PILGetInt("radius", &radius);
 
 	status = PILClose(status);
 
@@ -223,12 +217,13 @@ int main(int argc,char **argv)
 	cout << "Diff map filename = " << outfile << endl;
 	cout << "Sum 4 neighbor diff map filename = " << outfile4 << endl;
 	cout << "Sum 8 neighbor diff map filename = " << outfile8 << endl;
+	cout << "Radius = " << radius << endl;
 	cout << " "<< endl;
 	cout << " "<< endl;
 
 	cout << "AG_difmapgen...............................starting"<< endl;
 	if (status == 0)
-		status = AG_difmapgen(map1file, map2file, outfile, outfile4, outfile8);
+		status = AG_difmapgen(map1file, map2file, outfile, outfile4, outfile8, radius);
 	cout << "AG_difmapgen............................... exiting"<< endl;
 	if (status) {
 		if (status != 105) {

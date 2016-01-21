@@ -1,0 +1,4 @@
+mapfile,s,ql,"map.gz",,,"Map with source to detect"
+kernfile,s,ql,"kernel.csv",,,"Kernel to use for the convolution"
+outprefix,s,ql,"output prefix",,,"Prefix to use for output files"
+radius,i,ql,3,,,"Smoothing radius"

@@ -1,0 +1,3 @@
+map,s,ql,"map.gz",,,"Input map filename"
+mapnorm,s,ql,"mapnorm.gz",,,"Output normalized map filename"
+

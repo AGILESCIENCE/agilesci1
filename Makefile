@@ -55,6 +55,7 @@ AG_CONVERTTOSKYMAP5 = AG_converttoSkyMap5
 AG_PADMAP5 = AG_padMap5
 AG_CREATEPSD = AG_createpsd
 AG_CREATEPSD3 = AG_createpsd3
+AG_NORM = AG_norm5
 
 # Libraries
 AGILE_MAP = AgileMap
@@ -310,6 +311,8 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CREATEPSD) $(OBJECTS_DIR)/AG_createpsd.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_CREATEPSD3) $(OBJECTS_DIR)/AG_createpsd3.o $(LIBSWROOT)
+
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_NORM) $(OBJECTS_DIR)/AG_norm5.o $(LIBS)
 		
 staticlib: makelibdir makeobjdir $(OBJECTS)	
 		test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)	

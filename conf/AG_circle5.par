@@ -1,0 +1,5 @@
+inmap,s,ql,"inmap.gz",,,"Input map filename"
+outmap,s,ql,"outmap.gz",,,"Output map filename"
+l,r,ql,,,,"Circle center longitude l in degrees (galactic)"
+b,r,ql,,-90,90,"Circle center latitude b in degrees (galactic)"
+radius,r,ql,,,,"Radius of the circle in degrees"

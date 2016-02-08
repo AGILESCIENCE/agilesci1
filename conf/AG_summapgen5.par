@@ -1,0 +1,2 @@
+maplist,s,ql,"input.maplist4",,,"Input maplist"
+outprefix,s,ql,"out",,,"Output name prefix for the maps"

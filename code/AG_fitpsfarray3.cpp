@@ -251,8 +251,8 @@ int main(int argc,char **argv)
 
 	int status = 0, numpar = 0;
 	char * dataprefix = new char[FLEN_FILENAME];
-	char * theta = new char[2];
-	char * phi = new char[2];
+	char theta[3];
+	char phi[3];
 	
 	status = PILInit(argc,argv);
 	status = PILGetNumParameters(&numpar);
@@ -283,8 +283,6 @@ int main(int argc,char **argv)
 		printf("#########  Task AG_fitpsfarray........... exiting #################\n");
 		printf("#################################################################\n\n\n");					
 	
-	delete[] theta;
-	delete[] phi;
 	delete[] dataprefix;
 
 	return status;

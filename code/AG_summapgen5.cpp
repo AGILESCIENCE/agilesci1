@@ -67,6 +67,10 @@ int main(int argc, char *argv[]) {
     AgileMap sumExp = mapData.ExpMap(0);
     double emin = sumCts.GetEmin();
     double emax = sumCts.GetEmax();
+    double fovmin = sumCts.GetFovMin();
+    double fovmax = sumCts.GetFovMax();
+    double tstart = sumCts.GetTstart();
+    double tstop = sumCts.GetTstop();
     for(int i=1; i<mapData.Count(); i++) {
         AgileMap otherCts = mapData.CtsMap(i);
         for (int y=0; y<sumCts.Dim(0); ++y)
@@ -80,9 +84,21 @@ int main(int argc, char *argv[]) {
             emin = otherCts.GetEmin();
         if(otherCts.GetEmax() > emax)
             emax = otherCts.GetEmax();
+        if(otherCts.GetFovMin() < fovmin)
+            fovmin = otherCts.GetFovMin();
+        if(otherCts.GetFovMax() > fovmax)
+            fovmax = otherCts.GetFovMax();
+        if(otherCts.GetTstart() < tstart)
+            tstart = otherCts.GetTstart();
+        if(otherCts.GetTstop() > tstop)
+            tstop = otherCts.GetTstop();
     }
     sumCts.SetEnergy(emin, emax);
     sumExp.SetEnergy(emin, emax);
+    sumCts.SetFov(fovmin, fovmax);
+    sumExp.SetFov(fovmin, fovmax);
+    sumCts.SetTT(tstart, tstop);
+    sumExp.SetTT(tstart, tstop);
 
     std::string outCts = std::string(params["outprefix"])+".cts.gz";
     if(sumCts.Write(outCts.c_str()))

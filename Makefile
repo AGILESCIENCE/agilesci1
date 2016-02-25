@@ -29,6 +29,7 @@ LINKERENV= cfitsio, pil, wcs, root, agile
 AG_ADD_DIFF = AG_add_diff5
 AG_CHECK_MAP_VALUE = AG_checkMapValue5
 AG_CIRCLE = AG_circle5
+AG_MAP2CSV = AG_map2csv5
 AG_SUMMAPGEN = AG_summapgen5
 AG_DIFF_CONV = AG_diff_conv5
 AG_EXPMAPGEN = AG_expmapgen5
@@ -275,6 +276,8 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CHECK_MAP_VALUE) $(OBJECTS_DIR)/AG_checkMapValue5.o  $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CIRCLE) $(OBJECTS_DIR)/AG_circle5.o  $(LIBS)
+
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_MAP2CSV) $(OBJECTS_DIR)/AG_map2csv5.o  $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_SUMMAPGEN) $(OBJECTS_DIR)/AG_summapgen5.o  $(LIBS)
 

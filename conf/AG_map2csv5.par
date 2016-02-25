@@ -1,0 +1,2 @@
+inmap,s,ql,"inmap.gz",,,"Input map filename"
+outfile,s,ql,"out.csv",,,"Output filename"

@@ -101,11 +101,11 @@ int main(int argc, char *argv[]) {
     sumExp.SetTT(tstart, tstop);
 
     std::string outCts = std::string(params["outprefix"])+".cts.gz";
-    if(sumCts.Write(outCts.c_str()))
+    if(sumCts.WriteWithAllMetadata(outCts.c_str()))
         return EXIT_FAILURE;
 
     std::string outExp = std::string(params["outprefix"])+".exp.gz";
-    if(sumExp.Write(outExp.c_str()))
+    if(sumExp.WriteWithAllMetadata(outExp.c_str()))
         return EXIT_FAILURE;
 
     cout << endString << endl;

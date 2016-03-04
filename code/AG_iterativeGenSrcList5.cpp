@@ -118,8 +118,7 @@ static void PrintInput(
 cout << " "<< endl;
 cout << " "<< endl;	
 cout << "#################################################################"<< endl;
-cout << "### AG_multiterative Tool v.1.1 - 04/01/2010 - A.B., T.C., A.C. ######"<< endl;
-cout << "#################################################################"<< endl;
+cout << "### AG_iterativeGenSrcList5 v.1.1.0 - A.B., T.C., A.C.        ###"<< endl;
 cout << "#################################################################"<< endl;
 cout << " "<< endl;
 cout << "INPUT PARAMETERS:" << endl << endl;
@@ -185,7 +184,7 @@ if (status==PIL_OK) {
 		cerr << "Could not open " << outfilename << " for output" << endl;
 
 	printf("\n\n\n#################################################################\n");
-	printf("############ AG_iterativeGenSrcList........ exiting #############\n");
+	printf("############ AG_iterativeGenSrcList5........ exiting ############\n");
 	printf("#################################################################\n\n\n");
 	}
 else

@@ -306,8 +306,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;	
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_fitpsfarray.cpp v.0.1 -25/05/10 - A.C., A.T. #########"<< endl;
-	cout << "#################################################################"<< endl;
+	cout << "########## AG_fitpsfarray v1.1.0 - A.C., A.T.           #########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -320,7 +319,7 @@ int main(int argc,char **argv)
 	AG_fitpsfarray(outfilename, psdfilename);
 	cout << "AG_fitpsfarray............................... exiting"<< endl;		
 		printf("\n\n\n###################################################################\n");
-		printf("#########  Task AG_writepsf........... exiting #################\n");
+		printf("#########  Task AG_fitpsfarray........... exiting ###############\n");
 		printf("#################################################################\n\n\n");					
 	
 	delete[] outfilename;

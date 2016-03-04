@@ -403,8 +403,7 @@ int status = 0;
 std::cout << " " << std::endl;
 std::cout << " " << std::endl;
 std::cout << "#################################################################" << std::endl;
-std::cout << "### AG_thetamapgen v.1 - 13/Oct/09 - A.B. (based on ctsmapgen) ##" << std::endl;
-std::cout << "#################################################################" << std::endl;
+std::cout << "### AG_thetamapgen5 v1.1.0 - A.B.                             ###" << std::endl;
 std::cout << "#################################################################" << std::endl;
 std::cout << " " << std::endl;
 
@@ -424,7 +423,7 @@ if (status) {
 	}			
 else {
 	printf("\n\n\n###################################################################\n");
-	printf("#########  Task AG_thetamapgen........... exiting #################\n");
+	printf("#########  Task AG_thetamapgen5........... exiting ##############\n");
 	printf("#################################################################\n\n\n");					
 	}
 

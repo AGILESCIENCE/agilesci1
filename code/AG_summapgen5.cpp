@@ -27,7 +27,7 @@ using std::endl;
 
 const char* startString = {
 "###################################################\n"
-"### Task AG_summapgen5 started ####################"
+"### Task AG_summapgen5 v1.1.0 - A.Z.            ###"
 };
 
 const char* endString = {

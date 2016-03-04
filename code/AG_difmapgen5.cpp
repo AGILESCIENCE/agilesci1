@@ -1,22 +1,12 @@
 ////////////////////////////////////////////////////////////////////////////////
-// DESCRIPTION
-//       Scientific pipeline I/O routine
-//       Release: V0.0 - 07/Jan/2016
-//       Contributors:
-//       Author: Andrea Bulgarelli (IASF_Bologna), derivated from
-//       AG_difmapgen (Andrea Bulgarelli (IASF_Bologna), Andrew Chen,
-//       Alberto Pellizzoni, Alessio Trois (IASF-Milano))
+// Date: Jan 2016
+// Authors: Andrea Zoli , Andrea Bulgarelli (IASF_Bologna)
 //
 // INPUT
 //       Two 2d image as fits with the same number of axes
 //
 // OUTPUT
 //       The difference between the two images
-//
-// FILE HISTORY
-//       07/Jan/2016
-//       First release: V1.0
-//       Author: Andrea Zoli (IASF-Bologna)
 //
 // NOTICE
 //       Any information contained in this software
@@ -206,8 +196,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_difmapgen.cpp v.1.0 - 07/01/2016          #########"<< endl;
-	cout << "#################################################################"<< endl;
+	cout << "##########   AG_difmapgen5 v1.1.0 - A.Z., A.B.        ###########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -238,7 +227,7 @@ int main(int argc,char **argv)
 	}
 	else {
 		printf("\n\n\n###################################################################\n");
-		printf("#########  Task AG_difmapgen........... exiting #################\n");
+		printf("#########  Task AG_difmapgen5........... exiting ################\n");
 		printf("#################################################################\n\n\n");
 	}
 

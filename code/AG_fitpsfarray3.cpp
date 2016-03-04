@@ -265,8 +265,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;	
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_fitpsfarray3.cpp v.0.1 -25/05/10 - A.C., A.T. #########"<< endl;
-	cout << "#################################################################"<< endl;
+	cout << "########## AG_fitpsfarray3 v1.1.0 - A.C., A.T.        ###########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -280,7 +279,7 @@ int main(int argc,char **argv)
 	AG_fitpsfarray(dataprefix, theta, phi);
 	cout << "AG_fitpsfarray............................... exiting"<< endl;		
 		printf("\n\n\n###################################################################\n");
-		printf("#########  Task AG_fitpsfarray........... exiting #################\n");
+		printf("#########  Task AG_fitpsfarray3........... exiting ##############\n");
 		printf("#################################################################\n\n\n");					
 	
 	delete[] dataprefix;

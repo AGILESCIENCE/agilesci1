@@ -3,8 +3,8 @@
 #---------------------------------------------------------------------------
 # General configuration options
 #---------------------------------------------------------------------------
-PROJECT_NAME           = agilesci2 
-PROJECT_NUMBER         = 1.0.0
+PROJECT_NAME           = agilesci1
+PROJECT_NUMBER         = 1.1.0
 OUTPUT_DIRECTORY       = ref
 OUTPUT_LANGUAGE        = English
 EXTRACT_ALL            = YES

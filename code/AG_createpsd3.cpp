@@ -358,8 +358,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;	
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_createpsd3.cpp v.0.1 -20/06/10 - A.C., A.T. #########"<< endl;
-	cout << "#################################################################"<< endl;
+	cout << "########## AG_createpsd3 v1.1.0 - A.C., A.T.             ########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -379,7 +378,7 @@ int main(int argc,char **argv)
 	delete[] outprefix;
 
 	printf("\n\n\n###################################################################\n");
-	printf("#########  Task AG_createpsd3........... exiting #################\n");
+	printf("#########  Task AG_createpsd3........... exiting ################\n");
 	printf("#################################################################\n\n\n");					
 		
 	return status;

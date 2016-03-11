@@ -34,6 +34,7 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
+#include <unistd.h>
 /// #include "AG_misclib.h"
 /// #include "AG_calfiles.h"
 
@@ -499,30 +500,43 @@ int excalibur(ExpGenParams& params)
                 cout << "Intervals: " << fileIntersect.Count() << endl;
 
             /// if ( ((t2 > params.tmin && t2 < params.tmax)  || (t1 > params.tmin && t1 < params.tmax)  || (t1 <= params.tmin && t2 >= params.tmax))) {
-            pil_curly_expand(name, &nname);
-//			cout<<nname<<endl;
-            tmpnam(tempfilename);
-            for (int ffi=0; ffi<20; ffi++)
-                fileext[ffi]='A'+rand()%26;
-            fileext[20]=0;
-            strcat(tempfilename,fileext);
-            strcpy(tempfilenamegz, tempfilename);
-            strcat(tempfilenamegz,".gz");
-            cout  << nname << endl;
-            std::ifstream ifs(nname, std::ios::binary);
-            std::ofstream ofs(tempfilenamegz, std::ios::binary);
-            ofs << ifs.rdbuf();
-            ifs.close();
-            ofs.close();
+            strcpy(nname, name);
 
-            strcpy(command, "gunzip ");
-            strcat(command, tempfilenamegz);
-            cout << "Command: " << command << endl;
-            system(command);
+            stringstream ss;
+            ss << "/tmp/AG_expmapgen5_" << getpid();
+            std::string tmpstr = ss.str();
+            strncpy(tempfilename, tmpstr.c_str(), FLEN_FILENAME-1);
+
+            cout << "Processing " << nname << endl;
+
+            std::string sin(nname);
+            if(sin.compare(sin.size()-3, sin.size(), ".gz") == 0) {
+                strcpy(tempfilenamegz, tempfilename);
+                strcat(tempfilenamegz,".gz");
+                std::ifstream ifs(nname, std::ios::binary);
+                std::ofstream ofs(tempfilenamegz, std::ios::binary);
+                ofs << ifs.rdbuf();
+                ifs.close();
+                ofs.close();
+                strcpy(command, "gunzip ");
+                strcat(command, tempfilenamegz);
+                system(command);
+                cout << "Command: " << command << endl;
+            }
+            else
+            {
+                std::ifstream ifs(nname, std::ios::binary);
+                std::ofstream ofs(tempfilename, std::ios::binary);
+                ofs << ifs.rdbuf();
+                ifs.close();
+                ofs.close();
+            }
 //			cout << "Closing " << nname << endl;
 //			fits_close_file(tempFits2, &status);
 //			cout << "Opening file " << tempfilename << endl;
 
+            // AZ NOTE: this loop requires intersect count to be 1, otherwhise the fits tempfits file
+            // is deleted and program exit with "Error opening file ..."
             for (int intvIndex = 0; intvIndex<fileIntersect.Count(); ++intvIndex) {
                 Interval thisIntv(fileIntersect[intvIndex]);
                 int intvGlobIndex = params.intervals.IndexOf(thisIntv.Start());

@@ -30,7 +30,7 @@
 #include <iostream>
 #include <iomanip> // setprecision
 #include <fstream>
-
+#include <unistd.h>
 #include <cstring>
 
 #include <GenmapParams.h>
@@ -185,8 +185,11 @@ std::cout << "params.evtfile: " << params.evtfile << std::endl;
 /// Creating a temporary fits file to save a first selection of events
 int status = 0;
 fitsfile* evtFits;
+stringstream ss;
+ss << "/tmp/AG_ctsmapgenT5_" << getpid();
+std::string tmpstr = ss.str();
 char tempname[FLEN_FILENAME];
-strcpy(tempname, tmpnam(NULL));
+strncpy(tempname, tmpstr.c_str(), FLEN_FILENAME-1);
 if (fits_create_file(&evtFits, tempname, &status) != 0 ) {
 	cerr << "FITS Error " << status << " opening file " << tempname << endl;
 	return status;

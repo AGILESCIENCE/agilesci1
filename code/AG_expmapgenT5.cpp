@@ -36,6 +36,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <unistd.h>
 
 #include "pil.h"
 
@@ -363,9 +364,11 @@ if (!fp) {
 
 cout << "MakeLogSelection: Intervals: " << String(selection) << endl;
 
+stringstream ss;
+ss << "/tmp/AG_expmapgenT5_scratch_" << getpid() << ".gz";
+string tmpstr = ss.str();
 char scratchFileName[FLEN_FILENAME];
-tmpnam(scratchFileName);
-strcat(scratchFileName, ".gz");
+strncpy(scratchFileName, tmpstr.c_str(), FLEN_FILENAME-1);
 
 int skippedFiles = 0;
 
@@ -868,9 +871,15 @@ if (intvs.Count()>1) {
 
 cout << "AG_expmapgenT......................selecting the events"<< endl;
 
-tmpnam(s_selectionFileName);
-strcat(s_selectionFileName, ".gz");
-tmpnam(s_localFileName);
+stringstream ss;
+ss << "/tmp/AG_expmapgenT5_selection_" << getpid() << ".gz";
+string tmpstr = ss.str();
+strncpy(s_selectionFileName, tmpstr.c_str(), FLEN_FILENAME-1);
+
+ss.str("");
+ss << "/tmp/AG_expmapgenT5_local_" << getpid();
+tmpstr = ss.str();
+strncpy(s_localFileName, tmpstr.c_str(), FLEN_FILENAME-1);
 
 const char* outfile = params["outfile"];
 

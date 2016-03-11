@@ -30,6 +30,8 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <unistd.h>
+#include <sstream>
 #include "pil.h"
 #include "fitsio.h"
 
@@ -103,8 +105,11 @@ ofstream output(outfile);
 while (!input.eof()) {
 	input >> i >> b >> l;
 	fitsfile* tempFits;
-	char tempname[FLEN_FILENAME];
-	strcpy(tempname, tmpnam(NULL));
+    stringstream ss;
+    ss << "/tmp/AG_pixelextract5_" << getpid();
+    std::string tmpstr = ss.str();
+    char tempname[FLEN_FILENAME];
+    strncpy(tempname, tmpstr.c_str(), FLEN_FILENAME-1);
 	if (fits_create_file(&tempFits, tempname, &status) != 0) {
 		printf("Errore in apertura file %s\n",tempname);
 		return status;

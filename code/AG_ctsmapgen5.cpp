@@ -28,7 +28,7 @@
 
 #include <sstream>
 #include <iostream>
-
+#include <unistd.h>
 #include <cstring>
 
 #include <GenmapParams.h>
@@ -209,10 +209,14 @@ int selectedEvents = 0;
 	long naxes[2] = { mxdim, mxdim };   /* image is 300 pixels wide by 200 rows */		
 	
 	fitsfile * evtFits;
-	char tempname[FLEN_FILENAME];
-	strcpy(tempname, tmpnam(NULL));
-	if ( fits_create_file(&evtFits, tempname, &status) != 0 ) {
-		printf("Errore in apertura file %s\n",tempname);
+
+    stringstream ss;
+    ss << "/tmp/AG_ctsmapgen5_" << getpid();
+    std::string tmpstr = ss.str();
+    char tmpname[FLEN_FILENAME];
+    strncpy(tmpname, tmpstr.c_str(), FLEN_FILENAME-1);
+	if ( fits_create_file(&evtFits, tmpname, &status) != 0 ) {
+        cerr << "Errore in apertura file " << tmpstr << endl;
 		return status;
 		}
 

@@ -29,10 +29,11 @@
 /// #include <alikeLib.h>
 
 #include <cstring>
-
+#include <unistd.h>
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
 
 
 /*
@@ -142,8 +143,11 @@ int countsmalibur(ThetaGenParams& params)
 	long naxes[2] = { mxdim, mxdim };   /* image is 300 pixels wide by 200 rows */		
 	
 	fitsfile * evtFits;
-	char tempname[FLEN_FILENAME];
-	strcpy(tempname, tmpnam(NULL));
+    stringstream ss;
+    ss << "/tmp/AG_thetamapgen5_" << getpid();
+    string tmpstr = ss.str();
+    char tempname[FLEN_FILENAME];
+    strncpy(tempname, tmpstr.c_str(), FLEN_FILENAME-1);
 	if ( fits_create_file(&evtFits, tempname, &status) != 0 ) {
 		printf("Errore in apertura file %s\n",tempname);
 		return status;

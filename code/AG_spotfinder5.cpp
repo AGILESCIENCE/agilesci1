@@ -57,7 +57,8 @@ if (argc == 4) { // si stampa in stdout le coordinate dei pixels
 	double L, B, TS, COUNTS, GAL, ISO;
 	while (inFile2 >> L >> B >> TS >> COUNTS >> GAL >> ISO) {
 		int px, py;	
-		bool insideMap = map.GetRowCol(L, B, &px, &py);	/// What to do if outside the map?
+//		bool insideMap = map.GetRowCol(L, B, &px, &py);	/// What to do if outside the map?
+		map.GetRowCol(L, B, &px, &py);	/// What to do if outside the map?
 		double dist = AlikeSphdistDeg(L, B, lcenter, bcenter);
 		asciiFile << L << " " << B << " " << TS << " " << COUNTS << " "
 					<< GAL << " " << ISO << " " << px << " " << py << " " << dist << endl;	

@@ -166,9 +166,9 @@ void AG_fitpsfarray(char *  dataprefix, char * theta, char * phi) {
 		} else {
 // read flg file
 			int thetacol, phicol, evcol;
-			fits_get_colnum(flg, CASEINSEN, "THETA", &thetacol, &status);
-			fits_get_colnum(flg, CASEINSEN, "PHI", &phicol, &status);
-			fits_get_colnum(flg, CASEINSEN, "EVSTATUS", &evcol, &status);
+			fits_get_colnum(flg, CASEINSEN, (char*)"THETA", &thetacol, &status);
+			fits_get_colnum(flg, CASEINSEN, (char*)"PHI", &phicol, &status);
+			fits_get_colnum(flg, CASEINSEN, (char*)"EVSTATUS", &evcol, &status);
 			long testnrows;
 			fits_get_num_rows(flg, &testnrows, &status);
 			if (evnum != testnrows) cerr << "Warning: " << evnum << " events in " << datfilename << " do not match " << testnrows << " events in " << flgfilename << endl;

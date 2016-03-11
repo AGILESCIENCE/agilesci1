@@ -58,13 +58,13 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	fits_movabs_hdu(psdold, 3, NULL, &status);
 	int colnum;
 
-	fits_get_colnum(psdold, CASEINSEN, "RHO", &colnum, &status);
+	fits_get_colnum(psdold, CASEINSEN, (char*)"RHO", &colnum, &status);
 	long nrhos;
 	fits_get_coltype(psdold, colnum, NULL, &nrhos, NULL, &status);
 	float * rhos = new float[nrhos];
 	fits_read_col(psdold, TFLOAT, colnum, 1, 1, nrhos, NULL, rhos, NULL, &status);
 	
-	fits_get_colnum(psdold, CASEINSEN, "PSI", &colnum, &status);
+	fits_get_colnum(psdold, CASEINSEN, (char*)"PSI", &colnum, &status);
 	long npsis;
 	fits_get_coltype(psdold, colnum, NULL, &npsis, NULL, &status);
 	
@@ -81,11 +81,11 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 
 // Read energies, thetas, and phis from parameter file
 	int energycol;
-	fits_get_colnum(paramfile, CASEINSEN, "ENERGY", &energycol, &status);
+	fits_get_colnum(paramfile, CASEINSEN, (char*)"ENERGY", &energycol, &status);
 	int thetacol;
-	fits_get_colnum(paramfile, CASEINSEN, "THETA", &thetacol, &status);
+	fits_get_colnum(paramfile, CASEINSEN, (char*)"THETA", &thetacol, &status);
 	int phicol;
-	fits_get_colnum(paramfile, CASEINSEN, "PHI", &phicol, &status);
+	fits_get_colnum(paramfile, CASEINSEN, (char*)"PHI", &phicol, &status);
 	float energies[1000];
 	float thetas[1000];
 	float phis[360];
@@ -150,11 +150,11 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 
 // Fill psd matrix
 	int normcol;
-	fits_get_colnum(paramfile, CASEINSEN, "NORM", &normcol, &status);
+	fits_get_colnum(paramfile, CASEINSEN, (char*)"NORM", &normcol, &status);
 	int gammacol;
-	fits_get_colnum(paramfile, CASEINSEN, "GAMMA", &gammacol, &status);
+	fits_get_colnum(paramfile, CASEINSEN, (char*)"GAMMA", &gammacol, &status);
 	int angcol;
-	fits_get_colnum(paramfile, CASEINSEN, "ANG", &angcol, &status);
+	fits_get_colnum(paramfile, CASEINSEN, (char*)"ANG", &angcol, &status);
 	if (status) {
 		cerr << "Cannot find parameter table column numbers" << endl;
 		fits_report_error(stderr, status);
@@ -238,17 +238,17 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 
 // Overwrite energies, thetas, and phis in output file
 
-	int typecode;
+//	int typecode;
 
-	fits_get_colnum(outfile, CASEINSEN, "ENERGY", &colnum, &status);
+	fits_get_colnum(outfile, CASEINSEN, (char*)"ENERGY", &colnum, &status);
 	fits_modify_vector_len(outfile, colnum, nenergies, &status);
 	fits_write_col(outfile, TFLOAT, colnum, 1, 1, nenergies, energies, &status);
 	
-	fits_get_colnum(outfile, CASEINSEN, "POLAR_ANGLE", &colnum, &status);
+	fits_get_colnum(outfile, CASEINSEN, (char*)"POLAR_ANGLE", &colnum, &status);
 	fits_modify_vector_len(outfile, colnum, nthetas, &status);
 	fits_write_col(outfile, TFLOAT, colnum, 1, 1, nthetas, thetas, &status);
 
-	fits_get_colnum(outfile, CASEINSEN, "AZIMUTH_ANGLE", &colnum, &status);
+	fits_get_colnum(outfile, CASEINSEN, (char*)"AZIMUTH_ANGLE", &colnum, &status);
 	fits_modify_vector_len(outfile, colnum, nnewphis, &status);
 	fits_write_col(outfile, TFLOAT, colnum, 1, 1, nnewphis, newphis, &status);
 

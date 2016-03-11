@@ -256,9 +256,9 @@ std::cout << "params.evtfile: " << params.evtfile << std::endl;
 	switch (params.projection) {
 	case ARC:
 		for (long k = 0; k<nrows; ++k) {
-			fits_get_colnum(evtFits, 1, "RA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"RA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &ra, NULL, &status);
-			fits_get_colnum(evtFits, 1, "DEC", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"DEC", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &dec, NULL, &status);
 			Euler(ra, dec, &l, &b, 1);
 			l*=DEG2RAD;
@@ -284,9 +284,9 @@ std::cout << "params.evtfile: " << params.evtfile << std::endl;
 		break;
 	case AIT:
 		for (long k = 0; k<nrows; ++k) {
-			fits_get_colnum(evtFits, 1, "RA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"RA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &ra, NULL, &status);
-			fits_get_colnum(evtFits, 1, "DEC", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"DEC", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &dec, NULL, &status);
 			Euler(ra, dec, &l, &b, 1);
 			l*=DEG2RAD;

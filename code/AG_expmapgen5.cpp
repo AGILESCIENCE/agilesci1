@@ -498,7 +498,6 @@ int excalibur(ExpGenParams& params)
             if (fileIntersect.Count()>1)
                 cout << "Intervals: " << fileIntersect.Count() << endl;
 
-
             /// if ( ((t2 > params.tmin && t2 < params.tmax)  || (t1 > params.tmin && t1 < params.tmax)  || (t1 <= params.tmin && t2 >= params.tmax))) {
             pil_curly_expand(name, &nname);
 //			cout<<nname<<endl;
@@ -709,14 +708,9 @@ int excalibur(ExpGenParams& params)
             for (long long ra = 0; ra < numout ; ra++) {
                 int step0 = binstep;
                 bool end0 = true;
-//				for (outpixel[0]=nrows-binstep;end0;outpixel[0]-=binstep) {
                 for (outpixel[0]=1; end0; outpixel[0]+=binstep) {
                     bool end1 = true;
                     int step1 = binstep;
-// 		  if (outpixel[0] < 1) {
-// 		    step0 = binstep + outpixel[0]-1;
-// 		    outpixel[0] = 1;
-// 		    end0 = false;
                     if (outpixel[0] + binstep > nrows) {
                         step0 = nrows - outpixel[0];
                         end0 = false;

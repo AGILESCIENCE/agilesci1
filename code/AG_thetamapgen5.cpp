@@ -179,11 +179,11 @@ int countsmalibur(ThetaGenParams& params)
 	switch (params.projection) {
 	case ARC:
 		for (long k = 0; k<nrows; ++k) {
-			fits_get_colnum(evtFits, 1, "RA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"RA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &ra, NULL, &status);
-			fits_get_colnum(evtFits, 1, "DEC", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"DEC", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &dec, NULL, &status);
-			fits_get_colnum(evtFits, 1, "THETA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"THETA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &theta, NULL, &status);
 			//	cout << "RADEC read" << endl;
 			/// eulerold(ra, dec, &l, &b, 1);
@@ -218,11 +218,11 @@ int countsmalibur(ThetaGenParams& params)
 		break;
 	case AIT:
 		for (long k = 0; k<nrows; ++k) {
-			fits_get_colnum(evtFits, 1, "RA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"RA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &ra, NULL, &status);
-			fits_get_colnum(evtFits, 1, "DEC", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"DEC", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &dec, NULL, &status);
-			fits_get_colnum(evtFits, 1, "THETA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"THETA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &theta, NULL, &status);
 
 			/// eulerold(ra, dec, &l, &b, 1);
@@ -276,11 +276,11 @@ int countsmalibur(ThetaGenParams& params)
 	switch (params.projection) {
 	    case ARC:
 		for (long k = 0; k<nrows; ++k) {
-			fits_get_colnum(evtFits, 1, "RA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"RA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &ra, NULL, &status);
-			fits_get_colnum(evtFits, 1, "DEC", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"DEC", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &dec, NULL, &status);
-			fits_get_colnum(evtFits, 1, "THETA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"THETA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &theta, NULL, &status);
 			/// eulerold(ra, dec, &l, &b, 1);
 			Euler(ra, dec, &l, &b, 1);
@@ -307,11 +307,11 @@ int countsmalibur(ThetaGenParams& params)
 		break;
 	    case AIT:
 		for (long k = 0; k<nrows; ++k) {
-			fits_get_colnum(evtFits, 1, "RA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"RA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &ra, NULL, &status);
-			fits_get_colnum(evtFits, 1, "DEC", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"DEC", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &dec, NULL, &status);
-			fits_get_colnum(evtFits, 1, "THETA", &numcol, &status);
+			fits_get_colnum(evtFits, 1, (char*)"THETA", &numcol, &status);
 			fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &theta, NULL, &status);
 
 			/// eulerold(ra, dec, &l, &b, 1);

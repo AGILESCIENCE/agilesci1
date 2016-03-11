@@ -126,7 +126,8 @@ static void WriteHtml(const char* name, const PilDescArr& parArr, FILE* o)
 {
 fprintf(o, "<html>\n<head>\n");
 fprintf(o, "<title>%s parameters</title>\n", name);
-fprintf(o, "<meta name=\"generator\" content=\"AG_genapp\">\n", name);
+//fprintf(o, "<meta name=\"generator\" content=\"AG_genapp\">\n", name);
+fprintf(o, "<meta name=\"generator\" content=\"AG_genapp\">\n");
 fprintf(o, "</head>\n<body>\n");
 
 fprintf(o, "<h2>%s parameters</h2>\n<br>\n", name);

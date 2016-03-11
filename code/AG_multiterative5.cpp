@@ -507,14 +507,16 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 	/// Print TS and flux maps
 	{
 		AlikeMap fluxMap(modelMap);
+		AlikeMap fluxulMap(modelMap);
 		AlikeMap tsMap(modelMap);
 		AlikeMap siMap(modelMap);
-		AlikeMap gasMap(modelMap);
+		AlikeMap galMap(modelMap);
 		AlikeMap isoMap(modelMap);
 		fluxMap.Zero();
+		fluxulMap.Zero();
 		tsMap.Zero();
 		siMap.Zero();
-		gasMap.Zero();
+		galMap.Zero();
 		isoMap.Zero();
 		for (int i=0; i<tryCount; ++i) {
 			SourceData tryData = scanSrcArr[i];
@@ -522,15 +524,21 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 			bool inside = fluxMap.GetRowCol(tryData.srcL, tryData.srcB, &row, &col);
 			if (inside) {
 				fluxMap(row, col) = (Double_t)tryData.flux; //AB1
+				fluxulMap(row, col) = (Double_t)tryData.fluxul; //AB1
 				tsMap(row, col) = (Double_t)tryData.TS; //AB1
 				siMap(row, col) = (Double_t)tryData.index; //AB1
-				gasMap(row, col) = tryData.gal;
+				galMap(row, col) = tryData.gal;
 				isoMap(row, col) = tryData.iso;
-				}
 			}
+		}
 		string outfname2(outfname);
 		outfname2 += ".flux.fits.gz";
 		fluxMap.Write(outfname2.c_str());
+		
+		string outfname2ul(outfname);
+		outfname2ul += ".fluxul.fits.gz";
+		fluxulMap.Write(outfname2ul.c_str());
+		
 		string outfname3(outfname);
 		outfname3 += ".TS.fits.gz";
 		tsMap.Write(outfname3.c_str()); //AB1
@@ -539,8 +547,8 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 		siMap.Write(outfname4.c_str()); //AB1
 	
 		string outfname5(outfname);
-		outfname5 += ".GAS.fits.gz";
-		gasMap.Write(outfname5.c_str()); //AB1
+		outfname5 += ".GAL.fits.gz";
+		galMap.Write(outfname5.c_str()); //AB1
 		string outfname6(outfname);
 		outfname6 += ".ISO.fits.gz";
 		isoMap.Write(outfname6.c_str()); //AB1

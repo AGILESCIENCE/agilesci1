@@ -13,7 +13,7 @@ using std::cout;
 using std::endl;
 //using std::isnan;
 
-static bool ReadFitsKey(fitsfile* fptr, const char* name, float* value, float defaultVal, int* status)
+/*static bool ReadFitsKey(fitsfile* fptr, const char* name, float* value, float defaultVal, int* status)
 {
 	if (!*status) {
 		int status2 = 0;
@@ -26,7 +26,7 @@ static bool ReadFitsKey(fitsfile* fptr, const char* name, float* value, float de
 			*status = status2;
 	}
 	return false;
-}
+}*/
 
 static void ReadFitsKey(fitsfile* fptr, const char* name, float* value, int* status)
 {

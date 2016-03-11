@@ -83,8 +83,8 @@ int AG_intmapgen(char * expfile, char *  outfile, char * ctsfile) {
 	fits_read_key(ctsFits,TDOUBLE,"CRVAL2",&b0,NULL,&status);
 	fits_read_key(ctsFits,TDOUBLE,"CDELT2",&db,NULL,&status);
 	fits_read_key(ctsFits,TDOUBLE,"CRPIX2",&y0,NULL,&status);
-	char * str7 =  "photons ** (cm**2 s sr)**(-1)";	
-	fits_update_key(outFits, TSTRING,  "BUNIT", str7, NULL, &status);	
+    const char str7[] = "photons ** (cm**2 s sr)**(-1)";
+	fits_update_key(outFits, TSTRING,  "BUNIT", (char*)str7, NULL, &status);
 	
 	long nrows = ExpMap.Rows();
 	long ncols = ExpMap.Cols();
@@ -92,7 +92,7 @@ int AG_intmapgen(char * expfile, char *  outfile, char * ctsfile) {
 	long intensitypixel[3] = {1,1,1};
 
 	/// const double conversion = dl * D2R * db * D2R;
-	const double conversion = dl * DEG2RAD * db * DEG2RAD;
+//	const double conversion = dl * DEG2RAD * db * DEG2RAD;
 
 
 	for (outpixel[0]=1;outpixel[0]<=nrows;outpixel[0]++)

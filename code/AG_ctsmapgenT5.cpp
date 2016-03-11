@@ -216,9 +216,9 @@ int selectedRows = 0;
 double ra, dec;
 for (long k = 0; k<nrows; ++k) {
 	int numcol = 0;
-	fits_get_colnum(evtFits, 1, "RA", &numcol, &status);
+	fits_get_colnum(evtFits, 1, (char*)"RA", &numcol, &status);
 	fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &ra, NULL, &status);
-	fits_get_colnum(evtFits, 1, "DEC", &numcol, &status);
+	fits_get_colnum(evtFits, 1, (char*)"DEC", &numcol, &status);
 	fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &dec, NULL, &status);
 	double l = 0, b = 0;
 	Euler(ra, dec, &l, &b, 1);
@@ -227,18 +227,18 @@ for (long k = 0; k<nrows; ++k) {
 		/// TT_TIME,MJD,L,B,RA,DEC,THETA,PHI,ENERGY,PH_EARTH,EVENT_TYPE
 		/// TIME,TIME,L,B,RA,DEC,THETA,PHI,ENERGY,PH_EARTH,EVSTATUS
 		double time, theta, phi, energy, phEarth;
-		fits_get_colnum(evtFits, 1, "TIME", &numcol, &status);
+		fits_get_colnum(evtFits, 1, (char*)"TIME", &numcol, &status);
 		fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &time, NULL, &status);
-		fits_get_colnum(evtFits, 1, "THETA", &numcol, &status);
+		fits_get_colnum(evtFits, 1, (char*)"THETA", &numcol, &status);
 		fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &theta, NULL, &status);
-		fits_get_colnum(evtFits, 1, "PHI", &numcol, &status);
+		fits_get_colnum(evtFits, 1, (char*)"PHI", &numcol, &status);
 		fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &phi, NULL, &status);
-		fits_get_colnum(evtFits, 1, "ENERGY", &numcol, &status);
+		fits_get_colnum(evtFits, 1, (char*)"ENERGY", &numcol, &status);
 		fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &energy, NULL, &status);
-		fits_get_colnum(evtFits, 1, "PH_EARTH", &numcol, &status);
+		fits_get_colnum(evtFits, 1, (char*)"PH_EARTH", &numcol, &status);
 		fits_read_col(evtFits, TDOUBLE, numcol, k+1, 1, 1, NULL, &phEarth, NULL, &status);
 
-		fits_get_colnum(evtFits, 1, "EVSTATUS", &numcol, &status);
+		fits_get_colnum(evtFits, 1, (char*)"EVSTATUS", &numcol, &status);
 		char evStatus[128];
 		char* evStatusPtr = evStatus;
 		fits_read_col(evtFits, TSTRING, numcol, k+1, 1, 1, NULL, &evStatusPtr, NULL, &status);

@@ -40,7 +40,7 @@ using namespace std;
 
 const double drho = 0.1;
 const int numrhos = 200;
-const double maxrho = drho * numrhos;
+//const double maxrho = drho * numrhos;
 const double normscale = 1e5;
 const double dtor = M_PI / 180.0;
 const double psfcoeff = M_PI * M_PI / 90.0 * drho;
@@ -52,7 +52,7 @@ const int numphis = 2;
 const float dtheta = 5.0;
 const float dphi = 45.0;
 const float numdthetas = 19;
-const float numdphis = 8;
+//const float numdphis = 8;
 
 double fitking(double *x, double *params) {
 //		TFormula f("kingfunction", "(1. - 1./[1]) * std::pow(1. +  ((x/[0])**2.)/(2.0*[1]), -[1])");

@@ -94,80 +94,6 @@ static void ReadFitsCol(fitsfile* file, short* array, const char* colName, long 
     fits_read_col(file, TSHORT, colNum, rowOffs+1, 1, rowCount, NULL, array, NULL, status);
 }
 
-
-/// Some variable were accessed but not used in previous versions.
-/// Their definition and usage has been put under ifdef __UNUSED__VARS__
-
-/// #define __UNUSED__VARS__
-
-#ifdef __UNUSED__VARS__
-#define ALLOCATE_ARRAYS(count) \
-	double* evttime = new double[count];\
-	double* q1 = new double[count];\
-	double* q2 = new double[count];\
-	double* q3 = new double[count];\
-	double* q4 = new double[count];\
-	double* ra_y = new double[count];\
-	double* dec_y = new double[count];\
-	double* psi = new double[count];\
-	double* gp = new double[count];\
-	double* livetime = new double[count];\
-	short*  mode = new short[count];\
-	short*  log_status = new short[count];\
-	double* earth_ra = new double[count];\
-	double* earth_dec = new double[count];\
-	short*  phase = new short[count]
-
-#else
-
-#define ALLOCATE_ARRAYS(count) \
-	double* evttime = new double[count];\
-	double* ra_y = new double[count];\
-	double* dec_y = new double[count];\
-	double* psi = new double[count];\
-	double* gp = new double[count];\
-	double* livetime = new double[count];\
-	double* earth_ra = new double[count];\
-	double* earth_dec = new double[count];\
-	short*  phase = new short[count]
-
-#endif
-
-
-#ifdef __UNUSED__VARS__
-
-#define DELETE_ARRAYS() \
-	delete[] evttime;\
-	delete[] q1;\
-	delete[] q2;\
-	delete[] q3;\
-	delete[] q4;\
-	delete[] ra_y;\
-	delete[] dec_y;\
-	delete[] psi;\
-	delete[] gp;\
-	delete[] livetime;\
-	delete[] mode;\
-	delete[] log_status;\
-	delete[] earth_ra;\
-	delete[] earth_dec;\
-	delete[] phase
-
-#else
-
-#define DELETE_ARRAYS() \
-	delete[] evttime;\
-	delete[] ra_y;\
-	delete[] dec_y;\
-	delete[] psi;\
-	delete[] gp;\
-	delete[] livetime;\
-	delete[] earth_ra;\
-	delete[] earth_dec;\
-	delete[] phase
-
-#endif
-
 int pil_chridx(char *p, char c)
 {   int  l;
 
@@ -460,16 +386,25 @@ int excalibur(ExpGenParams& params)
 
     int hdutype = 0;
     int  find = 0;
-    char *name=new char[FLEN_FILENAME];
-    char *nname=new char[FLEN_FILENAME];
-    char *tempfilenamegz=new char[FLEN_FILENAME];
-    char *tempfilename=new char[FLEN_FILENAME];
-    char *command=new char[FLEN_FILENAME];
-    char *fileext=new char[FLEN_FILENAME];
+    char name[FLEN_FILENAME];
+    char nname[FLEN_FILENAME];
+    char tempfilenamegz[FLEN_FILENAME];
+    char tempfilename[FLEN_FILENAME];
+    char command[20000];
+
+    const int size = 65536;
+	double evttime[size];
+	double ra_y[size];
+	double dec_y[size];
+	double psi[size];
+//	double gp[size];
+	double livetime[size];
+	double earth_ra[size];
+	double earth_dec[size];
+	short  phase[size];
 
     double t1 = 0, t2 = 0;
 
-    /// AeffGridAverage *raeff[20]; /// zzz allocate dynamically
     AeffGridAverage *raeffArr = new AeffGridAverage[numout];
 
     bool hasEdp = strcmp(params.edpFileName, "None");
@@ -479,11 +414,8 @@ int excalibur(ExpGenParams& params)
             cerr << "Error reading " << params.sarFileName << endl;
             return status;
         }
-        /// AeffGridAverage* raeffPtr = new AeffGridAverage(params.sarFileName, params.maps[ra].emin, params.maps[ra].emax, params.maps[ra].index);
         if (hasEdp)
-            /// raeffPtr->LoadEdp(params.edpFileName);
             status = raeffArr[ra].LoadEdp(params.edpFileName);
-        /// raeff[ra] = raeffPtr;
         if (status) {
             cerr << "Error reading " << params.edpFileName << endl;
             return status;
@@ -566,12 +498,9 @@ int excalibur(ExpGenParams& params)
                 fits_get_num_rows(tempFits, &allnrows, &status);
 //			cout << allnrows << " rows total" << endl;
 
-                long rowblockincrement = 65536;
+                long rowblockincrement = size;
                 fits_get_rowsize(tempFits, &rowblockincrement, &status);
 //			cout << "Row block size = " << rowblockincrement << endl;
-//			cout << "Allocating arrays" << endl;
-
-                ALLOCATE_ARRAYS(rowblockincrement);
 
                 long* change = new long[rowblockincrement];
 
@@ -581,20 +510,11 @@ int excalibur(ExpGenParams& params)
 
 //	cout << "Reading " << nrows << "rows" << endl;
                     ReadFitsCol(tempFits, evttime, "TIME", rowblockzero, nrows, &status);
-#ifdef __UNUSED__VARS__
-                    ReadFitsCol(tempFits, q1, "Q1", rowblockzero, nrows, &status);
-                    ReadFitsCol(tempFits, q2, "Q2", rowblockzero, nrows, &status);
-                    ReadFitsCol(tempFits, q3, "Q3", rowblockzero, nrows, &status);
-                    ReadFitsCol(tempFits, q4, "Q4", rowblockzero, nrows, &status);
-#endif
+
                     ReadFitsCol(tempFits, ra_y, "ATTITUDE_RA_Y", rowblockzero, nrows, &status);
                     ReadFitsCol(tempFits, dec_y, "ATTITUDE_DEC_Y", rowblockzero, nrows, &status);
                     ReadFitsCol(tempFits, livetime, "LIVETIME", rowblockzero, nrows, &status);
                     ReadFitsCol(tempFits, phase, "PHASE", rowblockzero, nrows, &status);
-#ifdef __UNUSED__VARS__
-                    ReadFitsCol(tempFits, mode, "MODE", rowblockzero, nrows, &status);
-                    ReadFitsCol(tempFits, log_status, "LOG_STATUS", rowblockzero, nrows, &status);
-#endif
                     ReadFitsCol(tempFits, earth_ra, "EARTH_RA", rowblockzero, nrows, &status);
                     ReadFitsCol(tempFits, earth_dec, "EARTH_DEC", rowblockzero, nrows, &status);
 
@@ -672,40 +592,22 @@ int excalibur(ExpGenParams& params)
                 }
                 //	cout << "Deleting " << tempfilename << endl;
                 fits_delete_file(tempFits, &status);
-//			cout << "Deleting arrays" << endl;
-                DELETE_ARRAYS();
-//			cout << "Arrays deleted" << endl;
                 if (status)
                     return status;
-
             }
         }
     }
-
-    /**
-    for (long i = 0; i < numout ; i++)
-    	delete raeff[i];
-    */
-    delete[] raeffArr;
 
     if (find == 0)
         return 1005;
 
     fclose(fp);
     cout << "Log file closed" << endl;
-    delete [] name;
-    delete [] nname;
-    delete [] tempfilenamegz;
-    delete [] tempfilename;
-    delete [] command;
-    delete [] fileext;
-
 
     for (int matIndex=0; matIndex<intvCount; ++matIndex) {
         double* A = matArr[matIndex]; /// Select the matrix for a time interval
         Interval intv = params.intervals[matIndex]; /// the time interval
 
-// 	#ifdef AAAA
         long nrows = mxdim;
         long ncols = mxdim;
         long outpixel[2];

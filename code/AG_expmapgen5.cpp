@@ -396,7 +396,7 @@ int excalibur(ExpGenParams& params)
 	double evttime[size];
 	double ra_y[size];
 	double dec_y[size];
-	double psi[size];
+//	double psi[size];
 //	double gp[size];
 	double livetime[size];
 	double earth_ra[size];
@@ -523,7 +523,7 @@ int excalibur(ExpGenParams& params)
                     double ra_y0 = ra_y[0], dec_y0 = dec_y[0];
 
                     for (long k = 1; k<nrows; ++k) {
-                        if ((phase[k-1] != phase[k]) || params.YTolTest(ra_y[k-1], dec_y[k-1], ra_y0, dec_y0) || params.RollTolTest(&psi[k-1]) || params.EarthTolTest(earth_ra[k-1], earth_dec[k-1], earth_ra0, earth_dec0)) {
+                        if ((phase[k-1] != phase[k]) || params.YTolTest(ra_y[k-1], dec_y[k-1], ra_y0, dec_y0) || params.EarthTolTest(earth_ra[k-1], earth_dec[k-1], earth_ra0, earth_dec0)) {
                             change[count++] = k;
                             earth_ra0 = earth_ra[k-1];
                             earth_dec0 = earth_dec[k-1];

@@ -109,7 +109,7 @@ static int addfile(fitsfile* iFile, const CtsGenParams& params)
 
 std::cout << "params.evtfile: " << params.evtfile << std::endl;
 
-char buffer[1024];
+char buffer[40960];
 int status = 0;
 FILE *fp = fopen(params.evtfile, "r");
 if (!fp) {

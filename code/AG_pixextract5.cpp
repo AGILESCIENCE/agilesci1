@@ -43,7 +43,7 @@ const double obtlimit = 104407200.0;
 
 static int addfile(fitsfile* iFile, const char* fileList, char* expr, double tmin, double tmax)
 {
-char buffer[1024];
+char buffer[40960];
 int status = 0;
 FILE *fp = fopen(fileList, "r");
 if(!fp) {

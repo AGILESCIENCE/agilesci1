@@ -283,7 +283,7 @@ static string LogExprString(const Interval& intv, int phasecode, int timeStep)
 
 int excalibur(ExpGenParams& params)
 {
-    char buffer[1024];
+    char buffer[40960];
     int status = 0;
     int binstep = params.binstep;
     long long numout = params.maps.size();

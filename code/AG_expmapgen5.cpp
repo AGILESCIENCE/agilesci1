@@ -412,12 +412,16 @@ int excalibur(ExpGenParams& params)
         int status = raeffArr[ra].Read(params.sarFileName, params.maps[ra].emin, params.maps[ra].emax, params.maps[ra].index);
         if (status) {
             cerr << "Error reading " << params.sarFileName << endl;
+            fclose(fp);
+            delete []raeffArr;
             return status;
         }
         if (hasEdp)
             status = raeffArr[ra].LoadEdp(params.edpFileName);
         if (status) {
             cerr << "Error reading " << params.edpFileName << endl;
+            fclose(fp);
+            delete []raeffArr;
             return status;
         }
     }
@@ -479,6 +483,8 @@ int excalibur(ExpGenParams& params)
                 fitsfile *tempFits;
                 if ( fits_open_file(&tempFits, tempfilename, READWRITE, &status) != 0 ) {
                     cerr << "Error opening file " << name << endl;
+                    fclose(fp);
+                    delete []raeffArr;
                     return status;
                 }
 //			cout << "Opened file " << tempfilename << endl;
@@ -590,18 +596,23 @@ int excalibur(ExpGenParams& params)
                         addexpval(i, ii, mxdim, aitstatus, lng, lat, lp, bp, params, learth, bearth, time, A, raeffArr, area);
                     }
                 }
+                delete []change;
                 //	cout << "Deleting " << tempfilename << endl;
                 fits_delete_file(tempFits, &status);
-                if (status)
+                if (status) {
+                    fclose(fp);
+                    delete []raeffArr;
                     return status;
+                }
             }
         }
     }
+    delete []raeffArr;
+    fclose(fp);
 
     if (find == 0)
         return 1005;
 
-    fclose(fp);
     cout << "Log file closed" << endl;
 
     for (int matIndex=0; matIndex<intvCount; ++matIndex) {

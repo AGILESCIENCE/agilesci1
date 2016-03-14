@@ -359,10 +359,12 @@ double isoc = 0;
 RoiMulti roiMulti;
 if (!roiMulti.SetPsf(psdfilename, sarfilename, edpfilename)) {
 	cerr << "ERROR accessing PSF related files" << endl;
+	delete []originalFlags;
 	return -1;
 	}
 if (!roiMulti.SetMaps(mapData, galmode, isomode)) {
 	cerr << "ERROR accessing the map list" << endl;
+	delete []originalFlags;
 	return -1;
 	}
 

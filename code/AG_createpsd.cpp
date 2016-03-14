@@ -132,6 +132,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Cannot create outfile" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 	
@@ -145,6 +146,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Cannot create image" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 
@@ -158,6 +160,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Cannot find parameter table column numbers" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 
@@ -183,6 +186,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Problems filling PSD matrix" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 
@@ -191,6 +195,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Problems closing parameter file" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 
@@ -199,6 +204,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Problems moving to primary HDU in PSD template file" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 	int numkeys;
@@ -206,6 +212,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Problems reading number of keywords in primary HDU" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 	for (int key=1; key<=numkeys; key++){
@@ -223,6 +230,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Cannot copy primary header keywords" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 
@@ -233,6 +241,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Cannot copy extensions" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 
@@ -255,6 +264,7 @@ int AG_createpsd(char *  outfilename, char *  psdtemplate, char *  paramfilename
 	if (status) {
 		cerr << "Cannot overwrite axes" << endl;
 		fits_report_error(stderr, status);
+		delete []newphis;
 		return status;
 	}
 	fits_write_chksum(outfile, &status);

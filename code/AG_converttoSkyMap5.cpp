@@ -214,6 +214,7 @@ SkyMap converttoSkyMap(const char* fileName)
 						delete [] keywords;
 						outmap = map;
 				}
+				delete []values;
 			}
 			int closeStatus = 0;	/// Close this file in any case
 			fits_close_file(fptr, &closeStatus);

@@ -124,6 +124,7 @@ int AG_add_diff(char * diffusefilelist, char * sarfile, char * edpfile, char *  
 	    double * diffuse = new double[naxes[0] * naxes[1]];
 	    if ( fits_read_pix(diffuseFits, TDOUBLE, pixel, naxes[0]*naxes[1], NULL, diffuse, NULL, &status) != 0) {
 		printf("Error reading array from '%s'\n", diffusefilename.c_str());
+		delete []diffuseout;
 		return status;
 	    }
 	    else {

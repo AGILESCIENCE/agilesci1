@@ -252,6 +252,7 @@ for (int i=0; i<srcCount; ++i) {
 	oFile << srcData.minTS << "\t";
 	oFile << srcData.gal << "\t";
 	oFile << srcData.iso << "\t";
+	oFile << srcData.UL << "\t";
 	oFile <<  endl;
 	}
 }
@@ -513,11 +514,13 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 		AlikeMap siMap(modelMap);
 		AlikeMap galMap(modelMap);
 		AlikeMap isoMap(modelMap);
+		AlikeMap ulMap(modelMap);
 		fluxMap.Zero();
 		tsMap.Zero();
 		siMap.Zero();
 		galMap.Zero();
 		isoMap.Zero();
+		ulMap.Zero();
 		for (int i=0; i<tryCount; ++i) {
 			SourceData tryData = scanSrcArr[i];
 			int row, col;
@@ -528,6 +531,7 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 				siMap(row, col) = (Double_t)tryData.index; //AB1
 				galMap(row, col) = tryData.gal;
 				isoMap(row, col) = tryData.iso;
+				ulMap(row, col) = tryData.UL;
 			}
 		}
 		string outfname2(outfname);
@@ -547,6 +551,10 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 		string outfname6(outfname);
 		outfname6 += ".ISO.fits.gz";
 		isoMap.Write(outfname6.c_str()); //AB1
+
+		string outfname7(outfname);
+		outfname7 += ".UL.fits.gz";
+		ulMap.Write(outfname7.c_str());
 		}
 
 	logFile << "!! Start Step Two of cycle " << cycle << endl;

@@ -1,19 +1,18 @@
 #############################################################################
-# Template: exe lib version 2013-10-08
 # Use make variable_name=' options ' to override the variables or make -e to
 # override the file variables with the environment variables
-# 		make CFLAGS='-g'
-#		make prefix='/usr'
-#		make CC=gcc-4.8
+#	make CXXFLAGS='-g'
+#	make prefix='/usr'
+#	make CXX=g++
 # External environment variable: CFISIO, ROOTSYS, CTARTA, ICEDIR
 # Instructions:
 # - modify the section 1)
 # - in section 10), modify the following action:
-#		* all: and or remove exe and lib prerequisite
-#		* lib: and or remove staticlib and dynamiclib prerequisite
-#		* clean: add or remove the files and directories that should be cleaned
-#		* install: add or remove the files and directories that should be installed
-#		* uninstall: add or remove the files and directories that should be uninstalled
+#	* all: and or remove exe and lib prerequisite
+#	* lib: and or remove staticlib and dynamiclib prerequisite
+#	* clean: add or remove the files and directories that should be cleaned
+#	* install: add or remove the files and directories that should be installed
+#	* uninstall: add or remove the files and directories that should be uninstalled
 #############################################################################
 
 PROJECT= agilesci1
@@ -33,7 +32,6 @@ AG_MAP2CSV = AG_map2csv5
 AG_SUMMAPGEN = AG_summapgen5
 AG_DIFF_CONV = AG_diff_conv5
 AG_EXPMAPGEN = AG_expmapgen5
-AG_EXPMAPGENT = AG_expmapgenT5
 AG_CTSMAPGEN = AG_ctsmapgen5
 AG_CTSMAPGENT = AG_ctsmapgenT5
 AG_GASMAPGEN = AG_gasmapgen5
@@ -111,83 +109,48 @@ INCLUDE_DIR = code
 DOC_DIR = ref
 DOXY_SOURCE_DIR = code_filtered
 EXE_DESTDIR  = bin
-LIB_DESTDIR = 
+LIB_DESTDIR = lib
 CONF_DIR=conf
 ICON_DIR = ui
 
 ####### 4) Compiler, tools and options
 
 ifneq (, $(findstring mpi, $(LINKERENV)))
-CC       = mpic++
+CXX = mpic++
 else
-CC       = g++
+CXX = g++
 endif
 
-#Set INCPATH to add the inclusion paths
-INCPATH = -I $(INCLUDE_DIR) -I $(AGILE)/include
-LIBS = -lstdc++ -L$(AGILE)/lib -lagilesci
-#Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
-CFLAGS   = -g
-#Insert the implicit parameter to the compiler:
-ALL_CFLAGS =  -fexceptions -Wall $(CFLAGS) $(INCPATH)
-#Use CPPFLAGS for the preprocessor
-CPPFLAGS =
+CXXFLAGS = -g -O2 -pipe -I $(INCLUDE_DIR)
 
-ifneq (, $(findstring ice, $(LINKERENV)))
-        INCPATH += -I$(ICEDIR)/include
-endif
-ifneq (, $(findstring cfitsio, $(LINKERENV)))
-        INCPATH += -I$(CFITSIO)/include
-	LIBS += -L$(CFITSIO)/lib -lcfitsio
-endif
-
-ifneq (, $(findstring pil, $(LINKERENV)))
-        INCPATH += -I$(AGILE)/include
-	LIBS += -L$(AGILE)/lib -lagilepil
+ifneq (, $(findstring agile, $(LINKERENV)))
+    ifeq (, $(findstring -I $(AGILE)/include, $(CXXFLAGS)))
+        CXXFLAGS += -I $(AGILE)/include
+    endif
+    LIBS += -L$(AGILE)/lib -lagilesci
 endif
 ifneq (, $(findstring wcs, $(LINKERENV)))
-        INCPATH += -I$(AGILE)/include
-	LIBS += -L$(AGILE)/lib -lagilewcs 
+    ifeq (,$(findstring -I $(AGILE)/include, $(CXXFLAGS)))
+        CXXFLAGS += -I $(AGILE)/include
+    endif
+    LIBS += -L$(AGILE)/lib -lagilewcs
 endif
-ifneq (, $(findstring agile, $(LINKERENV)))
-    INCPATH += -I$(AGILE)/include
-	LIBS += -L$(AGILE)/lib -lagilesci
-endif 
-
+ifneq (, $(findstring pil, $(LINKERENV)))
+    ifeq (,$(findstring -I $(AGILE)/include, $(CXXFLAGS)))
+        CXXFLAGS += -I $(AGILE)/include
+    endif
+    LIBS += -L$(AGILE)/lib -lagilepil
+endif
 ifneq (, $(findstring root, $(LINKERENV)))
-    	ROOTCFLAGS   := $(shell root-config --cflags)
-	ROOTLIBS     := $(shell root-config --libs)
-	ROOTGLIBS    := $(shell root-config --glibs)
-	ROOTCONF=-O -pipe -Wall -W -fPIC -D_REENTRANT
-	INCPATH += $(ROOTCFLAGS)
-	LIBSWROOT = $(LIBS)
-	LIBSWROOT += $(ROOTGLIBS) -lMinuit
-	ALL_CFLAGS += $(ROOTCONF)
+    CXXFLAGS += -W -fPIC -D_REENTRANT $(shell root-config --cflags)
+    LIBS += $(shell root-config --glibs) -lMinuit
+endif
+ifneq (, $(findstring cfitsio, $(LINKERENV)))
+    CXXFLAGS += -I$(CFITSIO)/include
+    LIBS += -L$(CFITSIO)/lib -lcfitsio
 endif
 
-#Set addition parameters that depends by operating system
-
-ifneq (, $(findstring linux, $(SYSTEM)))
- 	#Do linux things
-	ifneq (, $(findstring ice, $(LINKERENV)))
-		LIBS += -L$(ICEDIR)/lib64
-		LIBS += -lIce -lIceUtil -lFreeze
-	endif
-endif
-ifneq (, $(findstring qnx, $(SYSTEM)))
-    # Do qnx things
-	ALL_CFLAGS += -Vgcc_ntox86_gpp -lang-c++
-	LIBS += -lsocket
-endif
-ifneq (, $(findstring apple, $(SYSTEM)))
- 	# Do apple things
-	ifneq (, $(findstring ice, $(LINKERENV)))
-		LIBS += -L$(ICEDIR)/lib
-                LIBS += -lZerocIce -lZerocIceUtil -lFreeze
-        endif
-endif 
-
-LINK     = ${CC}
+LINK     = $(CXX)
 #for link
 LFLAGS = -shared -Wl,-soname,$(TARGET1) -Wl,-rpath,$(DESTDIR)
 AR       = ar cqs
@@ -209,7 +172,7 @@ VPATH=$(SOURCE_DIR):$(INCLUDE_DIR):
 vpath %.o $(OBJECTS_DIR)
 
 ####### 6) Files of the project
-	
+
 INCLUDE=$(foreach dir,$(INCLUDE_DIR), $(wildcard $(dir)/*.h))
 SOURCE=$(foreach dir,$(SOURCE_DIR), $(wildcard $(dir)/*.cpp))
 SOURCE+=$(foreach dir,$(SOURCE_DIR), $(wildcard $(dir)/*.c))
@@ -221,12 +184,12 @@ DOC_SOURCE= $(addprefix $(DOXY_SOURCE_DIR)/, $(notdir $(SOURCE)))
 
 ####### 7) Only for library generation
 
-TARGET   = $(LIB_NAME).so.$(shell cat version)
-TARGETA	= $(LIB_NAME).a
-TARGETD	= $(LIB_NAME).so.$(shell cat version)
-TARGET0	= $(LIB_NAME).so
-TARGET1	= $(LIB_NAME).so.$(shell cut version -f 1 -d '.')
-TARGET2	= $(LIB_NAME).so.$(shell cut version -f 1 -d '.').$(shell cut version -f 2 -d '.')
+TARGET  = $(LIB_NAME).so.$(shell cat version)
+TARGETA = $(LIB_NAME).a
+TARGETD = $(LIB_NAME).so.$(shell cat version)
+TARGET0 = $(LIB_NAME).so
+TARGET1 = $(LIB_NAME).so.$(shell cut version -f 1 -d '.')
+TARGET2 = $(LIB_NAME).so.$(shell cut version -f 1 -d '.').$(shell cut version -f 2 -d '.')
 
 ####### 8) Preliminar operations
 
@@ -236,10 +199,10 @@ $(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 ####### 9) Pattern rules
 
 %.o : %.cpp
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+	$(CXX) $(CXXFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 
 %.o : %.c
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+	$(CC) $(CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 
 #only for documentation generation
 $(DOXY_SOURCE_DIR)/%.h : %.h
@@ -247,31 +210,28 @@ $(DOXY_SOURCE_DIR)/%.h : %.h
 
 $(DOXY_SOURCE_DIR)/%.cpp : %.cpp
 	cp  $<  $@
-	
+
 ####### 10) Build rules
 
 #all: compile the entire program.
 all: exe
-		#only if conf directory is present:
-		#$(SYMLINK) $(CONF_DIR) $(CONF_DEST_DIR)
+	#only if conf directory is present:
+	#$(SYMLINK) $(CONF_DIR) $(CONF_DEST_DIR)
 
-lib: staticlib 
-	
+lib: staticlib
+
 exe: makeobjdir $(OBJECTS)
 	test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
 
-		
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5) $(OBJECTS_DIR)/AG_multi5.o $(LIBSWROOT)
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5) $(OBJECTS_DIR)/AG_multi5.o $(LIBS)
 
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTISIM5) $(OBJECTS_DIR)/AG_multisim5.o $(LIBSWROOT)
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTISIM5) $(OBJECTS_DIR)/AG_multisim5.o $(LIBS)
 
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFFSIM5) $(OBJECTS_DIR)/AG_diffsim5.o $(LIBSWROOT)
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFFSIM5) $(OBJECTS_DIR)/AG_diffsim5.o $(LIBS)
 
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5EXT) $(OBJECTS_DIR)/AG_multi5ext.o  $(LIBSWROOT)
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5EXT) $(OBJECTS_DIR)/AG_multi5ext.o  $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTITERATIVE5) $(OBJECTS_DIR)/AG_multiterative5.o  $(LIBSWROOT)
-
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_EXPMAPGENT) $(OBJECTS_DIR)/AG_expmapgenT5.o  $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTITERATIVE5) $(OBJECTS_DIR)/AG_multiterative5.o  $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CHECK_MAP_VALUE) $(OBJECTS_DIR)/AG_checkMapValue5.o  $(LIBS)
 
@@ -298,20 +258,20 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_GASMAPGEN) $(OBJECTS_DIR)/AG_gasmapgen5.o  $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTMAPGEN) $(OBJECTS_DIR)/AG_intmapgen5.o $(LIBS)
-         
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFMAPGEN) $(OBJECTS_DIR)/AG_difmapgen5.o $(LIBS)
-         
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ITERATIVEGENSRCLIST) $(OBJECTS_DIR)/AG_iterativeGenSrcList5.o $(LIBSWROOT)
 
-	$(CXX) -g $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SPOTFINDER) $(OBJECTS_DIR)/AG_spotfinder5.o $(LIBSWROOT)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFMAPGEN) $(OBJECTS_DIR)/AG_difmapgen5.o $(LIBS)
+
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ITERATIVEGENSRCLIST) $(OBJECTS_DIR)/AG_iterativeGenSrcList5.o $(LIBS)
+
+	$(CXX) -g $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SPOTFINDER) $(OBJECTS_DIR)/AG_spotfinder5.o $(LIBS)
 
 	#$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_THETAMAPGEN) $(OBJECTS_DIR)/AG_ $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY) $(OBJECTS_DIR)/AG_fitpsfarray.o $(LIBSWROOT)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY) $(OBJECTS_DIR)/AG_fitpsfarray.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY3) $(OBJECTS_DIR)/AG_fitpsfarray3.o $(LIBSWROOT)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY3) $(OBJECTS_DIR)/AG_fitpsfarray3.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY3_H) $(OBJECTS_DIR)/AG_fitpsfarray3_H.o $(LIBSWROOT)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY3_H) $(OBJECTS_DIR)/AG_fitpsfarray3_H.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CONVERTTOSKYMAP5) $(OBJECTS_DIR)/AG_converttoSkyMap5.o $(LIBS)
 
@@ -319,34 +279,34 @@ exe: makeobjdir $(OBJECTS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CREATEPSD) $(OBJECTS_DIR)/AG_createpsd.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_CREATEPSD3) $(OBJECTS_DIR)/AG_createpsd3.o $(LIBSWROOT)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_CREATEPSD3) $(OBJECTS_DIR)/AG_createpsd3.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_NORM) $(OBJECTS_DIR)/AG_norm5.o $(LIBS)
-		
-staticlib: makelibdir makeobjdir $(OBJECTS)	
-		test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)	
-		$(DEL_FILE) $(LIB_DESTDIR)/$(TARGETA) 	
-		$(AR) $(LIB_DESTDIR)/$(TARGETA) $(OBJECTS_DIR)/*.o
-	
-dynamiclib: makelibdir makeobjdir $(OBJECTS)	
-		$(DEL_FILE) $(TARGET) $(TARGET0) $(TARGET1) $(TARGET2)
-		$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS_DIR)/*.o $(LIBS)
-		$(SYMLINK) $(TARGET) $(TARGET0)
-		$(SYMLINK) $(TARGET) $(TARGET1)
-		$(SYMLINK) $(TARGET) $(TARGET2)
-		test $(LIB_DESTDIR) = . || $(DEL_FILE) $(LIB_DESTDIR)/$(TARGET)
-		test $(LIB_DESTDIR) = . || $(DEL_FILE) $(LIB_DESTDIR)/$(TARGET0)
-		test $(LIB_DESTDIR) = . || $(DEL_FILE) $(LIB_DESTDIR)/$(TARGET1)
-		test $(LIB_DESTDIR) = . || $(DEL_FILE) $(LIB_DESTDIR)/$(TARGET2)
-		test $(LIB_DESTDIR) = . || $(MOVE) $(TARGET) $(TARGET0) $(TARGET1) $(TARGET2) $(LIB_DESTDIR)
-	
+
+staticlib: makelibdir makeobjdir $(OBJECTS)
+	test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)
+	$(DEL_FILE) $(LIB_DESTDIR)/$(TARGETA) 
+	$(AR) $(LIB_DESTDIR)/$(TARGETA) $(OBJECTS_DIR)/*.o
+
+dynamiclib: makelibdir makeobjdir $(OBJECTS)
+	$(DEL_FILE) $(TARGET) $(TARGET0) $(TARGET1) $(TARGET2)
+	$(LINK) $(LFLAGS) -o $(TARGET) $(OBJECTS_DIR)/*.o $(LIBS)
+	$(SYMLINK) $(TARGET) $(TARGET0)
+	$(SYMLINK) $(TARGET) $(TARGET1)
+	$(SYMLINK) $(TARGET) $(TARGET2)
+	test $(LIB_DESTDIR) = . || $(DEL_FILE) $(LIB_DESTDIR)/$(TARGET)
+	test $(LIB_DESTDIR) = . || $(DEL_FILE) $(LIB_DESTDIR)/$(TARGET0)
+	test $(LIB_DESTDIR) = . || $(DEL_FILE) $(LIB_DESTDIR)/$(TARGET1)
+	test $(LIB_DESTDIR) = . || $(DEL_FILE) $(LIB_DESTDIR)/$(TARGET2)
+	test $(LIB_DESTDIR) = . || $(MOVE) $(TARGET) $(TARGET0) $(TARGET1) $(TARGET2) $(LIB_DESTDIR)
+
 makeobjdir:
 	test -d $(OBJECTS_DIR) || mkdir -p $(OBJECTS_DIR)
-	
+
 makelibdir:
 	test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)
 
-#clean: delete all files from the current directory that are normally created by building the program. 
+#clean: delete all files from the current directory that are normally created by building the program.
 clean:
 	$(DEL_FILE) $(OBJECTS_DIR)/*.o
 	$(DEL_FILE) *~ core *.core
@@ -363,21 +323,20 @@ clean:
 	test $(LIB_DESTDIR) = . || $(DEL_DIR) $(LIB_DESTDIR)
 	test $(DOXY_SOURCE_DIR) = . || $(DEL_DIR) $(DOXY_SOURCE_DIR)
 	test $(DOC_DIR) = . || $(DEL_DIR) $(DOC_DIR)
-	
-	
-#Delete all files from the current directory that are created by configuring or building the program. 
+
+#Delete all files from the current directory that are created by configuring or building the program.
 distclean: clean
 
-#install: compile the program and copy the executables, libraries, 
-#and so on to the file names where they should reside for actual use. 
+#install: compile the program and copy the executables, libraries,
+#and so on to the file names where they should reside for actual use.
 install: all
 	$(shell echo $(prefix) > prefix)
 	#test -d $(datadir)/$(CONF_DEST_DIR) || mkdir -p $(datadir)/$(CONF_DEST_DIR)
-	#test -d $(infodir) || mkdir -p $(infodir)	
+	#test -d $(infodir) || mkdir -p $(infodir)
 
-	
+
 	# For exe installation
-	test -d $(bindir) || mkdir -p $(bindir)	
+	test -d $(bindir) || mkdir -p $(bindir)
 	$(COPY_FILE) $(EXE_DESTDIR)/* $(bindir)
 	#copy icon
 	#test -d $(icondir) || mkdir -p $(icondir)
@@ -387,29 +346,28 @@ install: all
 	test -d $(datadir) || mkdir -p $(datadir)
 	$(COPY_FILE) $(CONF_DIR)/* $(datadir)/$(CONF_DEST_DIR)
 
-
-#uninstall: delete all the installed files--the copies that the `install' target creates. 
+#uninstall: delete all the installed files--the copies that the `install' target creates.
 uninstall:
 	#For library uninstall
-	$(DEL_FILE) $(libdir)/$(TARGETA)	
+	$(DEL_FILE) $(libdir)/$(TARGETA)
 	$(DEL_FILE) $(libdir)/$(TARGETD)
 	$(DEL_FILE) $(libdir)/$(TARGET0)
 	$(DEL_FILE) $(libdir)/$(TARGET1)
 	$(DEL_FILE) $(libdir)/$(TARGET2)
 	$(DEL_FILE) $(addprefix $(includedir)/, $(notdir $(INCLUDE)))
-	
+
 	# For exe uninstall
 	$(DEL_FILE) $(bindir)/$(EXE_NAME)
 	#$(DEL_FILE) $(icondir)/$(ICON_NAME)
-	
+
 #dist: create a distribution tar file for this program
 dist: all
 
-# dvi, pdf, ps, for documentation generation	
+# dvi, pdf, ps, for documentation generation
 dvi: info
 	cd $(DOC_DIR)/latex && $(MAKE)
 	$(SYMLINK) $(DOC_DIR)/latex/refman.dvi $(PROJECT).dvi
-	
+
 pdf: info
 	cd $(DOC_DIR)/latex && $(MAKE) pdf
 	$(SYMLINK) $(DOC_DIR)/latex/refman.pdf $(PROJECT).pdf
@@ -417,11 +375,11 @@ pdf: info
 ps: info
 	cd $(DOC_DIR)/latex && $(MAKE) ps
 	$(SYMLINK) $(DOC_DIR)/latex/refman.ps $(PROJECT).ps
-	
+
 #info: generate any Info files needed.
-info:	makedoxdir $(DOC_INCLUDE) $(DOC_SOURCE)
+info: makedoxdir $(DOC_INCLUDE) $(DOC_SOURCE)
 	test -d $(DOC_DIR) || mkdir -p $(DOC_DIR)
 	doxygen Doxyfile
-	
+
 makedoxdir:
 	test -d $(DOXY_SOURCE_DIR) || mkdir -p $(DOXY_SOURCE_DIR)

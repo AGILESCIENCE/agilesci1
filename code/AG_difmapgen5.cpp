@@ -196,7 +196,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;
 	cout << "#################################################################"<< endl;
-	cout << "##########   AG_difmapgen5 v1.1.0 - A.Z., A.B.        ###########"<< endl;
+	cout << "##########   AG_difmapgen5 v1.2.0 - A.Z., A.B.        ###########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;

@@ -118,7 +118,7 @@ static void PrintInput(
 cout << " "<< endl;
 cout << " "<< endl;	
 cout << "#################################################################"<< endl;
-cout << "### AG_iterativeGenSrcList5 v.1.1.0 - A.B., T.C., A.C.        ###"<< endl;
+cout << "### AG_iterativeGenSrcList5 v.1.2.0 - A.B., T.C., A.C.        ###"<< endl;
 cout << "#################################################################"<< endl;
 cout << " "<< endl;
 cout << "INPUT PARAMETERS:" << endl << endl;

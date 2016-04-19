@@ -286,7 +286,7 @@ int main(int argC, char* argV[])
 std::cout << " " << std::endl;
 std::cout << " " << std::endl;
 std::cout << "#################################################################" << std::endl;
-std::cout << "####### AG_ctsmapgenT5 v1.1.0 - A.C., A.T., T.C.           ######" << std::endl;
+std::cout << "####### AG_ctsmapgenT5 v1.2.0 - A.C., A.T., T.C.           ######" << std::endl;
 std::cout << "#################################################################" << std::endl;
 std::cout << " " << std::endl;
 

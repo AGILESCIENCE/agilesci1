@@ -231,7 +231,7 @@ public:
 	AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "###### AG_multisim5  v1.1.0 - A.C., T.C.                    #####"<< endl;
+	cout << "###### AG_multisim5  v1.2.0 - A.C., T.C.                    #####"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << endl << "RoiMulti version: " << ROIMULTI_VERSION << " - " << ROIMULTI_DATE<< endl;
 	}

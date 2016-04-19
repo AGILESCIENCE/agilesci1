@@ -231,7 +231,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;	
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_gasmapgen5.cpp v1.1.0 - A.C., A.T.         ########"<< endl;
+	cout << "########## AG_gasmapgen5.cpp v1.2.0 - A.C., A.T.         ########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;

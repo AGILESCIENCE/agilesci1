@@ -407,7 +407,7 @@ int status = 0;
 std::cout << " " << std::endl;
 std::cout << " " << std::endl;
 std::cout << "#################################################################" << std::endl;
-std::cout << "### AG_thetamapgen5 v1.1.0 - A.B.                             ###" << std::endl;
+std::cout << "### AG_thetamapgen5 v1.2.0 - A.B.                             ###" << std::endl;
 std::cout << "#################################################################" << std::endl;
 std::cout << " " << std::endl;
 

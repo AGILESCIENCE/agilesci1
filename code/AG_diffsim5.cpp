@@ -55,7 +55,7 @@ class AppScreen {
 public:
     AppScreen() {
         cout << "#################################################################"<< endl;
-        cout << "######## AG_diffsim5 v1.1.0 - A.Z., A.B. ########################"<< endl;
+        cout << "######## AG_diffsim5 v1.2.0 - A.Z., A.B. ########################"<< endl;
         cout << "#################################################################"<< endl;
         cout << endl << "RoiMulti version: " << ROIMULTI_VERSION << " - " << ROIMULTI_DATE << endl;
     }

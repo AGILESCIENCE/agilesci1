@@ -1,3 +1,18 @@
+2016-04-19 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v1.2.0
+
+Fix wrong buffers sizes.
+Fix gcc warnings.
+Fix memory leaks.
+Remove AG_expmapgenT5.
+Use pid for /tmp/* filename generation, tmpnam() syscall is not safe.
+
+AG_expmapgen5: Use static buffers.
+AG_expmapgen5: Do not use psi, it is uninitialized.
+
+AG_multiterative5: Generates the fluxul map.
+AG_multiterative5: Renamed GAL in GAS.
+
 2016-03-04 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli
 <zoli@iasfbo.inaf.it>, Andrew Chen <andrew.w.chen@gmail.com>
 TAG v1.1.0

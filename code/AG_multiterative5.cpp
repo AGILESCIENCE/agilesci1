@@ -252,7 +252,7 @@ for (int i=0; i<srcCount; ++i) {
 	oFile << srcData.minTS << "\t";
 	oFile << srcData.gal << "\t";
 	oFile << srcData.iso << "\t";
-	oFile << srcData.UL << "\t";
+	oFile << srcData.fluxul << "\t";
 	oFile <<  endl;
 	}
 }
@@ -531,7 +531,7 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 				siMap(row, col) = (Double_t)tryData.index; //AB1
 				galMap(row, col) = tryData.gal;
 				isoMap(row, col) = tryData.iso;
-				ulMap(row, col) = tryData.UL;
+				ulMap(row, col) = tryData.fluxul;
 			}
 		}
 		string outfname2(outfname);
@@ -553,7 +553,7 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 		isoMap.Write(outfname6.c_str()); //AB1
 
 		string outfname7(outfname);
-		outfname7 += ".UL.fits.gz";
+		outfname7 += ".fluxul.fits.gz";
 		ulMap.Write(outfname7.c_str());
 		}
 

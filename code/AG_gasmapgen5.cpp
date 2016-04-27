@@ -132,6 +132,28 @@ int AG_gasmapgen(char * expfile, char *  outfile, char * loresdiffusefile, char 
 		fits_update_key(outFits,TSTRING,"FILE_ID",keyword,comment,&status);
 	else status = 0;
 
+	// overwrite DH_CONF_, STAN_CON, FILE_ID from the sar filename if is present.
+    char sarfile[FLEN_FILENAME];
+    if (fits_read_key(expFits, TSTRING, "SARFILE", &sarfile, NULL, &status) == 0) {
+        std::string tmp(sarfile);
+        std::string::size_type pos1 = sizeof("AG_GRID_")-1; // after this prefix
+        std::string::size_type pos2 = tmp.find("_", pos1)+1;
+        std::string::size_type pos3 = tmp.find("_", pos2)+1;
+        std::string::size_type pos4 = tmp.find(".", pos3);
+        if (pos2 != std::string::npos && pos3 != std::string::npos && pos4 != std::string::npos) {
+            std::string dhconf = tmp.substr(pos1, pos2-pos1-1);
+            std::string stancon = tmp.substr(pos2, pos3-pos2-1);
+            std::string fileid = tmp.substr(pos3, pos4-pos3);
+            const char dhcomment[] = "GRID - DHSim configuration ID";
+            fits_update_key(outFits, TSTRING, "DH_CONF_", (void*)dhconf.c_str(), dhcomment, &status);
+            const char stancomment[] = "GRID - Standard an. configuration ID";
+            fits_update_key(outFits, TSTRING, "STAN_CON", (void*)stancon.c_str(), stancomment, &status);
+            const char fcomment[] = "File Identification Number/Issue";
+            fits_update_key(outFits, TSTRING, "FILE_ID", (void*)fileid.c_str(), fcomment, &status);
+        }
+    }
+    else status = 0;
+
 	/**
 	long nrows = ExpMap.GetNrows();
 	long ncols = ExpMap.GetNcols();

@@ -26,8 +26,8 @@
 
 #include <cstdio>
 #include <cstring>
-
 #include <iostream>
+#include <libgen.h>
 
 #include "fitsio.h"
 #include "pil.h"
@@ -153,6 +153,13 @@ int AG_gasmapgen(char * expfile, char *  outfile, char * loresdiffusefile, char 
         }
     }
     else status = 0;
+
+    char* lofile = basename(loresdiffusefile);
+    const char lowrescomment[] = "Low res diffuse file";
+    fits_update_key(outFits, TSTRING, "SKYL", lofile, lowrescomment, &status);
+    char* hifile = basename(hiresdiffusefile);
+    const char highrescomment[] = "High res diffuse file";
+    fits_update_key(outFits, TSTRING, "SKYH", hifile, highrescomment, &status);
 
 	/**
 	long nrows = ExpMap.GetNrows();

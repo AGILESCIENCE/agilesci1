@@ -195,7 +195,7 @@ SkyMap converttoSkyMap(const char* fileName)
 							}
 						for (int i=0; i<nx ; i++)
 							for (int j=0; j<ny ; j++) {
-								if (isnan(values[i+j*nx]))
+								if (std::isnan(values[i+j*nx]))
 									values[i+j*nx]=0;
 								map.SetValue(j+y_padwidth,i+x_padwidth,values[i+j*nx]);
 						}

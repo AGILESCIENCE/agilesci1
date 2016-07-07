@@ -33,7 +33,6 @@ AG_SUMMAPGEN = AG_summapgen5
 AG_DIFF_CONV = AG_diff_conv5
 AG_EXPMAPGEN = AG_expmapgen5
 AG_CTSMAPGEN = AG_ctsmapgen5
-AG_CTSMAPGENT = AG_ctsmapgenT5
 AG_GASMAPGEN = AG_gasmapgen5
 AG_INTMAPGEN = AG_intmapgen5
 AG_DIFMAPGEN = AG_difmapgen5
@@ -256,8 +255,6 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_AP) $(OBJECTS_DIR)/AG_ap5.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_CTSMAPGEN) $(OBJECTS_DIR)/AG_ctsmapgen5.o $(LIBS)
-
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_CTSMAPGENT) $(OBJECTS_DIR)/AG_ctsmapgenT5.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_GASMAPGEN) $(OBJECTS_DIR)/AG_gasmapgen5.o  $(LIBS)
 

@@ -152,7 +152,9 @@ int main(int argc, char *argv[])
     int totalCounts = 0;
     Interval timeSlot;
     do {
+#ifdef DEBUG
         cout << "Time slot beginTime: " << beginTime << " endTime: " << endTime << endl;
+#endif
         timeSlot.Set(beginTime, endTime);
         Intervals intervalSlots = Intersection(intervals, timeSlot);
         if (intervalSlots.Count()) {

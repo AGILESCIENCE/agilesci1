@@ -1,0 +1,5 @@
+outfile,s,ql,"!selection.gz",,,"Output file name"
+indexfile,s,ql,"file.index",,,"Index file name"
+timelist,s,ql,"None",,,"Time intervals file name"
+tmin,r,ql,144590400,,,"Initial time (sec)"
+tmax,r,ql,145886400,,,"Final time (sec)"

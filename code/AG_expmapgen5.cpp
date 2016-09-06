@@ -96,14 +96,13 @@ int main(int argc, char *argv[])
         ++logfile;
     string logExpr = selection::LogExprString(intervals, params["phasecode"], params["timestep"]);
     int status = selection::MakeSelection(logfile, intervals, logExpr, selectionFilename, templateFilename);
-    if (status==-118) {
-        cout << endl << "AG_expmapgen5......................no matching events found" << endl;
-        cout << endString << endl;
-        return 0;
-    }
-    else if (status != 0) {
+    if (status != 0 && status != -118) {
         cout << endl << "AG_expmapgen5......................selection failed" << endl;
         cout << endString << endl;
+        FitsFile sfile(selectionFilename);
+        sfile.Delete();
+        FitsFile tfile(templateFilename);
+        tfile.Delete();
         return 0;
     }
 
@@ -115,7 +114,6 @@ int main(int argc, char *argv[])
                       params["binstep"], params["timestep"], params["index"], params["tmin"], params["tmax"],
                       params["emin"], params["emax"], params["fovradmin"], params["fovradmax"],
                       selectionFilename, templateFilename, intervals, exposures, true);
-
     FitsFile sfile(selectionFilename);
     sfile.Delete();
     FitsFile tfile(templateFilename);

@@ -90,14 +90,13 @@ int main(int argc, char *argv[])
                                     params["albrad"], params["fovradmax"], params["fovradmin"],
                                     params["phasecode"], params["filtercode"]);
     int status = selection::MakeSelection(evtfile, intervals, evtExpr, selectionFilename, templateFilename);
-    if (status==-118) {
-        cout << endl << "AG_ctsmapgen5......................no matching events found" << endl;
-        cout << endString << endl;
-        return 0;
-    }
-    else if (status != 0) {
+    if (status != 0 && status != -118) {
         cout << endl << "AG_ctsmapgen5......................selection failed" << endl;
         cout << endString << endl;
+        FitsFile sfile(selectionFilename);
+        sfile.Delete();
+        FitsFile tfile(templateFilename);
+        tfile.Delete();
         return 0;
     }
 
@@ -109,7 +108,6 @@ int main(int argc, char *argv[])
                        params["fovradmin"], params["albrad"], params["phasecode"],
                        params["filtercode"], selectionFilename, templateFilename,
                        intervals, counts, true);
-
     FitsFile sfile(selectionFilename);
     sfile.Delete();
     FitsFile tfile(templateFilename);

@@ -401,6 +401,7 @@ cout << "Multiple RoiMulti instance" << endl;
 					}
 
 				if ((opmode&SkipAnalysis)==0) {
+					// TODO status = eval::EvalGasMap(gasMap, expMap, lowdiffuse, hidiffuse);
 					cout << endl << "AG_Multisim: Analysis step" << endl << endl;
 					MapData analysisMaps(ctsMap, expMap, mapDataAna.GasMap(0), 0, 1, 1);
 					analysisMaps.MapCoeff::Load(maplistanalysis);

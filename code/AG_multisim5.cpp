@@ -13,6 +13,7 @@
 #include <PilParams.h>
 #include <Eval.h>
 #include <FitsUtils.h>
+#include <sstream>
 
 using std::cout;
 using std::cerr;
@@ -46,9 +47,9 @@ const PilDescription paramsDescr[] = {
 	{ PilInt,    "isomode", "Isotropic emission mode" },
 	{ PilReal,   "ulcl",    "Upper limit confidence level" },
 	{ PilReal,   "loccl",   "Location contour confidence level" },
-	{ PilString, "diffusefile", "Diffuse model filename" },
-	{ PilString, "hiresdiffusefile", "High res diffuse model filename" },
-	{ PilNone,   "",   "" }
+	{ PilString, "resmatrices", "Response matrices" },
+	{ PilString, "respath", "Response matrices path" },
+	{ PilNone,   "", "" }
 };
 
 enum { Concise=1, SkipAnalysis=2, DoubleAnalysis=4, SaveMaps=8 };
@@ -66,7 +67,6 @@ AgileMap SumExposure(const MapMaps& maps, int offset, int count) {
 		m += maps.ExpMap(i);
 	return m;
 }
-
 
 int main(int argc,char **argv) {
 	cout << startString << endl;
@@ -90,8 +90,8 @@ int main(int argc,char **argv) {
 	const char* outfilename = params["outfile"];
 	const char* maplistanalysisname = params["maplistanalysis"];
 	const char* srclistanalysis = params["srclistanalysis"];
-	const char* diffusefile = params["diffusefile"];
-	const char* hiresdiffusefile = params["hiresdiffusefile"];
+	const char* resmatrices = params["resmatrices"];
+	const char* respath = params["respath"];
 	double ranal = params["ranal"];
 	int galmode = params["galmode"];
 	int isomode = params["isomode"];
@@ -206,7 +206,10 @@ int main(int argc,char **argv) {
 
 				if ((opmode&SkipAnalysis)==0) {
 					AgileMap gasMap;
-					int status = eval::EvalGasMap(gasMap, expMap, diffusefile, hiresdiffusefile);
+					std::stringstream ss;
+					ss << respath << "/" << expMap.GetEmin() << "_" << expMap.GetEmax() << "." << resmatrices << ".disp.conv.sky.gz";
+                    std::string diffuseFile = ss.str();
+					int status = eval::EvalGasMap(gasMap, expMap, diffuseFile.c_str(), diffuseFile.c_str());
 					if(status) {
 						cout << "Error during gas map evaluation" << endl;
 						cout << "AG_multisim5..................... exiting AG_multisim5 ERROR:" << endl;

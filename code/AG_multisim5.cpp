@@ -54,16 +54,16 @@ const PilDescription paramsDescr[] = {
 
 enum { Concise=1, SkipAnalysis=2, DoubleAnalysis=4, SaveMaps=8 };
 
-AgileMap SumMaps(const AgileMap* mapArr, int offset, int count) {
+AgileMap SumMaps(const AgileMap* mapArr, int offset, int block) {
 	AgileMap m(mapArr[offset]);
-	for (int i=offset+1; i<offset+count; ++i)
+	for (int i=offset+1; i<offset+block; ++i)
 		m += mapArr[i];
 	return m;
 }
 
-AgileMap SumExposure(const MapMaps& maps, int offset, int count) {
+AgileMap SumExposure(const MapMaps& maps, int offset, int block) {
 	AgileMap m(maps.ExpMap(offset));
-	for (int i=offset+1; i<offset+count; ++i)
+	for (int i=offset+1; i<offset+block; ++i)
 		m += maps.ExpMap(i);
 	return m;
 }
@@ -181,12 +181,14 @@ int main(int argc,char **argv) {
 
 		mapData.MapCoeff::Load(maplistsim);
 		roiMulti.SetMaps(mapData);
-		AgileMap* simArr = roiMulti.NewSimulationArray(srcSimArr);
+		cout << "New count maps simulation array size=" << mapData.Count() << endl;
+		AgileMap* simArr = roiMulti.NewSimulationArray(srcSimArr); // simArr size == maplistsim size
 
 		if (block) {
 			int last = mapData.Length()-block;
+			cout << "Using block size=" << block << endl;
 			for (int j=0; j<=last; ++j) {
-				cout << endl << "AG_Multisim summing maps from " << j+1 << " to " << j+block << " [loop " << i+1 << "]" << endl << endl;
+				cout << endl << "Summing maps from " << j+1 << " to " << j+block << " [loop " << i+1 << "]" << endl << endl;
 				AgileMap ctsMap = SumMaps(simArr, j, block);
 				AgileMap expMap = SumExposure(mapData, j, block);
 				/// Writing cts and exp maps

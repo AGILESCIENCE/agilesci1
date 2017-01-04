@@ -15,6 +15,11 @@
 #include <FitsUtils.h>
 #include <sstream>
 
+#define DEBUG 1
+#ifdef DEBUG
+#include <fstream>
+#endif
+
 using std::cout;
 using std::cerr;
 using std::endl;
@@ -184,11 +189,28 @@ int main(int argc,char **argv) {
 		cout << "New count maps simulation array size=" << mapData.Count() << endl;
 		AgileMap* simArr = roiMulti.NewSimulationArray(srcSimArr); // simArr size == maplistsim size
 
+#ifdef DEBUG
+                ofstream ds("debug.cts");
+#endif
+
 		if (block) {
 			int last = mapData.Length()-block;
 			cout << "Using block size=" << block << endl;
 			for (int j=0; j<=last; ++j) {
 				cout << endl << "Summing maps from " << j+1 << " to " << j+block << " [loop " << i+1 << "]" << endl << endl;
+
+#ifdef DEBUG
+                                for (int b=0; b<block; ++b) {
+                                    const AgileMap& map = simArr[j+b];
+                                    long counts = 0;
+                                    for (int y=0; y<map.Dim(0); ++y)
+                                        for (int x=0; x<map.Dim(1); ++x)
+                                            counts += map(y, x);
+                                    ds << counts << " ";
+                                }
+                                ds << std::endl;
+#endif
+
 				AgileMap ctsMap = SumMaps(simArr, j, block);
 				AgileMap expMap = SumExposure(mapData, j, block);
 				/// Writing cts and exp maps

@@ -69,6 +69,7 @@ const PilDescription paramsDescr[] = {
 int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscalc, double &expcalc)
 {
 	
+	int timestep = 1;
 	
     Intervals intervals;
     if (!eval::LoadTimeList(params["timelist"], intervals, tmin, tmax)) {
@@ -98,7 +99,7 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
     char *logfile = (char*) params["logfile"].GetStr();
     if (logfile && logfile[0]=='@')
         logfile++;
-    string logExpr = selection::LogExprString(intervals, params["phasecode"], params["timestep"]);
+    string logExpr = selection::LogExprString(intervals, params["phasecode"], timestep);
     int status = selection::MakeSelection(logfile, intervals, logExpr, selectionLogFilename, templateLogFilename);
     if (status==-118) {
         cout << endl << "AG_ap5......................no matching events found" << endl;

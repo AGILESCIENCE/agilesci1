@@ -282,9 +282,27 @@ int main(int argc, char *argv[])
 	else if(status == -118)
 		return status;
     
+    int bkg = counts_b1 + counts_b2;
+    int source = counts_s;
+    int N_on = source + bkg;
+    int N_off = bkg;
     double alpha = exp_s / (exp_b1 + exp_b2);
     resText << alpha << endl;
+    double alp1 = alpha / (1 + alpha);
+    double alp2 = alpha + 1;
     
+    if ((source > 0) and (bkg > 0)) {
+    	double source1 = source;
+    	double bkg1 = bkg;
+        double L1 = pow(((source1 + bkg1) / source1) * alp1, source);
+        double L2 = pow(((bkg1 + source1) / bkg1) / alp2, bkg);
+        double L = L1 * L2;
+        double S = sqrt(-2. * log(L));
+        cout <<  "Li&Ma sigma " << S << endl;
+    } else {
+        cout << "Alpha: 0" << endl;
+       	cout << "Li&Ma sigma 0" << endl;
+    }
     /*
     beginTime = endTime;
 	endTime += deltaT;

@@ -163,13 +163,13 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
 						   selectionLogFilename, templateLogFilename, intervalSlots, exposures, false);
 
 		vector< vector<int> > counts;
-		status = eval::EvalCounts("None", projection, tmin, tmax, radius, radius,
+		status = eval::EvalCountsInRadius("None", tmin, tmax, radius, 
 						   params["la"], params["ba"], params["lonpole"],
 						   params["emin"], params["emax"], params["fovradmax"],
 						   params["fovradmin"], params["albrad"], params["phasecode"],
 						   params["filtercode"], selectionEvtFilename, templateEvtFilename,
-						   intervalSlots, counts, false);
-
+						   intervalSlots, counts);
+						                  
 		expcalc = 0;
 		countscalc = 0;
 		for (int slot=0; slot<intervalSlots.Count(); slot++) {

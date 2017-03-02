@@ -174,7 +174,7 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
 		countscalc = 0;
 		for (int slot=0; slot<intervalSlots.Count(); slot++) {
 			expcalc += exposures[slot][0]; // the map is 1x1
-			countscalc += counts[slot]; // the map is 1x1
+			countscalc += counts[slot]; 
 		}
 
 		

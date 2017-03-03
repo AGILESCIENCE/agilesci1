@@ -171,19 +171,21 @@ int main(int argc, char *argv[])
                                params["emax"], params["fovradmin"], params["fovradmax"],
                                selectionLogFilename, templateLogFilename, intervalSlots, exposures, false);
 
-            vector< vector<int> > counts;
-            status = eval::EvalCounts("None", projection, tmin, tmax, mdim, params["mres"],
-                               params["la"], params["ba"], params["lonpole"],
-                               params["emin"], params["emax"], params["fovradmax"],
-                               params["fovradmin"], params["albrad"], params["phasecode"],
-                               params["filtercode"], selectionEvtFilename, templateEvtFilename,
-                               intervalSlots, counts, false);
+            
+            
+			vector<int>  counts;
+			status = eval::EvalCountsInRadius("None", tmin, tmax, params["mres"], 
+						   params["la"], params["ba"], params["lonpole"],
+						   params["emin"], params["emax"], params["fovradmax"],
+						   params["fovradmin"], params["albrad"], params["phasecode"],
+						   params["filtercode"], selectionEvtFilename, templateEvtFilename,
+						   intervalSlots, counts);
 
             double slotExp = 0;
             int slotCounts = 0;
             for (int slot=0; slot<intervalSlots.Count(); slot++) {
                 slotExp += exposures[slot][0]; // the map is 1x1
-                slotCounts += counts[slot][0]; // the map is 1x1
+                slotCounts += counts[slot];
             }
 
             if(status == 0) {

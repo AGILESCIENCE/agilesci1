@@ -312,7 +312,7 @@ int main(int argc, char *argv[])
 	if (tmax < endTime)
 		endTime = tmax;
     */
-    for (int i=0; i<
+    
     
     resText.close();
     

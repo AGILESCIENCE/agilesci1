@@ -103,6 +103,7 @@ int main(int argc, char *argv[])
     if (logfile && logfile[0]=='@')
         logfile++;
     string logExpr = selection::LogExprString(intervals, params["phasecode"], params["timestep"]);
+    cout << logExpr << endl;
     int status = selection::MakeSelection(logfile, intervals, logExpr, selectionLogFilename, templateLogFilename);
     if (status==-118) {
         cout << endl << "AG_ap5......................no matching events found" << endl;

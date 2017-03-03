@@ -81,7 +81,8 @@ int main(int argc, char *argv[])
 
     cout << endl << "INPUT PARAMETERS:" << endl;
     params.Print();
-    double mdim = params["mres"];
+    double mdim = params["mres"] * 2;
+    double radius = params["mres"];
     double binstep = 1.0;
     const char *projection = "ARC";
     cout << endl << "Mdim: " << mdim << endl;
@@ -164,7 +165,7 @@ int main(int argc, char *argv[])
 
             vector< vector<double> > exposures;
             status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
-                               "None", projection, mdim, params["mres"], params["la"], params["ba"],
+                               "None", projection, mdim, mdim, params["la"], params["ba"],
                                params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
                                params["earth_tol"], params["phasecode"], binstep, params["timestep"],
                                params["index"], tmin, tmax, params["emin"],
@@ -174,7 +175,7 @@ int main(int argc, char *argv[])
             
             
 			vector<int>  counts;
-			status = eval::EvalCountsInRadius("None", tmin, tmax, params["mres"], 
+			status = eval::EvalCountsInRadius("None", tmin, tmax, radius, 
 						   params["la"], params["ba"], params["lonpole"],
 						   params["emin"], params["emax"], params["fovradmax"],
 						   params["fovradmin"], params["albrad"], params["phasecode"],

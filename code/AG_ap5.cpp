@@ -81,7 +81,8 @@ int main(int argc, char *argv[])
 
     cout << endl << "INPUT PARAMETERS:" << endl;
     params.Print();
-    double mdim = params["mres"] * 2;
+    double mdim = params["mres"];
+    mdim = mdim * 2;
     double radius = params["mres"];
     double binstep = 1.0;
     const char *projection = "ARC";

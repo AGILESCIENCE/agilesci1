@@ -291,8 +291,8 @@ int main(int argc, char *argv[])
     double alp1 = alpha / (1 + alpha);
     double alp2 = alpha + 1;
     
-    cout << "bkg rate " << bkg / (exp_b1 + exp_b2) << endl;
-    cout << "sig rate " << source / exp_s << endl;
+    cout << "bkg rate " << bkg / (double) (exp_b1 + exp_b2) << endl;
+    cout << "sig rate " << source / (double) exp_s << endl;
     
     if ((source > 0) and (bkg > 0)) {
     	double source1 = source;

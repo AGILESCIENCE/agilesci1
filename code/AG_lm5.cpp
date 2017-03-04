@@ -156,7 +156,7 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
 
 		vector< vector<double> > exposures;
 		status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
-						   "None", projection, radius*2, radius*2, params["la"], params["ba"],
+						   "None", projection, radius*sqrt(2), radius*sqrt(2), params["la"], params["ba"],
 						   params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
 						   params["earth_tol"], params["phasecode"], binstep, params["timestep"],
 						   params["index"], tmin, tmax, params["emin"],

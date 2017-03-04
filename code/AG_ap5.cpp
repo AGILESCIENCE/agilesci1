@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
 
             vector< vector<double> > exposures;
             status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
-                               "None", projection, mdim, mdim, params["la"], params["ba"],
+                               "None", projection, mdim * sqrt(2), mdim * sqrt(2), params["la"], params["ba"],
                                params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
                                params["earth_tol"], params["phasecode"], binstep, params["timestep"],
                                params["index"], tmin, tmax, params["emin"],

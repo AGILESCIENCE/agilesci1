@@ -82,11 +82,11 @@ int main(int argc, char *argv[])
     cout << endl << "INPUT PARAMETERS:" << endl;
     params.Print();
     double mdim = params["mres"];
-    mdim = mdim * 2;
+    mdim = mdim * sqrt(2);
     double radius = params["mres"];
     double binstep = 1.0;
     const char *projection = "ARC";
-    cout << endl << "Mdim: " << mdim << endl;
+    cout << "radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
     cout << "Binstep: " << binstep << endl;
     cout << "Projection: " << projection << endl;
 
@@ -167,15 +167,25 @@ int main(int argc, char *argv[])
 
             vector< vector<double> > exposures;
             status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
-                               "None", projection, mdim * sqrt(2), mdim * sqrt(2), params["la"], params["ba"],
+                               "None", projection, mdim, mdim, params["la"], params["ba"],
                                params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
                                params["earth_tol"], params["phasecode"], binstep, params["timestep"],
                                params["index"], tmin, tmax, params["emin"],
                                params["emax"], params["fovradmin"], params["fovradmax"],
                                selectionLogFilename, templateLogFilename, intervalSlots, exposures, false);
 
-            
-            
+			//TBW
+			/*
+			vector<double>  dist_pl_earth;
+			vector<double>  dist_pl_source;
+            status = eval::GetPLDirection("None", params["sarFileName"], params["edpFileName"],
+                               "None", projection, mdim, mdim, params["la"], params["ba"],
+                               params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
+                               params["earth_tol"], params["phasecode"], binstep, params["timestep"],
+                               params["index"], tmin, tmax, params["emin"],
+                               params["emax"], params["fovradmin"], params["fovradmax"],
+                               selectionLogFilename, templateLogFilename, intervalSlots, dist_pl_earth, dist_pl_source);
+            */
 			vector<int>  counts;
 			status = eval::EvalCountsInRadius("None", tmin, tmax, radius, 
 						   params["la"], params["ba"], params["lonpole"],
@@ -195,9 +205,15 @@ int main(int argc, char *argv[])
                 expText << std::setprecision(1);
                 expText << beginTime << " " << endTime << " ";
                 expText << std::setprecision(2);
-                expText << slotExp << " " << slotCounts << endl;
+                expText << slotExp << " " << slotCounts << " ";
+                /*
+                for (int slot=0; slot<intervalSlots.Count(); slot++) {
+                	expText << dist_pl_earth[slot] << " " << dist_pl_source[slot] << " ";
+                }
+                */
                 totalExp += slotExp;
                 totalCounts += slotCounts;
+                expText << endl;
             }
             else if(status == -118)
                 break;

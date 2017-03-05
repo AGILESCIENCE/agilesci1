@@ -80,10 +80,10 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
     cout << endl << "INPUT PARAMETERS:" << endl;
     params.Print();
     double radius = params["radius"]; //mres
-    double mdim = radius;
+    double mdim = radius*sqrt(2);
+    cout << "radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
     double binstep = 1.0;
     const char *projection = "ARC";
-    cout << endl << "Mdim: " << mdim << endl;
     cout << "Binstep: " << binstep << endl;
     cout << "Projection: " << projection << endl;
 
@@ -156,7 +156,7 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
 
 		vector< vector<double> > exposures;
 		status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
-						   "None", projection, radius*sqrt(2), radius*sqrt(2), params["la"], params["ba"],
+						   "None", projection, mdim, mdim, params["la"], params["ba"],
 						   params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
 						   params["earth_tol"], params["phasecode"], binstep, params["timestep"],
 						   params["index"], tmin, tmax, params["emin"],

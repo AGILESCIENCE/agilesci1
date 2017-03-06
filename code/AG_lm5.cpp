@@ -238,8 +238,8 @@ int main(int argc, char *argv[])
     resText.setf(ios::fixed);
     
     double timeslot = params["timeslot"];
-    double timeslot = params["timeslottstart"];
-    double timeslot = params["timeslottstop"];
+    double timeslottstart = params["timeslottstart"];
+    double timeslottstop = params["timeslottstop"];
     /*
     
     double endTime = beginTime+deltaT;

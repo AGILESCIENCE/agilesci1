@@ -263,7 +263,7 @@ int main(int argc, char *argv[])
 				resText << tmin << " " << tmax << " ";
 				resText << std::setprecision(2);
 				resText << counts_s << " " << exp_s << " ";
-				resText << std::setprecision(10) << source / (double) exp_s << " ";
+				resText << std::setprecision(10) << counts_s / (double) exp_s << " ";
 		}
 		else if(status == -118)
 			return status;
@@ -351,7 +351,7 @@ int main(int argc, char *argv[])
 		}
 	
 		
-    } while(timeslot > 0 && timeslotstart < timeslotend );
+    } while(timeslot > 0 && timeslotstart < timeslotstop );
     
     resText.close();
     return 0;

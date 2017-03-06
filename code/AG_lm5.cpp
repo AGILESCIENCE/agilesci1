@@ -350,7 +350,7 @@ int main(int argc, char *argv[])
 		}
 	
 		
-    } while(timeslot > 0 && timeslotstart < timeslotstop );
+    } while(timeslot > 0 && t0 < timeslotstop );
     
     resText.close();
     return 0;

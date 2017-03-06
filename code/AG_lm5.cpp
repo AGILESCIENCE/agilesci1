@@ -337,8 +337,7 @@ int main(int argc, char *argv[])
 			cout << "Alpha: 0" << endl;
 			cout << "Li&Ma sigma 0" << endl;
 		}
-		resText << std::setprecision(0);
-		resText << S << " " << SA << endl;
+		resText << S << endl;
 		
 		/*
 		beginTime = endTime;

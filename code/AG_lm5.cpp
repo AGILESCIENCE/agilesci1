@@ -303,7 +303,7 @@ int main(int argc, char *argv[])
 		int N_on = source + bkg;
 		int N_off = bkg;
 		double alpha = exp_s / (exp_b1 + exp_b2);
-		resText << alpha << endl;
+		resText << alpha << " ";
 		double alp1 = alpha / (1 + alpha);
 		double alp2 = alpha + 1;
 	
@@ -337,7 +337,7 @@ int main(int argc, char *argv[])
 			cout << "Alpha: 0" << endl;
 			cout << "Li&Ma sigma 0" << endl;
 		}
-		resText << std::setprecision(2);
+		resText << std::setprecision(0);
 		resText << S << " " << SA << endl;
 		
 		/*

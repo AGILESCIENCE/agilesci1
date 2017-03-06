@@ -62,6 +62,9 @@ const PilDescription paramsDescr[] = {
     { PilReal, "shiftt1b", "shift t1b (sec) - analysis of background 1 in [T0-t1s-shiftt1b-t1b, T0-t1s-shiftt1b[" },
     { PilReal, "t2b", "t2b (sec)" },
     { PilReal, "shiftt2b", "shift t2b (sec) - analysis of background 2 in ]T0+t2s+shiftt2b, T0+t2s+shiftt2b+t2b]" },
+    { PilReal, "timeslot", "timeslot (sec)" },
+    { PilReal, "timeslotstart", "timeslotstart (TT)" },
+    { PilReal, "timeslotstop", "timeslotstop (TT)" },
     { PilNone, "", "" }
 };
 
@@ -103,12 +106,12 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
     cout << logExpr << endl;
     int status = selection::MakeSelection(logfile, intervals, logExpr, selectionLogFilename, templateLogFilename);
     if (status==-118) {
-        cout << endl << "AG_ap5......................no matching events found" << endl;
+        cout << endl << "AG_lm5......................no matching events found" << endl;
         cout << endString << endl;
         return 0;
     }
     else if (status != 0) {
-        cout << endl << "AG_ap5......................selection failed" << endl;
+        cout << endl << "AG_lm5......................selection failed" << endl;
         cout << endString << endl;
         return 0;
     }
@@ -234,93 +237,123 @@ int main(int argc, char *argv[])
     std::ofstream resText(outfile);
     resText.setf(ios::fixed);
     
+    double timeslot = params["timeslot"];
+    double timeslot = params["timeslottstart"];
+    double timeslot = params["timeslottstop"];
     /*
-    double deltaT = params["timeslot"];
+    
     double endTime = beginTime+deltaT;
     if (endTime > tmax)
         endTime = tmax;
 	*/
+	if(timeslot > 0) {
+		t0 = timeslotstart;	
+	}
+		
+	do {
 	
-	tmin = t0-t1s;
-    tmax = t0+t2s;
-    
-    status = EvalExpAndCounts(params, tmin, tmax, counts_s, exp_s);
-    
-    if(status == 0) {
-		resText << std::setprecision(1);
-		resText << tmin << " " << tmax << " ";
-		resText << std::setprecision(2);
-		resText << counts_s << " " << exp_s << endl;
-	}
-	else if(status == -118)
-		return status;
+		tmin = t0-t1s;
+		tmax = t0+t2s;
+	
+		status = EvalExpAndCounts(params, tmin, tmax, counts_s, exp_s);
+	
+		if(status == 0) {
+			
+				resText << std::setprecision(1);
+				resText << tmin << " " << tmax << " ";
+				resText << std::setprecision(2);
+				resText << counts_s << " " << exp_s << " ";
+				resText << std::setprecision(10) << source / (double) exp_s << " ";
+		}
+		else if(status == -118)
+			return status;
 
-	tmin = t0-t1s-shiftt1b-t1b;
-    tmax = t0-t1s-shiftt1b;
-    
-    status = EvalExpAndCounts(params, tmin, tmax, counts_b1, exp_b1);
-    
-    if(status == 0) {
-		resText << std::setprecision(1);
-		resText << tmin << " " << tmax << " ";
-		resText << std::setprecision(2);
-		resText << counts_b1 << " " << exp_b1 << endl;
-	}
-	else if(status == -118)
-		return status;
-    
-    tmin = t0+t2s+shiftt2b;
-    tmax = t0+t2s+shiftt2b+t2b;
-    
-    status = EvalExpAndCounts(params, tmin, tmax, counts_b2, exp_b2);
-    
-    if(status == 0) {
-		resText << std::setprecision(1);
-		resText << tmin << " " << tmax << " ";
-		resText << std::setprecision(2);
-		resText << counts_b2 << " " << exp_b2 << endl;
-	}
-	else if(status == -118)
-		return status;
-    
-    int bkg = counts_b1 + counts_b2;
-    int source = counts_s;
-    int N_on = source + bkg;
-    int N_off = bkg;
-    double alpha = exp_s / (exp_b1 + exp_b2);
-    resText << alpha << endl;
-    double alp1 = alpha / (1 + alpha);
-    double alp2 = alpha + 1;
-    
-    cout << "bkg cts  " << bkg << endl;
-    cout << "sig cts  " << source << endl;
-    cout << "bkg exp  " << (exp_b1 + exp_b2) << endl;
-    cout << "sig exp  " << exp_s << endl;
-    cout << "bkg rate " << std::setprecision(10) << bkg / (double) (exp_b1 + exp_b2) << endl;
-    cout << "sig rate " << std::setprecision(10) << source / (double) exp_s << endl;
+		tmin = t0-t1s-shiftt1b-t1b;
+		tmax = t0-t1s-shiftt1b;
+	
+		status = EvalExpAndCounts(params, tmin, tmax, counts_b1, exp_b1);
+	
+		if(status == 0) {
+			
+				resText << std::setprecision(1);
+				resText << tmin << " " << tmax << " ";
+				resText << std::setprecision(2);
+				resText << counts_b1 << " " << exp_b1 << " ";
+			
+		}
+		else if(status == -118)
+			return status;
+	
+		tmin = t0+t2s+shiftt2b;
+		tmax = t0+t2s+shiftt2b+t2b;
+	
+		status = EvalExpAndCounts(params, tmin, tmax, counts_b2, exp_b2);
+	
+		if(status == 0) {
+			resText << std::setprecision(1);
+			resText << tmin << " " << tmax << " ";
+			resText << std::setprecision(2);
+			resText << counts_b2 << " " << exp_b2 << " ";
+		}
+		else if(status == -118)
+			return status;
+	
+		int bkg = counts_b1 + counts_b2;
+		int source = counts_s;
+		int N_on = source + bkg;
+		int N_off = bkg;
+		double alpha = exp_s / (exp_b1 + exp_b2);
+		resText << alpha << endl;
+		double alp1 = alpha / (1 + alpha);
+		double alp2 = alpha + 1;
+	
+		cout << "sig cts  " << source << endl;
+		cout << "sig exp  " << exp_s << endl;
+		cout << "sig rate " << std::setprecision(10) << source / (double) exp_s << endl;
+		cout << "bkg cts  " << bkg << endl;
+		cout << "bkg exp  " << (exp_b1 + exp_b2) << endl;
+		cout << "bkg rate " << std::setprecision(10) << bkg / (double) (exp_b1 + exp_b2) << endl;
+		
+		if(status == 0) {
+			
+			resText << std::setprecision(2);
+			resText << " off " << bkg << " " << exp_b1 + exp_b2 << " " << std::setprecision(10) << bkg / (double) (exp_b1 + exp_b2);
+		}
 
-    if ((source > 0) and (bkg > 0)) {
-    	double source1 = source;
-    	double bkg1 = bkg;
-        double L1 = pow(((source1 + bkg1) / source1) * alp1, source);
-        double L2 = pow(((bkg1 + source1) / bkg1) / alp2, bkg);
-        double L = L1 * L2;
-        double S = sqrt(-2. * log(L));
-        cout <<  "Li&Ma sigma " << S << endl;
-    } else {
-        cout << "Alpha: 0" << endl;
-       	cout << "Li&Ma sigma 0" << endl;
-    }
-    /*
-    beginTime = endTime;
-	endTime += deltaT;
-	if (tmax < endTime)
-		endTime = tmax;
-    */
-    
+		double S = 0;
+		double SA = 0;
+		if ((source > 0) and (bkg > 0)) {
+			double source1 = source;
+			double bkg1 = bkg;
+			double L1 = pow(((source1 + bkg1) / source1) * alp1, source);
+			double L2 = pow(((bkg1 + source1) / bkg1) / alp2, bkg);
+			double L = L1 * L2;
+			S = sqrt(-2. * log(L));
+			SA = sqrt(2.) * sqrt(source * log( (1 / alp1 ) * ( source / (source + bkg) )) + bkg * log( alp2 * ( bkg / ( source + bkg ) ) ) );
+			cout <<  "Li&Ma sigma " << S << endl;
+			cout <<  "Li&Ma sigma " << SA << endl;
+			
+		} else {
+			cout << "Alpha: 0" << endl;
+			cout << "Li&Ma sigma 0" << endl;
+		}
+		resText << std::setprecision(2);
+		resText << S << " " << SA << endl;
+		
+		/*
+		beginTime = endTime;
+		endTime += deltaT;
+		if (tmax < endTime)
+			endTime = tmax;
+		*/
+		if(timeslot > 0) {
+			t0 = t0 + timeslot;
+		}
+	
+		
+    } while(timeslot > 0 && timeslotstart < timeslotend );
     
     resText.close();
-    
     return 0;
 }
 

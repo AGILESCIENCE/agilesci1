@@ -27,4 +27,6 @@ t1b,r,ql,600,,,"t1b"
 shiftt1b,r,ql,0,,,"shiftt1b"
 t2b,r,ql,600,,,"t2b"
 shiftt2b,r,ql,0,,,"shiftt2b"
-
+timeslot,r,ql,0,,,"timeslot"
+timeslottstart,r,ql,144590400,,,"timeslottstart (TT)"
+timeslottstop,r,ql,144590400,,,"timeslottstop (TT)"

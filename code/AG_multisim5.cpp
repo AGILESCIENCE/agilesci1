@@ -259,7 +259,7 @@ int main(int argc,char **argv) {
 							sumTS += results[s].TS;
 
 					if (opmode & Concise)
-						roiMulti.LogSources(outfilename, i+1);
+						roiMulti.LogSources(outfilename, i+1, simArr, block, last);
 					else {
 						char fileName[256];
 						sprintf(fileName, "%010d_%03d_%s", i+1, j+1, outfilename);
@@ -301,7 +301,7 @@ int main(int argc,char **argv) {
 						sumTS += results[s].TS;
 
 				if (opmode & Concise)
-					roiMulti.LogSources(outfilename, i+1);
+					roiMulti.LogSources(outfilename, i+1, simArr, 1, 0);
 				else {
 					char fileName[256];
 					sprintf(fileName, "%010d_%s", i+1, outfilename);

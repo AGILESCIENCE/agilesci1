@@ -197,7 +197,7 @@ int main(int argc,char **argv) {
 			int last = mapData.Length()-block;
 			cout << "Using block size=" << block << endl;
 			
-			if(opmode && SaveMaps) {
+			if(opmode & SaveMaps) {
 				for(int iii=0; iii<mapData.Length(); iii++) {
 					char mapName[256];
 					sprintf(mapName, "%010d_BLOCK%03d_%s.cts.gz", i+1, iii, outfilename);
@@ -258,7 +258,7 @@ int main(int argc,char **argv) {
 						fits_report_error(stdout, status);
 						return status;
 					}
-					if(opmode && SaveMaps) {
+					if(opmode & SaveMaps) {
 						char mapName[256];
 						sprintf(mapName, "%010d_SUM%03d_%s.gas.gz", i+1, j+1, outfilename);
 						if (gasMap.Write(mapName))

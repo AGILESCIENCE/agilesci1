@@ -26,7 +26,7 @@ using std::endl;
 
 const char* startString = {
 "#################################################################\n"
-"### Task AG_multisim5 v1.2.0 - A.C., T.C., A.B., A.Z.         ###"
+"### Task AG_multisim5 v1.3.0 - A.B., A.C., T.C., A.Z.         ###"
 };
 
 const char* endString = {
@@ -196,6 +196,18 @@ int main(int argc,char **argv) {
 		if (block) {
 			int last = mapData.Length()-block;
 			cout << "Using block size=" << block << endl;
+			
+			if(opmode && SaveMaps) {
+				for(int iii=0; iii<mapData.Length(); iii++) {
+					char mapName[256];
+					sprintf(mapName, "%010d_BLOCK%03d_%s.cts.gz", i+1, iii, outfilename);
+					if (simArr[iii].Write(mapName))
+						cerr << "Error writing simulated block counts map " << mapName << endl;
+					else
+						cerr << mapName << " written" << endl;
+				}
+			}
+			
 			for (int j=0; j<=last; ++j) {
 				cout << endl << "Summing maps from " << j+1 << " to " << j+block << " [loop " << i+1 << "]" << endl << endl;
 
@@ -216,12 +228,12 @@ int main(int argc,char **argv) {
 				/// Writing cts and exp maps
 				if (opmode & SaveMaps) {
 					char mapName[256];
-					sprintf(mapName, "%010d_%03d_%s.cts.gz", i+1, j+1, outfilename);
+					sprintf(mapName, "%010d_SUM%03d_%s.cts.gz", i+1, j+1, outfilename);
 					if (ctsMap.Write(mapName))
 						cerr << "Error writing simulated counts map " << mapName << endl;
 					else
 						cerr << mapName << " written" << endl;
-					sprintf(mapName, "%010d_%03d_%s.exp.gz", i+1, j+1, outfilename);
+					sprintf(mapName, "%010d_SUM%03d_%s.exp.gz", i+1, j+1, outfilename);
 					if (expMap.Write(mapName))
 						cerr << "Error writing simulated counts map " << mapName << endl;
 					else
@@ -239,6 +251,14 @@ int main(int argc,char **argv) {
 						cout << "AG_multisim5..................... exiting AG_multisim5 ERROR:" << endl;
 						fits_report_error(stdout, status);
 						return status;
+					}
+					if(opmode && SaveMaps) {
+						char mapName[256];
+						sprintf(mapName, "%010d_SUM%03d_%s.cts.gz", i+1, j+1, outfilename);
+						if (gasMap.Write(mapName))
+							cerr << "Error writing simulated gas map " << mapName << endl;
+						else
+							cerr << mapName << " written" << endl;
 					}
 					cout << endl << "AG_Multisim: Analysis step" << endl << endl;
 					MapData analysisMaps(ctsMap, expMap, gasMap, 0, 1, 1);

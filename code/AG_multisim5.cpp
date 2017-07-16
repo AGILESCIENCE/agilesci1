@@ -205,6 +205,12 @@ int main(int argc,char **argv) {
 						cerr << "Error writing simulated block counts map " << mapName << endl;
 					else
 						cerr << mapName << " written" << endl;
+						
+					sprintf(mapName, "%010d_BLOCK%03d_%s.exp.gz", i+1, iii, outfilename);
+					if (mapData.ExpMap(i).Write(mapName))
+						cerr << "Error writing simulated exp map " << mapName << endl;
+					else
+						cerr << mapName << " written" << endl;
 				}
 			}
 			
@@ -254,7 +260,7 @@ int main(int argc,char **argv) {
 					}
 					if(opmode && SaveMaps) {
 						char mapName[256];
-						sprintf(mapName, "%010d_SUM%03d_%s.cts.gz", i+1, j+1, outfilename);
+						sprintf(mapName, "%010d_SUM%03d_%s.gas.gz", i+1, j+1, outfilename);
 						if (gasMap.Write(mapName))
 							cerr << "Error writing simulated gas map " << mapName << endl;
 						else

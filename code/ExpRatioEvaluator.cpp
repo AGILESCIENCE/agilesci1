@@ -163,7 +163,7 @@ double* ExpRatioEvaluator::computeExpRatioValues()
 			}
 		}
 	
-		output[0] = nBad/totCount;
+		output[0] = ((1-nBad/totCount)*100);
 		output[1] = nBad;
 		output[2] = totCount;
 		output[3] = greyLevelSum/totCount;	

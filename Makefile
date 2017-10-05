@@ -60,6 +60,8 @@ AG_CREATEPSD = AG_createpsd
 AG_CREATEPSD3 = AG_createpsd3
 AG_NORM = AG_norm5
 AG_INDEXGEN = AG_indexgen
+AG_EXPRATIO = AG_expratio
+AG_LM6 = AG_lm6
 
 # Libraries
 AGILE_MAP = AgileMap
@@ -291,6 +293,10 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_NORM) $(OBJECTS_DIR)/AG_norm5.o $(LIBS)
 
 	$(CXX) -o $(EXE_DESTDIR)/$(AG_INDEXGEN) $(OBJECTS_DIR)/AG_indexgen.o -lz
+
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_EXPRATIO) $(OBJECTS_DIR)/AG_expratio.o $(LIBS)
+
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_LM6) $(OBJECTS_DIR)/AG_lm6.o $(LIBS)
 
 staticlib: makelibdir makeobjdir $(OBJECTS)
 	test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)

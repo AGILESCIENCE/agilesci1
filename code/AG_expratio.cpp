@@ -10,12 +10,13 @@
  * https://github.com/Leofaber/AG_expratio
 */
 
-#include <iostream>
-#include <fstream>
-#include <stdlib.h>
+
+
 #include <iomanip> 
-#include "ExpRatioEvaluator.h"
 #include <cstring>
+
+#include "ExpRatioEvaluator.h"
+
 
 
 const char* startString = {
@@ -42,28 +43,61 @@ int main(int argc, char *argv[])
 { 	
 
 	cout << startString << endl;
-	
-	if(argc < 6 || argc >8)
+
+
+
+	// DEFINIZIONE PARAMETRI DI DEFAULT
+	double minThreshold = 120;
+	double maxThreshold = 140;
+	int squareSize = 10;
+
+	// CONTROLLO NUMERO PARAMETRI (TOO FEW, TOO MUCH)	
+	if(argc < 6 || argc > 9)
 	{
-		printf("\nAt least 5 arguments expected (+ 2 optional)\n   - The .exp file path\n   - The name of the output file\n   - Normalize boolean: true if exp-ratio must be computed on a normalized map, false otherwise\n   - The l coordinate\n    -The b coordinate\n\n(Optional)\n   - The minThreshold (default value = 0)\n   - The maxThreshold (default value = 100)\n");
+		printf("\nAt least 5 arguments expected (+ 3 optional)\n   - The .exp file path\n   - The name of the output file\n   - Normalize boolean: true if exp-ratio must be computed on a normalized map, false otherwise\n   - The l coordinate\n    -The b coordinate\n\n(Optional)\n   - The minThreshold (default value = 120)\n   - The maxThreshold (default value = 140)\n   - The square size (default value = 10)\n");
 		cout << endString << endl;		
 		exit (EXIT_FAILURE);
 	}
 
 	else
 	{	
+
+		// PARAMETRI OBBLIGATORI
         const char * imagePath = argv[1];
         const char * outfile = argv[2];
         const char *onNormalizedMap = argv[3];
 		double l = atof(argv[4]);
 		double b = atof(argv[5]);
-		double minThreshold = 0;
-		double maxThreshold = 100;
-		if(argc == 8){
-			minThreshold = (double) atof(argv[6]);
-		    maxThreshold = (double) atof(argv[7]);
+
+		// CONTROLLO PARAMETRI OPZIONALI
+		if(argc == 7)
+		{	
+			if(((string)argv[6])!="d")
+				minThreshold = atof(argv[6]);
 		}
+		else if(argc == 8)
+		{
+			if(((string)argv[6])!="d")
+				minThreshold = atof(argv[6]);
+			if(((string)argv[7])!="d")
+				maxThreshold = atof(argv[7]);
+		}
+		else if(argc == 9)
+		{
+			if(((string)argv[6])!="d")
+				minThreshold = atof(argv[6]);
+			if(((string)argv[7])!="d")
+				maxThreshold = atof(argv[7]);
+			if(((string)argv[8])!="d")
+				squareSize = atof(argv[8]);
+		}
+
+				
 		
+		
+		cout << "MinThreshold: " << minThreshold << endl;
+		cout << "MaxThreshold: " << maxThreshold << endl;
+		cout << "squareSize: " << squareSize << endl;
 		bool computeExpRatioOnNormalizedMap;
 		if( strcmp(onNormalizedMap, "true") == 0 )
 			computeExpRatioOnNormalizedMap = true;
@@ -71,30 +105,19 @@ int main(int argc, char *argv[])
 			computeExpRatioOnNormalizedMap = false;
 		
 		
-		//cout << "imagePath: " << imagePath << endl;
-		//cout << "outfile: " <<outfile << endl;
-		//cout << "normalize value: "<<normalize << " doNormalization: " << doNormalization <<endl;
-		//cout << "minThreshold: " << minThreshold << endl;
-		//cout << "maxThreshold: " <<maxThreshold << endl;
-		//cout << "l: " <<l << endl;
-		//cout << "b: "<<b << endl;
-		
 		ofstream resText(outfile);
 		resText.setf(ios::fixed); 
 
-		ExpRatioEvaluator exp(imagePath);
-		double *output = exp.computeExpRatioValues(l,b,computeExpRatioOnNormalizedMap,minThreshold,maxThreshold);
 
-		resText << setprecision(5) << output[0];	// <<" "<< output[1] <<" "<< output[2] <<" "<< output[3]
+		ExpRatioEvaluator exp(imagePath,onNormalizedMap,minThreshold,maxThreshold,squareSize);
+					
+
+		double expRatio = exp.computeExpRatioValues(l,b);
+
+		resText << setprecision(5) << expRatio; 
 		
 		cout << "Created " <<outfile<< " log file."<<endl;
 		resText.close();
-
-		double ** expRatioMap = exp.createExpRatioPixelMap(computeExpRatioOnNormalizedMap,minThreshold,maxThreshold);
-		
-		//printMatrix(expRatioMap,exp.getRows(),exp.getCols());
-	
-		exp.writeMatrixDataInAgileMapFile(expRatioMap, exp.agileMap, "exp_ratio_norm.exp");	
 		
 		cout << endString << endl;
 		return 0;

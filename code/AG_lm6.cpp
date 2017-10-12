@@ -25,7 +25,7 @@ using namespace std;
 
 const char* startString = {
 "################################################################\n"
-"###                   Task AG_lm6 v1.0.5 -               ###"
+"###                   Task AG_lm6 v1.0.6 -               ###"
 };
 
 const char* endString = {
@@ -53,20 +53,29 @@ const PilDescription paramsDescr[] = {
 int main(int argc, char *argv[])
 {
     cout << startString << endl;
-    
-	float minTreshold = 0;
-	float maxTreshold = 100;
 
-    if(argc > 12) {
- 		minTreshold = atof(argv[12]);
-		maxTreshold = atof(argv[13]);
+	// PARAMETRI OPZIONALI - VALORI DI DEFAULT    
+	float minThreshold = 120;
+	float maxThreshold = 140;
+	int squareSize = 20;
+	bool doNormalization;
+	
+
+	// CONTROLLO NUMERO PARAMETRI (TOO FEW, TOO MUCH)	
+	if(argc < 12 || argc > 15)
+	{
+		printf("\nAt least 11 arguments expected (+ 3 optional)\n   - The name of the output file\n   - The Input T0 cts file name\n   - The Input T0 exp file name\n   - The Input T1 cts file name\n   - The Input T1 exp file name\n   - The Input T2 cts file name\n   - The Input T2 exp file name\n   - The l coordinate\n   - The b coordinate\n   - The radius size\n   - Normalize boolean: true if exp-ratio must be computed on a normalized map, false otherwise\n\n\n(Optional)\n   - The square size (default value = 10)\n   - The minThreshold (default value = 0)\n   - The maxThreshold (default value = 100)\n\n ");
+		cout << endString << endl;		
+		exit (EXIT_FAILURE);
 	}
-		
+
 	PilParams params(paramsDescr);
     if (!params.Load(argc, argv))
         return EXIT_FAILURE;
-   
-	const char * outfile = params["outfile"];
+	
+
+	// PARAMETRI OBBLIGATORI
+	const char *outfile = params["outfile"];
 	const char *ctsT0FilePath = params["ctsT0"];
 	const char *expT0FilePath = params["expT0"];
 	const char *ctsT1FilePath = params["ctsT1"];
@@ -77,28 +86,47 @@ int main(int argc, char *argv[])
 	double b = params["b"];
 	double radius = params["radius"]; 
 	const char *normalize = params["normalize"];
-
-	bool doNormalization;
 	
 	if( strcmp(normalize, "true") == 0 )
 		doNormalization = true;
 	else
 		doNormalization = false;
-			
+
+
+
+
+	// PARAMETRI OPZIONALI
+    if(argc == 13) 	
+    {
+		if(((string)argv[12])!="d")
+			squareSize = atoi(argv[12]);
+		
+    }
+	if(argc == 14) 
+	{
+		if(((string)argv[12])!="d")
+			squareSize = atoi(argv[12]);
+		if(((string)argv[13])!="d")		
+			minThreshold = atof(argv[13]);
+	}
+	if(argc == 15) 
+	{
+		if(((string)argv[12])!="d")
+			squareSize = atoi(argv[12]);
+		if(((string)argv[13])!="d")		
+			minThreshold = atof(argv[13]);
+		if(((string)argv[14])!="d")		
+			maxThreshold = atof(argv[14]);
+	}
+		
 	
-  /*	 FOR TESTING PURPOSES	
-	const char *ctsT0FilePath = "../MAPFORTEST/T0.cts.gz";
-	const char *expT0FilePath = "../MAPFORTEST/T0.exp.gz";
-	const char *ctsT1FilePath = "../MAPFORTEST/T1.cts.gz";
-	const char *expT1FilePath = "../MAPFORTEST/T1.exp.gz";
-	const char *ctsT2FilePath = "../MAPFORTEST/T2.cts.gz";
-	const char *expT2FilePath = "../MAPFORTEST/T2.exp.gz";
-	double l = 45;
-	double b = 30;
-	double radius = 10;
-	const char * outfile = "../outfile.txt";
+   
+ 
+	//cout <<"argc: "<< argc <<"argv[12] "<< argv[12]<<endl;
+	//cout << "squareSize: " << squareSize << " minThreshold: " << minThreshold<<" maxThreshold: " << maxThreshold <<endl;
 	
-*/
+	//getchar();
+	
 
    	ofstream resText(outfile);
    	resText.setf(ios::fixed); 
@@ -112,10 +140,10 @@ int main(int argc, char *argv[])
 
     // EXPRATIOEVALUATOR OF EXPTO
 	
-	ExpRatioEvaluator expRatioT0(expT0FilePath); 
-	double *expRatioArrayT0 = expRatioT0.computeExpRatioValues(l,b,doNormalization,minTreshold,maxTreshold); 
-	if(expRatioArrayT0[0]!=-1) {
-		cout << "ExpRatio evaluation of expT0: " << (int)round(expRatioArrayT0[0])<< endl;		
+	ExpRatioEvaluator expRatioT0(expT0FilePath, doNormalization,minThreshold, maxThreshold, squareSize);
+	double expRatioArrayT0 = expRatioT0.computeExpRatioValues(l,b); 
+	if(expRatioArrayT0!=-1) { //elimintao [0]
+		cout << "ExpRatio evaluation of expT0: " << (int)round(expRatioArrayT0)<< endl;		//elimintao [0]
 	}
 	 
 		
@@ -156,7 +184,7 @@ int main(int argc, char *argv[])
 		resText << ctsT0.binSum << " " << expT0.binSum << " ";
 		resText << setprecision(10) << ctsT0.binSum / (double) expT0.binSum << " ";
 		resText << setprecision(5); 
-		resText << (int)round(expRatioArrayT0[0]) << " ";
+		resText << (int)round(expRatioArrayT0) << " ";		//eliminato [0]
 	}
 	
 	
@@ -166,10 +194,10 @@ int main(int argc, char *argv[])
  
 	// EXPRATIOEVALUATOR OF EXPT1
 
-	ExpRatioEvaluator expRatioT1(expT1FilePath);
-	double *expRatioArrayT1 = expRatioT1.computeExpRatioValues(l,b,doNormalization,minTreshold,maxTreshold); 
-	if(expRatioArrayT1[0]!=-1) {
-		cout << "ExpRatio evaluation of expT1: " << (int)round(expRatioArrayT1[0])<< endl;		
+	ExpRatioEvaluator expRatioT1(expT1FilePath, doNormalization,minThreshold, maxThreshold, squareSize);
+	double expRatioArrayT1 = expRatioT1.computeExpRatioValues(l,b); 
+	if(expRatioArrayT1!=-1) {	//elimintao [0]
+		cout << "ExpRatio evaluation of expT1: " << (int)round(expRatioArrayT1)<< endl;				//elimintao [0]
 	}
 
 	// ANALYSIS OF MAP T1
@@ -209,16 +237,16 @@ int main(int argc, char *argv[])
 		resText << setprecision(2);
 		resText << ctsT1.binSum << " " << expT1.binSum << " ";
 		resText << setprecision(5);
-		resText << (int)round(expRatioArrayT1[0]) << " ";
+		resText << (int)round(expRatioArrayT1) << " ";	//eliminato [0]
 	}
 	
 	
 	// EXPRATIOEVALUATOR OF EXP T2
 
-	ExpRatioEvaluator expRatioT2(expT2FilePath);
-	double *expRatioArrayT2 = expRatioT2.computeExpRatioValues(l,b,doNormalization,minTreshold,maxTreshold); 
-	if(expRatioArrayT2[0]!=-1) {
-		cout << "ExpRatio evaluation of expT2: " << (int)round(expRatioArrayT2[0])<< endl;		
+	ExpRatioEvaluator expRatioT2(expT2FilePath,doNormalization, minThreshold, maxThreshold, squareSize);
+	double expRatioArrayT2 = expRatioT2.computeExpRatioValues(l,b); 
+	if(expRatioArrayT2!=-1) {		//elimintao [0]
+		cout << "ExpRatio evaluation of expT2: " << (int)round(expRatioArrayT2)<< endl;			//elimintao [0]
 	}
 
 	 
@@ -259,7 +287,7 @@ int main(int argc, char *argv[])
 		resText << setprecision(2);
 		resText << ctsT2.binSum << " " << expT2.binSum << " ";
 		resText << setprecision(5);
-		resText << (int)round(expRatioArrayT2[0]) << " ";
+		resText << (int)round(expRatioArrayT2) << " ";		//eliminato [0]
 		
 	}
 	
@@ -273,7 +301,7 @@ int main(int argc, char *argv[])
 	cout << "\nLI&MA Analysis: " << endl;
 	LiMa lm(ctsT0.binSum,ctsT1.binSum,ctsT2.binSum,expT0.binSum,expT1.binSum,expT2.binSum);
 	
-	if(expRatioArrayT0[0] != -1 && expRatioArrayT1[0] != -1 && expRatioArrayT2[0] != -1) { 
+	if(expRatioArrayT0 != -1 && expRatioArrayT1 != -1 && expRatioArrayT2 != -1) { 		//elimintao [0]
 		S = lm.computeLiMiValue();
 	}else{
 		S=-1;
@@ -285,6 +313,8 @@ int main(int argc, char *argv[])
     
     resText.close();
 
+	cout << endString << endl;
 
     return 0;
+  
 }

@@ -126,6 +126,8 @@ else
 CXX = g++
 endif
 
+CC = gcc
+
 CXXFLAGS = -g -O2 -pipe -I $(INCLUDE_DIR)
 
 ifneq (, $(findstring agile, $(LINKERENV)))

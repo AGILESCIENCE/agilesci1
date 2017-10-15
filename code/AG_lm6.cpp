@@ -64,9 +64,10 @@ int main(int argc, char *argv[])
 	// CONTROLLO NUMERO PARAMETRI (TOO FEW, TOO MUCH)	
 	if(argc < 12 || argc > 15)
 	{
-		printf("\nAt least 11 arguments expected (+ 3 optional)\n   - The name of the output file\n   - The Input T0 cts file name\n   - The Input T0 exp file name\n   - The Input T1 cts file name\n   - The Input T1 exp file name\n   - The Input T2 cts file name\n   - The Input T2 exp file name\n   - The l coordinate\n   - The b coordinate\n   - The radius size\n   - Normalize boolean: true if exp-ratio must be computed on a normalized map, false otherwise\n\n\n(Optional)\n   - The square size (default value = 10)\n   - The minThreshold (default value = 0)\n   - The maxThreshold (default value = 100)\n\n ");
+		printf("\nAt least 11 arguments expected (+ 3 optional)\n   - The name of the output file\n   - The Input T0 cts file name\n   - The Input T0 exp file name\n   - The Input T1 cts file name\n   - The Input T1 exp file name\n   - The Input T2 cts file name\n   - The Input T2 exp file name\n   - The l coordinate\n   - The b coordinate\n   - The radius size\n   - Normalize boolean: true if exp-ratio must be computed on a normalized map, false otherwise\n\n\n(Optional)\n   - The square size (default value = 10)\n   - The minThreshold (default value = 120)\n   - The maxThreshold (default value = 140)\n\n ");
 		cout << endString << endl;		
 		exit (EXIT_FAILURE);
+
 	}
 
 	PilParams params(paramsDescr);

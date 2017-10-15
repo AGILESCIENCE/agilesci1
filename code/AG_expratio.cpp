@@ -99,17 +99,22 @@ int main(int argc, char *argv[])
 		cout << "MaxThreshold: " << maxThreshold << endl;
 		cout << "squareSize: " << squareSize << endl;
 		bool computeExpRatioOnNormalizedMap;
-		if( strcmp(onNormalizedMap, "true") == 0 )
+		if( strcmp(onNormalizedMap, "true") == 0 ){
 			computeExpRatioOnNormalizedMap = true;
-		else
+			
+		}
+		else{
 			computeExpRatioOnNormalizedMap = false;
+			
+		}
 		
 		
 		ofstream resText(outfile);
 		resText.setf(ios::fixed); 
 
 
-		ExpRatioEvaluator exp(imagePath,onNormalizedMap,minThreshold,maxThreshold,squareSize);
+		ExpRatioEvaluator exp(imagePath,computeExpRatioOnNormalizedMap,minThreshold,maxThreshold,squareSize);
+		
 					
 
 		double expRatio = exp.computeExpRatioValues(l,b);

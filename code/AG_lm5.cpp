@@ -263,7 +263,7 @@ int main(int argc, char *argv[])
 				resText << tmin << " " << tmax << " ";
 				resText << std::setprecision(2);
 				resText << counts_s << " " << exp_s << " ";
-				resText << std::setprecision(10) << counts_s / (double) exp_s << " ";
+				resText << std::setprecision(10) << counts_s / (double) exp_s << " -1 ";
 		}
 		else if(status == -118)
 			return status;
@@ -278,7 +278,7 @@ int main(int argc, char *argv[])
 				resText << std::setprecision(1);
 				resText << tmin << " " << tmax << " ";
 				resText << std::setprecision(2);
-				resText << counts_b1 << " " << exp_b1 << " ";
+				resText << counts_b1 << " " << exp_b1 << " -1 ";
 			
 		}
 		else if(status == -118)
@@ -293,7 +293,7 @@ int main(int argc, char *argv[])
 			resText << std::setprecision(1);
 			resText << tmin << " " << tmax << " ";
 			resText << std::setprecision(2);
-			resText << counts_b2 << " " << exp_b2 << " ";
+			resText << counts_b2 << " " << exp_b2 << " -1 ";
 		}
 		else if(status == -118)
 			return status;

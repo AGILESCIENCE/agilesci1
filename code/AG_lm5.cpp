@@ -300,7 +300,7 @@ int main(int argc, char *argv[])
 	
 		int bkg = counts_b1 + counts_b2;
 		int source = counts_s;
-		int N_on = source + bkg;
+		//int N_on = source + bkg; wrong
 		int N_off = bkg;
 		double alpha = exp_s / (exp_b1 + exp_b2);
 		resText << alpha << " ";
@@ -329,7 +329,7 @@ int main(int argc, char *argv[])
 			double L2 = pow(((bkg1 + source1) / bkg1) / alp2, bkg);
 			double L = L1 * L2;
 			S = sqrt(-2. * log(L));
-			SA = sqrt(2.) * sqrt(source * log( (1 / alp1 ) * ( source / (source + bkg) )) + bkg * log( alp2 * ( bkg / ( source + bkg ) ) ) );
+			SA = sqrt(2.) * sqrt(source1 * log( (1 / alp1 ) * ( source1 / (source1 + bkg1) )) + bkg1 * log( alp2 * ( bkg1 / ( source1 + bkg1 ) ) ) );
 			cout <<  "Li&Ma sigma " << S << endl;
 			cout <<  "Li&Ma sigma " << SA << endl;
 			

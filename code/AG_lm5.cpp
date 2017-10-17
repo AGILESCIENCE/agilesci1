@@ -307,12 +307,14 @@ int main(int argc, char *argv[])
 		double alp1 = alpha / (1 + alpha);
 		double alp2 = alpha + 1;
 	
-		cout << "sig cts  " << source << endl;
+		cout << "sig cts (N_on)   " << source << endl;
 		cout << "sig exp  " << exp_s << endl;
 		cout << "sig rate " << std::setprecision(10) << source / (double) exp_s << endl;
-		cout << "bkg cts  " << bkg << endl;
+		cout << "bkg cts (N_off)  " << bkg << endl;
 		cout << "bkg exp  " << (exp_b1 + exp_b2) << endl;
 		cout << "bkg rate " << std::setprecision(10) << bkg / (double) (exp_b1 + exp_b2) << endl;
+		cout << "alpha: " << std::setprecision(10) << alpha << endl;
+		cout << "N_s = N_on - alpha * N_off: " << std::setprecision(10) << source - alpha * bkg << endl;
 		
 		if(status == 0) {
 			

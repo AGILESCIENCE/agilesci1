@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 
 	double minThreshold = 120;
 	double maxThreshold = 140;
-	int squareSize = 20;
+	double squareSize = 20;
 	const char * isAlreadyNormalized = "false";
 	const char * createExpNormalizedMap = "false";
 	const char * createExpRatioMap = "false";

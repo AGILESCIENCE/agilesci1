@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
 	float minThreshold = 120;
 	float maxThreshold = 140;
-	int squareSize = 20;
+	double squareSize = 20;
 	
 	
 	 

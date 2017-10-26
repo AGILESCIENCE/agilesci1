@@ -21,7 +21,7 @@
 
 const char* startString = {
 "################################################################\n"
-"###                   Task AG_expratio v1.0.1 -              ###"
+"###                   Task AG_expratio v1.0.4 -              ###"
 };
 
 const char* endString = {
@@ -45,16 +45,26 @@ int main(int argc, char *argv[])
 	cout << startString << endl;
 
 
+	// DEFINIZIONE PARAMETRI DI DEFAULT ---------------------------------------------
 
-	// DEFINIZIONE PARAMETRI DI DEFAULT
+
 	double minThreshold = 120;
 	double maxThreshold = 140;
-	int squareSize = 10;
+	int squareSize = 20;
+	const char * isAlreadyNormalized = "false";
+	const char * createExpNormalizedMap = "false";
+	const char * createExpRatioMap = "false";
 
-	// CONTROLLO NUMERO PARAMETRI (TOO FEW, TOO MUCH)	
-	if(argc < 6 || argc > 9)
+
+
+
+
+	// CONTROLLO NUMERO PARAMETRI (TOO FEW, TOO MUCH) -------------------------------
+
+	
+	if(argc < 6 || argc > 11)
 	{
-		printf("\nAt least 5 arguments expected (+ 3 optional)\n   - The .exp file path\n   - The name of the output file\n   - Normalize boolean: true if exp-ratio must be computed on a normalized map, false otherwise\n   - The l coordinate\n    -The b coordinate\n\n(Optional)\n   - The minThreshold (default value = 120)\n   - The maxThreshold (default value = 140)\n   - The square size (default value = 10)\n");
+		printf("\nAt least 5 arguments expected (+ 5 optional)\n   - The name of the output file\n   - The .exp file path\n   - The isExpMapNormalized boolean: if 'true' we assert that the exp map given in input is already normalized.\n   - The l coordinate\n   - The b coordinate\n\n(Optional)\n   - The createExpNormalizedMap: if 'true' the ExpNormalizedMap will be writed on file. (default value = false)\n   - The createExpRatioMap boolean: if 'true' the ExpRatioMap will be writed on file. (default value = false)\n   - The minThreshold (default value = 120)\n   - The maxThreshold (default value = 140)\n   - The square size (default value = 20).\n");
 		cout << endString << endl;		
 		exit (EXIT_FAILURE);
 	}
@@ -62,62 +72,129 @@ int main(int argc, char *argv[])
 	else
 	{	
 
-		// PARAMETRI OBBLIGATORI
-        const char * imagePath = argv[1];
-        const char * outfile = argv[2];
-        const char *onNormalizedMap = argv[3];
+		// PARAMETRI OBBLIGATORI ---------------------------------------------------
+        const char * outfile = argv[1];
+        const char * imagePath = argv[2];
+        isAlreadyNormalized = argv[3];
 		double l = atof(argv[4]);
 		double b = atof(argv[5]);
 
-		// CONTROLLO PARAMETRI OPZIONALI
+        
+		
+
+		// PARAMETRI OPZIONALI -------------------------------------------
 		if(argc == 7)
 		{	
 			if(((string)argv[6])!="d")
-				minThreshold = atof(argv[6]);
+				createExpNormalizedMap = argv[6];
 		}
 		else if(argc == 8)
 		{
 			if(((string)argv[6])!="d")
-				minThreshold = atof(argv[6]);
+				createExpNormalizedMap = argv[6];
 			if(((string)argv[7])!="d")
-				maxThreshold = atof(argv[7]);
+				createExpRatioMap = argv[7];
 		}
 		else if(argc == 9)
+		{	
+			if(((string)argv[6])!="d")
+				createExpNormalizedMap = argv[6];
+			if(((string)argv[7])!="d")
+				createExpRatioMap = argv[7];
+			if(((string)argv[8])!="d")
+				minThreshold = atof(argv[8]);
+			}
+		
+		else if(argc == 10)
 		{
 			if(((string)argv[6])!="d")
-				minThreshold = atof(argv[6]);
+				createExpNormalizedMap = argv[6];
 			if(((string)argv[7])!="d")
-				maxThreshold = atof(argv[7]);
+				createExpRatioMap = argv[7];
 			if(((string)argv[8])!="d")
-				squareSize = atof(argv[8]);
+				minThreshold = atof(argv[8]);
+			if(((string)argv[9])!="d")
+				maxThreshold = atof(argv[9]);
+	
 		}
-
-				
+		else if(argc == 11)
+		{
+			if(((string)argv[6])!="d")
+				createExpNormalizedMap = argv[6];
+			if(((string)argv[7])!="d")
+				createExpRatioMap = argv[7];
+			if(((string)argv[8])!="d")
+				minThreshold = atof(argv[8]);
+			if(((string)argv[9])!="d")
+				maxThreshold = atof(argv[9]);
+			if(((string)argv[10])!="d")
+				squareSize = atof(argv[10]);
+		}
 		
-		
-		cout << "MinThreshold: " << minThreshold << endl;
-		cout << "MaxThreshold: " << maxThreshold << endl;
-		cout << "squareSize: " << squareSize << endl;
-		bool computeExpRatioOnNormalizedMap;
-		if( strcmp(onNormalizedMap, "true") == 0 ){
-			computeExpRatioOnNormalizedMap = true;
-			
+		bool isAlreadyNormalizedBool;
+		if( strcmp(isAlreadyNormalized, "true") == 0 ){
+			isAlreadyNormalizedBool = true;
 		}
 		else{
-			computeExpRatioOnNormalizedMap = false;
-			
+			isAlreadyNormalizedBool = false;
+		}				
+		
+		bool createExpNormalizedMapBool;
+		if( strcmp(createExpNormalizedMap, "true") == 0 ){
+			createExpNormalizedMapBool = true;
 		}
+		else{
+			createExpNormalizedMapBool = false;
+		}
+		
+		bool createExpRatioMapBool;
+		if( strcmp(createExpRatioMap, "true") == 0 ){
+			createExpRatioMapBool = true;
+		}
+		else{
+			createExpRatioMapBool = false;
+		}
+		
+		
+
+
+
+		
+		// PRINT INPUT PARAMETERS -------------------------------------
+
+
+		cout << "\noutfile: " << outfile << endl;
+		cout << "imagePath: " << imagePath << endl;
+		cout << "isAlreadyNormalized: " << isAlreadyNormalized << endl;
+		cout << "l: " << l << endl;
+		cout << "b: " << b << endl;
+		cout << "createExpNormalizedMap: " << createExpNormalizedMap << endl;
+		cout << "createExpRatioMap: " << createExpRatioMap << endl;
+		cout << "MinThreshold: " << minThreshold << endl;
+		cout << "MaxThreshold: " << maxThreshold << endl;
+		cout << "squareSize: " << squareSize << "\n" <<endl;
+		
+
+
+
+		// CORE LOGIC -----------------------------------------------
+
+
+		ExpRatioEvaluator exp(imagePath, isAlreadyNormalizedBool, createExpNormalizedMapBool, createExpRatioMapBool, minThreshold, maxThreshold, squareSize);
+					
+		double expRatio = exp.computeExpRatioValues(l,b);
+
+
+
+
+
+
+
+		// OUTPUT ----------------------------------------------------
 		
 		
 		ofstream resText(outfile);
 		resText.setf(ios::fixed); 
-
-
-		ExpRatioEvaluator exp(imagePath,computeExpRatioOnNormalizedMap,minThreshold,maxThreshold,squareSize);
-		
-					
-
-		double expRatio = exp.computeExpRatioValues(l,b);
 
 		resText << setprecision(5) << expRatio; 
 		

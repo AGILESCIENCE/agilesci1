@@ -19,7 +19,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DD39B8671C32C013008B5BC0 /* agilesci1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = agilesci1; path = /Users/bulgarelli/devel.agile/BUILD_GRID_SCI_git/agilesci1/build/Debug/agilesci1; sourceTree = "<absolute>"; };
+		DD17DD762044D1D10089B0E0 /* agilesci1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = agilesci1; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD17DD772044D4A40089B0E0 /* conf */ = {isa = PBXFileReference; lastKnownFileType = folder; path = conf; sourceTree = "<group>"; };
 		DD39B8711C32C03E008B5BC0 /* code */ = {isa = PBXFileReference; lastKnownFileType = folder; path = code; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,7 +38,9 @@
 		DD39B85E1C32C013008B5BC0 = {
 			isa = PBXGroup;
 			children = (
+				DD17DD772044D4A40089B0E0 /* conf */,
 				DD39B8711C32C03E008B5BC0 /* code */,
+				DD17DD762044D1D10089B0E0 /* agilesci1 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,7 +61,7 @@
 			);
 			name = agilesci1;
 			productName = agilesci1;
-			productReference = DD39B8671C32C013008B5BC0 /* agilesci1 */;
+			productReference = DD17DD762044D1D10089B0E0 /* agilesci1 */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */

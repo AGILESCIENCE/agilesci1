@@ -36,6 +36,7 @@ AG_CTSMAPGEN = AG_ctsmapgen5
 AG_GASMAPGEN = AG_gasmapgen5
 AG_INTMAPGEN = AG_intmapgen5
 AG_DIFMAPGEN = AG_difmapgen5
+TESTEDP = testedp
 AG_AP = AG_ap5
 AG_LM = AG_lm5
 AG_SELECT = AG_select5
@@ -237,6 +238,8 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFFSIM5) $(OBJECTS_DIR)/AG_diffsim5.o $(LIBS)
 
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5EXT) $(OBJECTS_DIR)/AG_multi5ext.o  $(LIBS)
+
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(TESTEDP) $(OBJECTS_DIR)/testedp.o  $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTITERATIVE5) $(OBJECTS_DIR)/AG_multiterative5.o  $(LIBS)
 

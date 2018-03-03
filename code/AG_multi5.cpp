@@ -64,7 +64,7 @@ public:
 	AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "#### AG_Multi5 v1.2.0 - A.C., T.C., A.T.                    #####"<< endl;
+	cout << "#### AG_Multi5 v2.0.0 - A.C., T.C., A.T., A.B               #####"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 
@@ -100,6 +100,7 @@ if (!mapData.Load(maplist))
 	return -1;
 
 SourceDataArray srcArr = ReadSourceFile(mPars["srclist"]);
+	
 if (!srcArr.Count())
 	cout << "Warning: no point sources loaded" << endl;
 
@@ -118,6 +119,7 @@ fileName = outfilename;
 fileName += ".log";
 
 roiMulti.SetLogfile(fileName.c_str());
+roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"]);
 if (roiMulti.DoFit(srcArr, mPars["ranal"], mPars["ulcl"], mPars["loccl"], 1))
 	return -1;
 

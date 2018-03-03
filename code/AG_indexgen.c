@@ -11,6 +11,7 @@
 #include <string.h>
 #include <dirent.h>
 #include <zlib.h>
+#include <limits.h>
 
 #define CHUNK_SIZE 64*1024
 

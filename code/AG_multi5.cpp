@@ -46,6 +46,10 @@ const PilDescription c_params[] = {
 	{ PilString, "outfile", "Output file name prefix" },
 	{ PilReal,   "ulcl",    "Upper limit confidence level" },
 	{ PilReal,   "loccl",   "Location contour confidence level" },
+	{ PilString, "minimizertype", "Minimizer type" },
+	{ PilString, "minimizeralg", "Minimizer algorithm" },
+	{ PilInt,    "minimizerdefstrategy", "Minimizer default strategy" },
+	{ PilReal,   "defaulttolerance", "Minimizer default tolerance"},
 	{ PilNone,   "",   "" }
 	};
 
@@ -119,7 +123,7 @@ fileName = outfilename;
 fileName += ".log";
 
 roiMulti.SetLogfile(fileName.c_str());
-roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"]);
+roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["defaulttolerance"]);
 if (roiMulti.DoFit(srcArr, mPars["ranal"], mPars["ulcl"], mPars["loccl"], 1))
 	return -1;
 

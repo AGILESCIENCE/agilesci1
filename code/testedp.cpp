@@ -20,11 +20,132 @@
 #include <PilParams.h>
 #include <CalibUtils.h>
 
+#include "TNamed.h"
+#include "TVirtualFitter.h"
+#include "TH1.h"
+#include "TF1.h"
+#include "TMinuit.h"
+#include "Math/WrappedTF1.h"
+#include "Math/GaussIntegrator.h"
+#include "Math/GaussLegendreIntegrator.h"
+
 using std::cout;
 using std::endl;
 using std::vector;
 
+double UpdateNormPL(double eMin, double eMax, double index)
+{
+	
+	//0 - PL -> (k E^-{\index})
+	//Analytical expression
+	index = 1.0-index;
+	double m_normFactor = (pow(eMin, index)-pow(eMax, index));
+	return m_normFactor;
+	/*
+	 for (int i=0; i<eneChanCount-1; i++)
+	 	specwt[i] = pow(double(m_energy[i]), 1.0-m_index) - pow(double(m_energy[i+1]), 1.0-m_index);
+	 specwt[eneChanCount-1] = pow(double(m_energy[eneChanCount-1]), 1.0-m_index);
+	 */
+	/*
+	 // cout << "NUMINT PL" << endl;
+	 TF1 f("PowerLaw", "x^(-[0])", m_eInf, m_eSup);
+	 f.SetParameter(0, index);
+	 ROOT::Math::WrappedTF1 wf1(f);
+	 ROOT::Math::GaussIntegrator ig;
+	 ig.SetFunction(wf1);
+	 ig.SetRelTolerance(0.001);
+	 m_normFactor = ig.Integral(eMin, eMax) / ig.Integral(m_eInf, m_eSup);
+	 */
+	
+}
 
+double UpdateNormPLExpCutOff(double eMin, double eMax, double index, double m_par2, double m_eInf, double m_eSup)
+{
+	//1 - PLExpCutoff -> k E^-{\index} e^ ( - E / E_c ) -> par2 = E_c
+	TF1 f("PLExpCutoff", "x^(-[0]) * e^(- x / [1])", m_eInf, m_eSup);
+	f.SetParameter(0, index);
+	f.SetParameter(1, m_par2);
+	ROOT::Math::WrappedTF1 wf1(f);
+	ROOT::Math::GaussIntegrator ig;
+	ig.SetFunction(wf1);
+	ig.SetRelTolerance(0.001);
+	double m_normFactor = ig.Integral(eMin, eMax);
+	return m_normFactor;
+}
+
+double UpdateNormLogParabola(double eMin, double eMax, double index, double m_par2, double m_par3, double m_eInf, double m_eSup)
+{
+	TF1 f("LogParabola", "( x / [1] ) ^ ( -( [0] + [2] * log ( x / [1] ) ) )", m_eInf, m_eSup);
+	f.SetParameter(0, index);
+	f.SetParameter(1, m_par2);
+	f.SetParameter(2, m_par3);
+	ROOT::Math::WrappedTF1 wf1(f);
+	ROOT::Math::GaussIntegrator ig;
+	ig.SetFunction(wf1);
+	ig.SetRelTolerance(0.001);
+	double m_normFactor = ig.Integral(eMin, eMax);
+	return m_normFactor;
+}
+
+double detCorrectionSpectraFactor(EdpGrid &edp, int iMin, int iMax, double index, double par1, double par2, double par3) {
+	cout << "--------------" << endl;
+	VecF  m_edptrueenergy = edp.TrueEnergies();
+	VecF  m_edpobsenergy = edp.ObsEnergies();
+	VecF  m_edptheta = edp.Thetas();
+	VecF  m_edpphi = edp.Phis();
+	int eneChanCount = m_edptrueenergy.Dim(0);
+	
+	cout << m_edptrueenergy[iMin] << " " << m_edptrueenergy[iMax] << endl;
+	double normsumpl=0, normsumple = 0;
+	for (int i=iMin; i<=iMax; i++) {
+		cout << i << endl;
+		double udp1 = UpdateNormPLExpCutOff(m_edptrueenergy[i], m_edptrueenergy[i+1], par1, par2, m_edptrueenergy[0], m_edptrueenergy[eneChanCount-1]);
+		normsumple += udp1;
+		udp1 = UpdateNormPL(m_edptrueenergy[i], m_edptrueenergy[i+1], index);
+		normsumpl += udp1;
+	}
+	cout << normsumpl << " " << normsumple << endl;
+	VecF edpArr(eneChanCount);
+	edpArr = 0.0f;
+	
+	for(int thetaind=0; thetaind<m_edptheta.Dim(0); thetaind++) {
+		for(int phiind=0; phiind<m_edpphi.Dim(0); phiind++){
+			int phiindcor = phiind%2?phiind-1:phiind;
+			float avgValuePL = 0.0f;
+			float avgValuePLE = 0.0f;
+			for (int etrue = 0; etrue < eneChanCount-1; etrue++)  {
+				for (int eobs = iMin;  eobs <= iMax; eobs++) {
+					edpArr[etrue] += edp.Val(m_edptrueenergy[etrue], m_edpobsenergy[eobs], m_edptheta[thetaind], m_edpphi[phiindcor]); //CORRETTO
+				}
+				avgValuePL += edpArr[etrue] * UpdateNormPL(m_edptrueenergy[etrue], m_edptrueenergy[etrue+1], index) * 1;
+				//cout << UpdateNormPL(m_edptrueenergy[etrue], m_edptrueenergy[etrue+1], 2.1) << " " << edpArr[etrue] << endl;
+				avgValuePLE += edpArr[etrue] * UpdateNormPLExpCutOff(m_edptrueenergy[etrue], m_edptrueenergy[etrue+1], par1, par2, m_edptrueenergy[0], m_edptrueenergy[eneChanCount-1]) * 1;
+			}
+			double avgpl = 0, avgple = 0;
+			//avgalue dipende da theta e phi
+			avgpl = avgValuePL/normsumpl;
+			avgple = avgValuePLE/normsumple;
+			double corr = avgpl/avgple;
+			cout << "A " << m_edptheta[thetaind] << " " << m_edpphi[phiindcor] << " " << avgpl << " " << avgple << " " << avgpl - avgple << " PL/" << avgpl/avgple << endl;
+			return corr;
+		}
+	}
+	
+}
+
+
+int mainPSF(int argc, char *argv[])
+{
+	char* psffilename = argv[1];
+	cout << psffilename << endl;
+	PsfGrid psf;
+	psf.Read(psffilename);
+	VecF  m_edptrueenergy = psf.Energies();
+	cout << "psf energy " << m_edptrueenergy.Dim(0) << endl;
+	for(int i=0; i<m_edptrueenergy.Dim(0); i++)
+		cout << i+1 << " " << m_edptrueenergy[i] <<" check index " << m_edptrueenergy.GeomIndex(m_edptrueenergy[i]) <<  endl;
+	return 0;
+}
 
 int main(int argc, char *argv[])
 {
@@ -61,7 +182,38 @@ int main(int argc, char *argv[])
 	cout << "m_edptrueenergy " << m_edptrueenergy.Dim(0) << endl;
 	for(int i=0; i<m_edptrueenergy.Dim(0); i++)
 		cout << i << " " << m_edptrueenergy[i] << endl;
+	int eneChanCount = m_edptrueenergy.Dim(0);
+	for (int i=0; i<eneChanCount-1; i++) {
+		double udp1 = UpdateNormPLExpCutOff(m_edptrueenergy[i], m_edptrueenergy[i+1], 1.57, 1678, m_edptrueenergy[0], m_edptrueenergy[m_edptrueenergy.Dim(0)-1]);
+		cout << m_edptrueenergy[i] << " " << m_edptrueenergy[i+1] << " " << UpdateNormPL(m_edptrueenergy[i], m_edptrueenergy[i+1], 2.1) << " " << udp1 << " " << UpdateNormPL(m_edptrueenergy[i], m_edptrueenergy[i+1], 2.1)  -  udp1 << endl;
+	}
 	
+	int i1=4, i2=8;
+	double udp1 = UpdateNormPLExpCutOff(m_edptrueenergy[i1], m_edptrueenergy[i2], 1.57, 1678, m_edptrueenergy[0], m_edptrueenergy[m_edptrueenergy.Dim(0)-1]);
+	cout << m_edptrueenergy[i1] << " " << m_edptrueenergy[i2] << " " << UpdateNormPL(m_edptrueenergy[i1], m_edptrueenergy[i2], 2.1) << " " << udp1 << " " << UpdateNormPL(m_edptrueenergy[i1], m_edptrueenergy[i2], 2.1)  -  udp1 << endl;
+	i1=8; i2=10;
+	udp1 = UpdateNormPLExpCutOff(m_edptrueenergy[i1], m_edptrueenergy[i2], 1.57, 1678, m_edptrueenergy[0], m_edptrueenergy[m_edptrueenergy.Dim(0)-1]);
+	cout << m_edptrueenergy[i1] << " " << m_edptrueenergy[i2] << " " << UpdateNormPL(m_edptrueenergy[i1], m_edptrueenergy[i2], 2.1) << " " << udp1 << " " << UpdateNormPL(m_edptrueenergy[i1], m_edptrueenergy[i2], 2.1)  -  udp1 << endl;
+	i1=10; i2=12;
+	udp1 = UpdateNormPLExpCutOff(m_edptrueenergy[i1], m_edptrueenergy[i2], 1.57, 1678, m_edptrueenergy[0], m_edptrueenergy[m_edptrueenergy.Dim(0)-1]);
+	cout << m_edptrueenergy[i1] << " " << m_edptrueenergy[i2] << " " << UpdateNormPL(m_edptrueenergy[i1], m_edptrueenergy[i2], 2.1) << " " << udp1 << " " << UpdateNormPL(m_edptrueenergy[i1], m_edptrueenergy[i2], 2.1)  -  udp1 << endl;
+	
+	//PROCEDURE FROM HERE
+	//input iMin, iMax, indexPL, index1, par2, par3, funtype
+	
+	double par1 = 1.6;
+	double par2 = 2100; //ec
+	double par3 = 0;
+	double index = 2.1; //index, gamma1
+	//int iMin = 10; int iMax=12;
+	detCorrectionSpectraFactor(edp, 2, 4, index, par1, par2, par3);
+	detCorrectionSpectraFactor(edp, 4, 6, index, par1, par2, par3);
+	detCorrectionSpectraFactor(edp, 6, 8, index, par1, par2, par3);
+	detCorrectionSpectraFactor(edp, 8, 10, index, par1, par2, par3);
+	detCorrectionSpectraFactor(edp, 10, 12, index, par1, par2, par3);
+	
+	
+	return 0;
 	//for(int i_true=0; i_true<m_edptrueenergy.Dim(0); i_true++)
 	int i_true=2-1; //true energy
 	double sum = 0;
@@ -71,8 +223,8 @@ int main(int argc, char *argv[])
 		// CURRENT m_edp.Val(m_energy[etrue], m_energy[eobs], m_theta[thetaind], m_phi[phiind]);
 		
 		val = edp.Val(m_edptrueenergy[i_true], m_edpobsenergy[j], 20, 270); //CORRETTO
-		int thetain = 5 - 1;
-		int phiin = 7-1;
+		int thetain = 0;
+		int phiin = 0;
 		//int l = m_edptrueenergy.GeomIndex(m_edptrueenergy[i_true]);//16
 		int l = 1;
 		//cout << "start#######" << endl;
@@ -104,6 +256,28 @@ int main(int argc, char *argv[])
 		sum += val;
 	}
 	cout << sum << endl;
+	sum=0;
+	int numtheta = m_edpgrid.Dim(1);
+	int numphi = m_edpgrid.Dim(0);
+	//int eneChanCount = m_edpgrid.Dim(2);
+	for (int thetaind = 0; thetaind < numtheta; thetaind++) {
+		for (int phiind = 0; phiind < numphi; phiind++) {
+		//int phiind = 0;
+			for (int etrue = 0; etrue < eneChanCount; etrue++) {
+				for (int eobs = 0;  eobs < eneChanCount; eobs++) {
+					val = edp.Val(m_edptrueenergy[etrue], m_edpobsenergy[eobs], m_edptheta[thetaind], m_edpphi[phiind]);
+					cout << "EDP VALUE: " << etrue << " " << m_edptrueenergy[etrue] << " " << eobs << " " << m_edpobsenergy[eobs] << " " << thetaind << " " << m_edptheta[thetaind] << " " << phiind << " " << m_edpphi[phiind] << " " << val << endl;
+					sum += val;
+					//avgValue += edpArr[etrue] * specwt[etrue] * m_aeffgrid(phiind, thetaind, etrue);
+				}
+				cout << "SUM" << sum << endl;
+				sum = 0;
+			}
+		//m_avgValues(phiind, thetaind) = avgValue/normsum;
+		}
+	}
+	
+	
     return 0;
 	/*
 	 NAXIS1  =                   16 /

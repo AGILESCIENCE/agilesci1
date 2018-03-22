@@ -46,10 +46,16 @@ const PilDescription c_params[] = {
 	{ PilString, "outfile", "Output file name prefix" },
 	{ PilReal,   "ulcl",    "Upper limit confidence level" },
 	{ PilReal,   "loccl",   "Location contour confidence level" },
+	{ PilInt,    "galmode2", "Diffuse emission optimisation for Loop2" },
+	{ PilInt,    "galmode2fit", "Diffuse emission optimisation for Loop2 - fit" },
+	{ PilInt,    "isomode2", "Isotropic emission optimisation for Loop2" },
+	{ PilInt,    "isomode2fit", "Isotropic emission optimisation for Loop2 - fit" },
+	{ PilInt,    "edpcorrection", "EDP cleaning correction" },
+	{ PilInt,    "fluxcorrection", "Flux calculation correction for spectral shape" },
 	{ PilString, "minimizertype", "Minimizer type" },
 	{ PilString, "minimizeralg", "Minimizer algorithm" },
 	{ PilInt,    "minimizerdefstrategy", "Minimizer default strategy" },
-	{ PilReal,   "defaulttolerance", "Minimizer default tolerance"},
+	{ PilReal,   "mindefaulttolerance", "Minimizer default tolerance"},
 	{ PilNone,   "",   "" }
 	};
 
@@ -68,14 +74,14 @@ public:
 	AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "#### AG_Multi5 v2.0.0 - A.C., T.C., A.T., A.B               #####"<< endl;
+	cout << "#### AG_Multi6 v2.0.0 - A.C., T.C., A.T., A.B               #####"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 
 	~AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "##########  Task AG_Multi5........... exiting ###################"<< endl;
+	cout << "##########  Task AG_Multi6........... exiting ###################"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 };
@@ -123,7 +129,8 @@ fileName = outfilename;
 fileName += ".log";
 
 roiMulti.SetLogfile(fileName.c_str());
-roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["defaulttolerance"]);
+roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["mindefaulttolerance"]);
+roiMulti.SetCorrections(mPars["galmode2"], mPars["galmode2fit"], mPars["isomode2"], mPars["isomode2fit"], mPars["edpcorrection"], mPars["fluxcorrection"]);
 if (roiMulti.DoFit(srcArr, mPars["ranal"], mPars["ulcl"], mPars["loccl"], 1))
 	return -1;
 

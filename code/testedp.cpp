@@ -24,6 +24,7 @@
 #include "TVirtualFitter.h"
 #include "TH1.h"
 #include "TF1.h"
+#include "TCanvas.h"
 #include "TMinuit.h"
 #include "Math/WrappedTF1.h"
 #include "Math/GaussIntegrator.h"
@@ -59,6 +60,21 @@ double UpdateNormPL(double eMin, double eMax, double index)
 	
 }
 
+double UpdateNormPLSuperExpCutOff(double eMin, double eMax, double index, double m_par2, double m_par3, double m_eInf, double m_eSup)
+{
+	//3 - PLSuperExpCutoff k E^-{\index} e^ ( - pow(E / E_c, gamma2) ) -> par2 = E_c, par3 = gamma2, index=gamma1
+	TF1 f("PLSuperExpCutoff", "x^(-[0]) * e^(- pow(x / [1], [2]))", m_eInf, m_eSup);
+	f.SetParameter(0, index);
+	f.SetParameter(1, m_par2);
+	f.SetParameter(2, m_par3);
+	ROOT::Math::WrappedTF1 wf1(f);
+	ROOT::Math::GaussIntegrator ig;
+	ig.SetFunction(wf1);
+	ig.SetRelTolerance(0.001);
+	double m_normFactor = ig.Integral(eMin, eMax);
+	return m_normFactor;
+}
+
 double UpdateNormPLExpCutOff(double eMin, double eMax, double index, double m_par2, double m_eInf, double m_eSup)
 {
 	//1 - PLExpCutoff -> k E^-{\index} e^ ( - E / E_c ) -> par2 = E_c
@@ -87,7 +103,7 @@ double UpdateNormLogParabola(double eMin, double eMax, double index, double m_pa
 	return m_normFactor;
 }
 
-double detCorrectionSpectraFactor(EdpGrid &edp, int iMin, int iMax, double index, double par1, double par2, double par3) {
+double detCorrectionSpectraFactor(EdpGrid &edp, int iMin, int iMax, double index, double par1, double par2, double par3, int typefun) {
 	cout << "--------------" << endl;
 	VecF  m_edptrueenergy = edp.TrueEnergies();
 	VecF  m_edpobsenergy = edp.ObsEnergies();
@@ -99,8 +115,15 @@ double detCorrectionSpectraFactor(EdpGrid &edp, int iMin, int iMax, double index
 	double normsumpl=0, normsumple = 0;
 	for (int i=iMin; i<=iMax; i++) {
 		cout << i << endl;
-		double udp1 = UpdateNormPLExpCutOff(m_edptrueenergy[i], m_edptrueenergy[i+1], par1, par2, m_edptrueenergy[0], m_edptrueenergy[eneChanCount-1]);
+		double udp1;
+		if(typefun == 0)
+			udp1 = UpdateNormPL(m_edptrueenergy[i], m_edptrueenergy[i+1], par1);
+		if(typefun == 1)
+			udp1 = UpdateNormPLExpCutOff(m_edptrueenergy[i], m_edptrueenergy[i+1], par1, par2, m_edptrueenergy[0], m_edptrueenergy[eneChanCount-1]);
+		if(typefun == 2)
+			udp1 = UpdateNormPLSuperExpCutOff(m_edptrueenergy[i], m_edptrueenergy[i+1], par1, par2, par3, m_edptrueenergy[0], m_edptrueenergy[eneChanCount-1]);
 		normsumple += udp1;
+		
 		udp1 = UpdateNormPL(m_edptrueenergy[i], m_edptrueenergy[i+1], index);
 		normsumpl += udp1;
 	}
@@ -119,7 +142,12 @@ double detCorrectionSpectraFactor(EdpGrid &edp, int iMin, int iMax, double index
 				}
 				avgValuePL += edpArr[etrue] * UpdateNormPL(m_edptrueenergy[etrue], m_edptrueenergy[etrue+1], index) * 1;
 				//cout << UpdateNormPL(m_edptrueenergy[etrue], m_edptrueenergy[etrue+1], 2.1) << " " << edpArr[etrue] << endl;
-				avgValuePLE += edpArr[etrue] * UpdateNormPLExpCutOff(m_edptrueenergy[etrue], m_edptrueenergy[etrue+1], par1, par2, m_edptrueenergy[0], m_edptrueenergy[eneChanCount-1]) * 1;
+				if(typefun == 0)
+					avgValuePLE += edpArr[etrue] * UpdateNormPL(m_edptrueenergy[etrue], m_edptrueenergy[etrue+1], par1) * 1;
+				if(typefun == 1)
+					avgValuePLE += edpArr[etrue] * UpdateNormPLExpCutOff(m_edptrueenergy[etrue], m_edptrueenergy[etrue+1], par1, par2, m_edptrueenergy[0], m_edptrueenergy[eneChanCount-1]) * 1;
+				if(typefun == 2)
+					avgValuePLE += edpArr[etrue] * UpdateNormPLSuperExpCutOff(m_edptrueenergy[etrue], m_edptrueenergy[etrue+1], par1, par2, par3,  m_edptrueenergy[0], m_edptrueenergy[eneChanCount-1]) * 1;
 			}
 			double avgpl = 0, avgple = 0;
 			//avgalue dipende da theta e phi
@@ -145,6 +173,111 @@ int mainPSF(int argc, char *argv[])
 	for(int i=0; i<m_edptrueenergy.Dim(0); i++)
 		cout << i+1 << " " << m_edptrueenergy[i] <<" check index " << m_edptrueenergy.GeomIndex(m_edptrueenergy[i]) <<  endl;
 	return 0;
+}
+
+int mainCheckBoundaries(int argc, char *argv[]) {
+	
+	char* edpfilename = argv[3];
+	cout << edpfilename << endl;
+	EdpGrid edp;
+	edp.Read(edpfilename);
+	VecF  m_energy = edp.TrueEnergies();
+	cout << "true energy " << m_energy.Dim(0) << endl;
+	for(int i=0; i<m_energy.Dim(0); i++)
+		cout << i+1 << " " << m_energy[i] <<" check index " << m_energy.GeomIndex(m_energy[i]) <<  endl;
+	
+	int resultMask = 0;
+	
+	double m_emin = atoi(argv[1]);
+	double m_emax = atoi(argv[2]);
+	
+	int iMin = m_energy.GeomIndex(m_emin);
+	if (m_emin!=m_energy[iMin])
+		resultMask = resultMask | 1;	/// Using different energy lower bound
+	
+	int eneChanCount = m_energy.Size();
+	int iMax = eneChanCount-1;
+	if (m_emax<=m_energy[iMax]) {
+		iMax = m_energy.GeomIndex(m_emax);
+		if (m_emax!=m_energy[iMax])
+			resultMask = resultMask | 2;	/// Using different energy upper bound
+		if (iMax>iMin)
+			--iMax;
+		//iMax;
+	}
+	else
+		resultMask = resultMask | 4;	/// Upper bound treated as infinity
+	
+	cout << "Boundaries: " << m_energy[iMin] <<  " " << m_energy[iMax] << " resultMask " << resultMask << endl;
+	return 0;
+}
+
+int main2(int argc, char *argv[]) {
+	
+	char* edpfilename = argv[1];
+	cout << edpfilename << endl;
+	EdpGrid edp;
+	edp.Read(edpfilename);
+	VecF  m_energy = edp.TrueEnergies();
+	cout << "true energy " << m_energy.Dim(0) << endl;
+	for(int i=0; i<m_energy.Dim(0); i++)
+		cout << i+1 << " " << m_energy[i] <<" check index " << m_energy.GeomIndex(m_energy[i]) <<  endl;
+	Mat4F m_edpgrid = edp.Values();
+	VecF  m_edptheta = edp.Thetas();
+	//Correction factor
+	int numtheta = m_edpgrid.Dim(1);
+	int numphi = m_edpgrid.Dim(0);
+	int eneChanCount = m_energy.Dim(0);
+	TCanvas* c1 =  new  TCanvas();
+	gPad->SetLogy();
+	//for (int thetaind = 0; thetaind < numtheta; thetaind++) {
+		//for (int phiind = 0; phiind < numphi; phiind++) {
+	int thetaind = 8;
+			int phiind = 0;
+			double val3 = 0;
+	
+			double sum=0;
+			for (int etrue = 0; etrue < eneChanCount; etrue++) {
+				TString title; title += "True energy (low boundary): "; title += m_energy[etrue]; title += " MeV";
+				TH1D* h1 = new TH1D(title, title, eneChanCount, 0, eneChanCount);
+				TH1D* h2 = 0;
+				TString name;
+				name += m_edptheta[thetaind]; name += "_";
+				name += phiind; name += "_";
+				name += m_energy[etrue] ; name += "";
+				name += ".png";
+				for (int eobs = 0;  eobs < eneChanCount; eobs++) {
+					val3 = m_edpgrid(phiind, thetaind, eobs, etrue);//CORRETTO
+					cout << eneChanCount << " " << eobs << " " << val3 << endl;
+					sum += val3;
+					h1->SetBinContent(eobs+1, val3);
+					if(eobs == eneChanCount-2) {
+						h2 = (TH1D*) h1->Clone("edp2");
+						h2->SetBinContent(eobs+1, h1->GetBinContent(eneChanCount-3+1) / 2.0);
+						cout << "*" << eneChanCount << " " << eobs << " " << h2->GetBinContent(eobs+1) << endl;
+					}
+					if(eobs == eneChanCount-1) {
+						
+						h2->SetBinContent(eobs+1, h1->GetBinContent(eneChanCount-3+1) / 4.0);
+						cout << "*" << eneChanCount << " " << eobs << " " << h2->GetBinContent(eobs+1) << endl;
+						double scalefactor = h2->Integral();
+						h2->Scale(1.0/scalefactor);
+					}
+					
+					
+				}
+				cout << "SUM " << sum << endl;
+				sum = 0;
+				h1->Draw();
+				h2->SetLineColor(kRed);
+				h2->Draw("HIST SAME");
+				c1->SaveAs(name);
+				
+					
+			}
+		//}
+	//}
+	
 }
 
 int main(int argc, char *argv[])
@@ -201,17 +334,19 @@ int main(int argc, char *argv[])
 	//PROCEDURE FROM HERE
 	//input iMin, iMax, indexPL, index1, par2, par3, funtype
 	
-	double par1 = 1.6;
-	double par2 = 2100; //ec
+	double par1 = 1.6692;
+	double par2 = 3403; //ec
 	double par3 = 0;
 	double index = 2.1; //index, gamma1
+	int typefun = 1;
 	//int iMin = 10; int iMax=12;
-	detCorrectionSpectraFactor(edp, 2, 4, index, par1, par2, par3);
-	detCorrectionSpectraFactor(edp, 4, 6, index, par1, par2, par3);
-	detCorrectionSpectraFactor(edp, 6, 8, index, par1, par2, par3);
-	detCorrectionSpectraFactor(edp, 8, 10, index, par1, par2, par3);
-	detCorrectionSpectraFactor(edp, 10, 12, index, par1, par2, par3);
-	
+	detCorrectionSpectraFactor(edp, 2, 4-1, index, par1, par2, par3, typefun);
+	detCorrectionSpectraFactor(edp, 4, 6-1, index, par1, par2, par3, typefun);
+	detCorrectionSpectraFactor(edp, 6, 8-1, index, par1, par2, par3, typefun);
+	detCorrectionSpectraFactor(edp, 8, 10-1, index, par1, par2, par3, typefun);
+	detCorrectionSpectraFactor(edp, 10, 12-1, index, par1, par2, par3, typefun);
+	detCorrectionSpectraFactor(edp, 12, 13, index, par1, par2, par3, typefun);
+	detCorrectionSpectraFactor(edp, 3, 12, index, par1, par2, par3, typefun);
 	
 	return 0;
 	//for(int i_true=0; i_true<m_edptrueenergy.Dim(0); i_true++)
@@ -260,9 +395,9 @@ int main(int argc, char *argv[])
 	int numtheta = m_edpgrid.Dim(1);
 	int numphi = m_edpgrid.Dim(0);
 	//int eneChanCount = m_edpgrid.Dim(2);
-	for (int thetaind = 0; thetaind < numtheta; thetaind++) {
-		for (int phiind = 0; phiind < numphi; phiind++) {
-		//int phiind = 0;
+	for (int thetaind = 0; thetaind < numtheta/2; thetaind++) {
+		//for (int phiind = 0; phiind < numphi; phiind++) {
+		int phiind = 0;
 			for (int etrue = 0; etrue < eneChanCount; etrue++) {
 				for (int eobs = 0;  eobs < eneChanCount; eobs++) {
 					val = edp.Val(m_edptrueenergy[etrue], m_edpobsenergy[eobs], m_edptheta[thetaind], m_edpphi[phiind]);
@@ -274,7 +409,7 @@ int main(int argc, char *argv[])
 				sum = 0;
 			}
 		//m_avgValues(phiind, thetaind) = avgValue/normsum;
-		}
+		//}
 	}
 	
 	

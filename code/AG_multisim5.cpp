@@ -54,6 +54,11 @@ const PilDescription paramsDescr[] = {
 	{ PilReal,   "loccl",   "Location contour confidence level" },
 	{ PilString, "resmatrices", "Response matrices" },
 	{ PilString, "respath", "Response matrices path" },
+	{ PilBool, "expratioevaluation","If 'yes' (or 'y') the exp-ratio evaluation will be enabled."},
+	{ PilBool, "isExpMapNormalized","If 'yes' (or 'y') you assert that the exp-map is already normalized. Insert 'no' (or 'n') instead and the map will be normalized before carrying out the exp-ratio evaluation."},
+	{ PilReal, "minThreshold", "The lower bound for the threshold level in exp-ratio evaluation"},
+	{ PilReal, "maxThreshold", "The upper bound for the threshold level in exp-ratio evaluation"},
+	{ PilReal, "squareSize", "The edge degree dimension of the exp-ratio evaluation area"},
 	{ PilNone,   "", "" }
 };
 
@@ -102,6 +107,13 @@ int main(int argc,char **argv) {
 	int isomode = params["isomode"];
 	double ulcl = params["ulcl"];
 	double loccl = params["loccl"];
+
+	bool expratioevaluation = params["expratioevaluation"];
+	bool isExpMapNormalized = params["isExpMapNormalized"];
+	double minThreshold = params["minThreshold"];
+	double maxThreshold = params["maxThreshold"];
+	int squareSize = params["squareSize"];
+
 
 	if (seed)
 		SetSeed(seed);
@@ -196,7 +208,7 @@ int main(int argc,char **argv) {
 		if (block) {
 			int last = mapData.Length()-block;
 			cout << "Using block size=" << block << endl;
-			
+
 			if(opmode & SaveMaps) {
 				for(int iii=0; iii<mapData.Length(); iii++) {
 					char mapName[256];
@@ -205,7 +217,7 @@ int main(int argc,char **argv) {
 						cerr << "Error writing simulated block counts map " << mapName << endl;
 					else
 						cerr << mapName << " written" << endl;
-						
+
 					sprintf(mapName, "%010d_BLOCK%03d_%s.exp.gz", i+1, iii, outfilename);
 					if (mapData.ExpMap(i).Write(mapName))
 						cerr << "Error writing simulated exp map " << mapName << endl;
@@ -213,7 +225,7 @@ int main(int argc,char **argv) {
 						cerr << mapName << " written" << endl;
 				}
 			}
-			
+
 			for (int j=0; j<=last; ++j) {
 				cout << endl << "Summing maps from " << j+1 << " to " << j+block << " [loop " << i+1 << "]" << endl << endl;
 
@@ -290,7 +302,7 @@ int main(int argc,char **argv) {
 						char fileName[256];
 						sprintf(fileName, "%010d_%03d_%s", i+1, j+1, outfilename);
 						roiMulti.Write(fileName);
-						roiMulti.WriteSources(fileName, true, true);
+						roiMulti.WriteSources(fileName, expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize, true, true);
 					}
 				}
 			}
@@ -332,7 +344,7 @@ int main(int argc,char **argv) {
 					char fileName[256];
 					sprintf(fileName, "%010d_%s", i+1, outfilename);
 					roiMulti.Write(fileName);
-					roiMulti.WriteSources(fileName, true, true);
+					roiMulti.WriteSources(fileName, expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize, true, true);
 				}
 			}
 		}
@@ -345,4 +357,3 @@ int main(int argc,char **argv) {
 
 	return 0;
 }
-

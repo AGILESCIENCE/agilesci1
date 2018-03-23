@@ -56,12 +56,14 @@ const PilDescription c_params[] = {
 	{ PilString, "minimizeralg", "Minimizer algorithm" },
 	{ PilInt,    "minimizerdefstrategy", "Minimizer default strategy" },
 	{ PilReal,   "mindefaulttolerance", "Minimizer default tolerance"},
+	{ PilBool, "expratioevaluation","If 'yes' (or 'y') the exp-ratio evaluation will be enabled."},
 	{ PilBool, "isExpMapNormalized","If 'yes' (or 'y') you assert that the exp-map is already normalized. Insert 'no' (or 'n') instead and the map will be normalized before carrying out the exp-ratio evaluation."},
 	{ PilReal, "minThreshold", "The lower bound for the threshold level in exp-ratio evaluation"},
 	{ PilReal, "maxThreshold", "The upper bound for the threshold level in exp-ratio evaluation"},
 	{ PilReal, "squareSize", "The edge degree dimension of the exp-ratio evaluation area"},
 	{ PilNone,   "",   "" }
 	};
+
 
 
 class MultiParams: public PilParams
@@ -139,8 +141,8 @@ if (roiMulti.DoFit(srcArr, mPars["ranal"], mPars["ulcl"], mPars["loccl"], 1))
 	return -1;
 
 roiMulti.Write(outfilename);
-roiMulti.WriteSources(outfilename, mPars["isExpMapNormalized"], mPars["minThreshold"], mPars["maxThreshold"], mPars["squareSize"]);
-roiMulti.WriteHtml(outfilename, mPars["isExpMapNormalized"], mPars["minThreshold"], mPars["maxThreshold"], mPars["squareSize"]);
+roiMulti.WriteSources(outfilename, mPars["expratioevaluation"], mPars["isExpMapNormalized"], mPars["minThreshold"], mPars["maxThreshold"], mPars["squareSize"]);
+roiMulti.WriteHtml(outfilename, mPars["expratioevaluation"], mPars["isExpMapNormalized"], mPars["minThreshold"], mPars["maxThreshold"], mPars["squareSize"]);
 
 fileName = outfilename;
 fileName += ".log";roiMulti.Write(fileName.c_str(), false);

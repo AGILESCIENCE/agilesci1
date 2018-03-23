@@ -53,6 +53,11 @@ const PilDescription c_params[] = {
 	{ PilReal,   "loccl",   "Location contour confidence level" },
 	{ PilInt,    "fixflagscan", "Fixflag for new sources" },
 	{ PilInt,    "fixflagstep2", "Fixflag for second step" },
+	{ PilBool, "expratioevaluation","If 'yes' (or 'y') the exp-ratio evaluation will be enabled."},
+	{ PilBool, "isExpMapNormalized","If 'yes' (or 'y') you assert that the exp-map is already normalized. Insert 'no' (or 'n') instead and the map will be normalized before carrying out the exp-ratio evaluation."},
+	{ PilReal, "minThreshold", "The lower bound for the threshold level in exp-ratio evaluation"},
+	{ PilReal, "maxThreshold", "The upper bound for the threshold level in exp-ratio evaluation"},
+	{ PilReal, "squareSize", "The edge degree dimension of the exp-ratio evaluation area"},
 	{ PilNone,   "",   "" }
 	};
 
@@ -183,7 +188,7 @@ else if (isomode==3)
 
 cout << "Upper limit confidence level: " << ulcl << endl;
 cout << "Location contour confidence level: " << loccl << endl;
-cout << "source list : " <<  srcfilename << endl;	
+cout << "source list : " <<  srcfilename << endl;
 cout << "Output file name prefix : " <<  outfilename << endl;
 
 cout << "Source Scanlist file name : " <<  srcscanfilename << endl;
@@ -200,7 +205,7 @@ cout << endl << endl;
 
 static string CycleNumber(int n)
 {
-char buffer[16]; 
+char buffer[16];
 sprintf(buffer, "_%02d", n);
 return string(buffer);
 }
@@ -321,10 +326,15 @@ const char* outfilename = mPars["outfile"];
 double ulcl = mPars["ulcl"];
 double loccl = mPars["loccl"];
 
+
 FixFlag fixflagscan = mPars["fixflagscan"];
 FixFlag fixflagstep2 = mPars["fixflagstep2"];
 
-
+bool expratioevaluation = mPars["expratioevaluation"];
+bool isExpMapNormalized = mPars["isExpMapNormalized"];
+double minThreshold = mPars["minThreshold"];
+double maxThreshold = mPars["maxThreshold"];
+int squareSize = mPars["squareSize"];
 
 
 
@@ -401,7 +411,7 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 	int tryIndexNum = 1;
 // double tryIndex[3] = {2.2, 1.8, 1.5};
 	double tryIndex[1] = {2.1};
-		
+
 	for (int i=0; i<tryCount; ++i) {
 		SourceData tryData = scanSrcArr[i];
 
@@ -420,25 +430,25 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 
 		if (minDistance>distanceThreshold) {
 			//La sorgente è abbastanza lontano dalle altre, valuta l'index scan
-			for (int j=0; j<tryIndexNum; j++) {				
+			for (int j=0; j<tryIndexNum; j++) {
 				tryData.index = tryIndex[j];
-				
+
 				//almeno nel primo ciclo vanno valutate tutte, perche' tutte con TS=0
 				if(cycle==0 || tryData.TS >= minTSScan) {
 					/// Make a copy of the base sources setting fixflag=0 for those too far apart
 					logFile << "* Starting with index ... " << tryData.index << " and minDistance " << minDistance << " and current maxTS " << maxTS << endl;
-					
+
 					ScrPrint("Evalueate source with spectral index #", tryData.index);
-					
+
 					SourceDataArray tryArr(baseSrcArr);
 					ResetDistantFlags(tryArr, tryData.srcL, tryData.srcB, fixdistance);
-	
+
 					/// Assign a new name and fixflag for this try
 					string tryName = tryData.label + CycleNumber(cycle);
 					tryData.label = tryName;
 					tryData.fixflag = fixflagscan; //test the current position
 					tryData.flux = 0; //questo perche' se non fa lo step 2 non calcola nemmeno l'UL
-					
+
 					tryArr.Append(tryData);
 					tryArr.Print(logFile);
 					/// tryArr.Print();	/// zzz debug
@@ -482,12 +492,12 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 						logFile << "################" << endl;
 						logFile << "Found a new TS max without direct evaluation of the source " << maxTS << endl;
 					}
-				}	
+				}
 			}
 		} else {
 			//la sorgente e' troppo vicina ad un'altra. Non valutarla,
 			//E poi che faccio? Tengo il vecchio TS? Perche' potrebbe essere
-			//rivalutabile nei cicli successivi.	
+			//rivalutabile nei cicli successivi.
 			logFile << "Source too near to another source: " << minDistance << endl;
 		}
 		logFile << "Result for this index scan: " << i << " (" << scanSrcArr[i].label << ", " << scanSrcArr[i].srcL << ", " << scanSrcArr[i].srcB << ", " << scanSrcArr[i].TS << ", " << scanSrcArr[i].flux << ") with index " << scanSrcArr[i].index << endl;
@@ -544,7 +554,7 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 		string outfname4(outfname);
 		outfname4 += ".SI.fits.gz";
 		siMap.Write(outfname4.c_str()); //AB1
-	
+
 		string outfname5(outfname);
 		outfname5 += ".GAL.fits.gz";
 		galMap.Write(outfname5.c_str()); //AB1
@@ -576,7 +586,7 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 		tryArr.Print(cout);
 		logFile << "Input sources for Step Two:" << endl;
 		tryArr.Print(logFile);
-		
+
 		string inputStepFname(outfilename);
 		inputStepFname += ".inputstep2";
 		inputStepFname += CycleNumber(cycle);
@@ -590,8 +600,8 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 		galc = roiMulti.GetGalactic(0).GetCoeff();
 		isoc = roiMulti.GetIsotropic(0).GetCoeff();
 		roiMulti.Write(fileName.c_str());
-		roiMulti.WriteSources(fileName.c_str(), true);
-		roiMulti.WriteHtml(fileName.c_str());
+		roiMulti.WriteSources(fileName.c_str(), expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize, true);
+		roiMulti.WriteHtml(fileName.c_str(), expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize);
 
 		/// Check if the position calculated of the new source is too far.
 		double distanceOldNewPosition = AlikeSphdistDeg(tryArr[tryName].srcL, tryArr[tryName].srcB, startL, startB);
@@ -607,8 +617,8 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 			galc = roiMulti.GetGalactic(0).GetCoeff();
 			isoc = roiMulti.GetIsotropic(0).GetCoeff();
 			roiMulti.Write(fileName.c_str());
-			roiMulti.WriteSources(fileName.c_str(), true);
-			roiMulti.WriteHtml(fileName.c_str());
+			roiMulti.WriteSources(fileName.c_str(), expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize, true);
+			roiMulti.WriteHtml(fileName.c_str(), expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize);
 			}
 		/// Restore the fixflags
 		tryArr[tryName].fixflag = originalFixflag;

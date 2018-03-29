@@ -56,6 +56,7 @@ const PilDescription c_params[] = {
 	{ PilString, "minimizeralg", "Minimizer algorithm" },
 	{ PilInt,    "minimizerdefstrategy", "Minimizer default strategy" },
 	{ PilReal,   "mindefaulttolerance", "Minimizer default tolerance"},
+	{ PilInt,   "integratortype", "Integrator type (1-5)"},
 	{ PilBool, "expratioevaluation","If 'yes' (or 'y') the exp-ratio evaluation will be enabled."},
 	{ PilBool, "isExpMapNormalized","If 'yes' (or 'y') you assert that the exp-map is already normalized. Insert 'no' (or 'n') instead and the map will be normalized before carrying out the exp-ratio evaluation."},
 	{ PilReal, "minThreshold", "The lower bound for the threshold level in exp-ratio evaluation"},
@@ -115,11 +116,6 @@ MapData mapData;
 if (!mapData.Load(maplist))
 	return -1;
 
-SourceDataArray srcArr = ReadSourceFile(mPars["srclist"]);
-
-if (!srcArr.Count())
-	cout << "Warning: no point sources loaded" << endl;
-
 // ExpCorr expCorr("None"); /// zzz To remove
 
 RoiMulti roiMulti;
@@ -135,8 +131,14 @@ fileName = outfilename;
 fileName += ".log";
 
 roiMulti.SetLogfile(fileName.c_str());
-roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["mindefaulttolerance"]);
+roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["mindefaulttolerance"], mPars["integratortype"]);
 roiMulti.SetCorrections(mPars["galmode2"], mPars["galmode2fit"], mPars["isomode2"], mPars["isomode2fit"], mPars["edpcorrection"], mPars["fluxcorrection"]);
+	
+	SourceDataArray srcArr = ReadSourceFile(mPars["srclist"]);
+	
+	if (!srcArr.Count())
+		cout << "Warning: no point sources loaded" << endl;
+	
 if (roiMulti.DoFit(srcArr, mPars["ranal"], mPars["ulcl"], mPars["loccl"], 1))
 	return -1;
 

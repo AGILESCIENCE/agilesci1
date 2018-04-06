@@ -56,7 +56,7 @@ const PilDescription c_params[] = {
 	{ PilString, "minimizeralg", "Minimizer algorithm" },
 	{ PilInt,    "minimizerdefstrategy", "Minimizer default strategy" },
 	{ PilReal,   "mindefaulttolerance", "Minimizer default tolerance"},
-	{ PilInt,   "integratortype", "Integrator type (1-5)"},
+	{ PilInt,   "integratortype", "Integrator type (1-8)"},
 	{ PilBool, "expratioevaluation","If 'yes' (or 'y') the exp-ratio evaluation will be enabled."},
 	{ PilBool, "isExpMapNormalized","If 'yes' (or 'y') you assert that the exp-map is already normalized. Insert 'no' (or 'n') instead and the map will be normalized before carrying out the exp-ratio evaluation."},
 	{ PilReal, "minThreshold", "The lower bound for the threshold level in exp-ratio evaluation"},

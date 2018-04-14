@@ -47,11 +47,13 @@ const PilDescription c_params[] = {
 	{ PilString, "outfile", "Output file name prefix" },
 	{ PilReal,   "ulcl",    "Upper limit confidence level" },
 	{ PilReal,   "loccl",   "Location contour confidence level" },
+	/*
 	{ PilBool, "expratioevaluation","If 'yes' (or 'y') the exp-ratio evaluation will be enabled."},
 	{ PilBool, "isExpMapNormalized","If 'yes' (or 'y') you assert that the exp-map is already normalized. Insert 'no' (or 'n') instead and the map will be normalized before carrying out the exp-ratio evaluation."},
 	{ PilReal, "minThreshold", "The lower bound for the threshold level in exp-ratio evaluation"},
 	{ PilReal, "maxThreshold", "The upper bound for the threshold level in exp-ratio evaluation"},
 	{ PilReal, "squareSize", "The edge degree dimension of the exp-ratio evaluation area"},
+	 */
 	{ PilNone,   "",   "" }
 	};
 
@@ -205,13 +207,13 @@ const char* extsrcfilename = mPars["extsrclist"];
 const char* outfilename = mPars["outfile"];
 double ulcl = mPars["ulcl"];
 double loccl = mPars["loccl"];
-
+/*
 bool expratioevaluation = mPars["expratioevaluation"];
 bool isExpMapNormalized = mPars["isExpMapNormalized"];
 double minThreshold = mPars["minThreshold"];
 double maxThreshold = mPars["maxThreshold"];
 int squareSize = mPars["squareSize"];
-
+*/
 MapList maplist;
 int mapCount = maplist.Read(maplistname);
 if (!mapCount) {
@@ -252,8 +254,8 @@ if (roiMulti.DoFit(srcArr, ranal, ulcl, loccl, 1))
 	return -1;
 
 roiMulti.Write(outfilename);
-roiMulti.WriteSources(outfilename, expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize);
-roiMulti.WriteHtml(outfilename, expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize);
+roiMulti.WriteSources(outfilename, "no", "no", 0, 15, 10);
+roiMulti.WriteHtml(outfilename, "no", "no", 0, 15, 10);
 
 fileName = outfilename;
 fileName += "2";

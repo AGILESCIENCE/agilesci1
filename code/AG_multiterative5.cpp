@@ -53,11 +53,6 @@ const PilDescription c_params[] = {
 	{ PilReal,   "loccl",   "Location contour confidence level" },
 	{ PilInt,    "fixflagscan", "Fixflag for new sources" },
 	{ PilInt,    "fixflagstep2", "Fixflag for second step" },
-	{ PilBool, "expratioevaluation","If 'yes' (or 'y') the exp-ratio evaluation will be enabled."},
-	{ PilBool, "isExpMapNormalized","If 'yes' (or 'y') you assert that the exp-map is already normalized. Insert 'no' (or 'n') instead and the map will be normalized before carrying out the exp-ratio evaluation."},
-	{ PilReal, "minThreshold", "The lower bound for the threshold level in exp-ratio evaluation"},
-	{ PilReal, "maxThreshold", "The upper bound for the threshold level in exp-ratio evaluation"},
-	{ PilReal, "squareSize", "The edge degree dimension of the exp-ratio evaluation area"},
 	{ PilNone,   "",   "" }
 	};
 
@@ -329,13 +324,13 @@ double loccl = mPars["loccl"];
 
 FixFlag fixflagscan = mPars["fixflagscan"];
 FixFlag fixflagstep2 = mPars["fixflagstep2"];
-
+/*
 bool expratioevaluation = mPars["expratioevaluation"];
 bool isExpMapNormalized = mPars["isExpMapNormalized"];
 double minThreshold = mPars["minThreshold"];
 double maxThreshold = mPars["maxThreshold"];
 int squareSize = mPars["squareSize"];
-
+*/
 
 
 MapList maplist;
@@ -600,8 +595,8 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 		galc = roiMulti.GetGalactic(0).GetCoeff();
 		isoc = roiMulti.GetIsotropic(0).GetCoeff();
 		roiMulti.Write(fileName.c_str());
-		roiMulti.WriteSources(fileName.c_str(), expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize, true);
-		roiMulti.WriteHtml(fileName.c_str(), expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize);
+		roiMulti.WriteSources(fileName.c_str(), "no", "no", 0, 15, 10, true);
+		roiMulti.WriteHtml(fileName.c_str(), "no", "no", 0, 15, 10);
 
 		/// Check if the position calculated of the new source is too far.
 		double distanceOldNewPosition = AlikeSphdistDeg(tryArr[tryName].srcL, tryArr[tryName].srcB, startL, startB);
@@ -617,8 +612,8 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 			galc = roiMulti.GetGalactic(0).GetCoeff();
 			isoc = roiMulti.GetIsotropic(0).GetCoeff();
 			roiMulti.Write(fileName.c_str());
-			roiMulti.WriteSources(fileName.c_str(), expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize, true);
-			roiMulti.WriteHtml(fileName.c_str(), expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize);
+			roiMulti.WriteSources(fileName.c_str(), "no", "no", 0, 15, 10, true);
+			roiMulti.WriteHtml(fileName.c_str(), "no", "no", 0, 15, 10);
 			}
 		/// Restore the fixflags
 		tryArr[tryName].fixflag = originalFixflag;

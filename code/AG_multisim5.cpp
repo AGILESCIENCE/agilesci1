@@ -54,11 +54,13 @@ const PilDescription paramsDescr[] = {
 	{ PilReal,   "loccl",   "Location contour confidence level" },
 	{ PilString, "resmatrices", "Response matrices" },
 	{ PilString, "respath", "Response matrices path" },
+	/*
 	{ PilBool, "expratioevaluation","If 'yes' (or 'y') the exp-ratio evaluation will be enabled."},
 	{ PilBool, "isExpMapNormalized","If 'yes' (or 'y') you assert that the exp-map is already normalized. Insert 'no' (or 'n') instead and the map will be normalized before carrying out the exp-ratio evaluation."},
 	{ PilReal, "minThreshold", "The lower bound for the threshold level in exp-ratio evaluation"},
 	{ PilReal, "maxThreshold", "The upper bound for the threshold level in exp-ratio evaluation"},
 	{ PilReal, "squareSize", "The edge degree dimension of the exp-ratio evaluation area"},
+	 */
 	{ PilNone,   "", "" }
 };
 
@@ -108,12 +110,13 @@ int main(int argc,char **argv) {
 	double ulcl = params["ulcl"];
 	double loccl = params["loccl"];
 
+	/*
 	bool expratioevaluation = params["expratioevaluation"];
 	bool isExpMapNormalized = params["isExpMapNormalized"];
 	double minThreshold = params["minThreshold"];
 	double maxThreshold = params["maxThreshold"];
 	int squareSize = params["squareSize"];
-
+*/
 
 	if (seed)
 		SetSeed(seed);
@@ -302,7 +305,7 @@ int main(int argc,char **argv) {
 						char fileName[256];
 						sprintf(fileName, "%010d_%03d_%s", i+1, j+1, outfilename);
 						roiMulti.Write(fileName);
-						roiMulti.WriteSources(fileName, expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize, true, true);
+						roiMulti.WriteSources(fileName, "no", "no", 0, 15, 10, true, true);
 					}
 				}
 			}
@@ -344,7 +347,7 @@ int main(int argc,char **argv) {
 					char fileName[256];
 					sprintf(fileName, "%010d_%s", i+1, outfilename);
 					roiMulti.Write(fileName);
-					roiMulti.WriteSources(fileName, expratioevaluation, isExpMapNormalized, minThreshold, maxThreshold, squareSize, true, true);
+					roiMulti.WriteSources(fileName, "no", "no", 0, 15, 10, true, true);
 				}
 			}
 		}

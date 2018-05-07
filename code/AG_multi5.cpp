@@ -50,7 +50,7 @@ const PilDescription c_params[] = {
 	{ PilInt,    "galmode2fit", "Diffuse emission optimisation for Loop2 - fit" },
 	{ PilInt,    "isomode2", "Isotropic emission optimisation for Loop2" },
 	{ PilInt,    "isomode2fit", "Isotropic emission optimisation for Loop2 - fit" },
-	{ PilInt,    "edpcorrection", "EDP cleaning correction" },
+	{ PilReal,    "edpcorrection", "EDP correction" },
 	{ PilInt,    "fluxcorrection", "Flux calculation correction for spectral shape" },
 	{ PilString, "minimizertype", "Minimizer type" },
 	{ PilString, "minimizeralg", "Minimizer algorithm" },

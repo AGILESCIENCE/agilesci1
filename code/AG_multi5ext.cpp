@@ -47,6 +47,13 @@ const PilDescription c_params[] = {
 	{ PilString, "outfile", "Output file name prefix" },
 	{ PilReal,   "ulcl",    "Upper limit confidence level" },
 	{ PilReal,   "loccl",   "Location contour confidence level" },
+	{ PilReal,    "edpcorrection", "EDP correction" },
+	{ PilInt,    "fluxcorrection", "Flux calculation correction for spectral shape" },
+	{ PilString, "minimizertype", "Minimizer type" },
+	{ PilString, "minimizeralg", "Minimizer algorithm" },
+	{ PilInt,    "minimizerdefstrategy", "Minimizer default strategy" },
+	{ PilReal,   "mindefaulttolerance", "Minimizer default tolerance"},
+	{ PilInt,   "integratortype", "Integrator type (1-8)"},
 	/*
 	{ PilBool, "expratioevaluation","If 'yes' (or 'y') the exp-ratio evaluation will be enabled."},
 	{ PilBool, "isExpMapNormalized","If 'yes' (or 'y') you assert that the exp-map is already normalized. Insert 'no' (or 'n') instead and the map will be normalized before carrying out the exp-ratio evaluation."},
@@ -170,14 +177,14 @@ public:
 	AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "###### AG_multi5Ext v1.2.0 - A.C., T.C., A.T.            ########"<< endl;
+	cout << "###### AG_multiExt v2.0.0 - A.C., T.C., A.T., A.B        ########"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 
 	~AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "##########  Task AG_multi5Ext......... exiting ##################"<< endl;
+	cout << "##########  Task AG_multiExt.......... exiting ##################"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 };
@@ -238,6 +245,10 @@ if (!extData.Load(extList))
 	return -1;
 
 RoiMulti roiMulti;
+
+roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["mindefaulttolerance"], mPars["integratortype"]);
+roiMulti.SetCorrections(0, 0, 0, 0, mPars["edpcorrection"], mPars["fluxcorrection"]);
+
 if (!roiMulti.SetPsf(psdfilename, sarfilename, edpfilename))
 	return -1;
 if (!roiMulti.SetMaps(mapData , galmode, isomode))
@@ -254,8 +265,8 @@ if (roiMulti.DoFit(srcArr, ranal, ulcl, loccl, 1))
 	return -1;
 
 roiMulti.Write(outfilename);
-roiMulti.WriteSources(outfilename, "no", "no", 0, 15, 10);
-roiMulti.WriteHtml(outfilename, "no", "no", 0, 15, 10);
+roiMulti.WriteSources(outfilename, false, false, 0, 15, 10);
+roiMulti.WriteHtml(outfilename, false, false, 0, 15, 10);
 
 fileName = outfilename;
 fileName += "2";

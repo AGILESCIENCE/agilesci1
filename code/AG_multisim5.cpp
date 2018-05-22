@@ -305,7 +305,7 @@ int main(int argc,char **argv) {
 						char fileName[256];
 						sprintf(fileName, "%010d_%03d_%s", i+1, j+1, outfilename);
 						roiMulti.Write(fileName);
-						roiMulti.WriteSources(fileName, "no", "no", 0, 15, 10, true, true);
+						roiMulti.WriteSources(fileName, false, false, 0, 15, 10, true, true);
 					}
 				}
 			}
@@ -347,7 +347,7 @@ int main(int argc,char **argv) {
 					char fileName[256];
 					sprintf(fileName, "%010d_%s", i+1, outfilename);
 					roiMulti.Write(fileName);
-					roiMulti.WriteSources(fileName, "no", "no", 0, 15, 10, true, true);
+					roiMulti.WriteSources(fileName, false, false, 0, 15, 10, true, true);
 				}
 			}
 		}

@@ -53,6 +53,17 @@ const PilDescription c_params[] = {
 	{ PilReal,   "loccl",   "Location contour confidence level" },
 	{ PilInt,    "fixflagscan", "Fixflag for new sources" },
 	{ PilInt,    "fixflagstep2", "Fixflag for second step" },
+	{ PilInt,    "galmode2", "Diffuse emission optimisation for Loop2" },
+	{ PilInt,    "galmode2fit", "Diffuse emission optimisation for Loop2 - fit" },
+	{ PilInt,    "isomode2", "Isotropic emission optimisation for Loop2" },
+	{ PilInt,    "isomode2fit", "Isotropic emission optimisation for Loop2 - fit" },
+	{ PilReal,    "edpcorrection", "EDP correction" },
+	{ PilInt,    "fluxcorrection", "Flux calculation correction for spectral shape" },
+	{ PilString, "minimizertype", "Minimizer type" },
+	{ PilString, "minimizeralg", "Minimizer algorithm" },
+	{ PilInt,    "minimizerdefstrategy", "Minimizer default strategy" },
+	{ PilReal,   "mindefaulttolerance", "Minimizer default tolerance"},
+	{ PilInt,   "integratortype", "Integrator type (1-8)"},
 	{ PilNone,   "",   "" }
 	};
 
@@ -270,14 +281,14 @@ public:
 	AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "#### AG_multiterative5 v1.2.0 - A.B., T.C., A.C.             ####"<< endl;
+	cout << "#### AG_multiterative v2.0.0 - A.B., T.C., A.C.              ####"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 
 	~AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "#######  Task AG_multiiterative5........ exiting ################"<< endl;
+	cout << "#######  Task AG_multiiterative......... exiting ################"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 };
@@ -363,6 +374,11 @@ double galc = 0;
 double isoc = 0;
 
 RoiMulti roiMulti;
+
+roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["mindefaulttolerance"], mPars["integratortype"]);
+roiMulti.SetCorrections(mPars["galmode2"], mPars["galmode2fit"], mPars["isomode2"], mPars["isomode2fit"], mPars["edpcorrection"], mPars["fluxcorrection"]);
+
+	
 if (!roiMulti.SetPsf(psdfilename, sarfilename, edpfilename)) {
 	cerr << "ERROR accessing PSF related files" << endl;
 	delete []originalFlags;
@@ -433,7 +449,7 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 					/// Make a copy of the base sources setting fixflag=0 for those too far apart
 					logFile << "* Starting with index ... " << tryData.index << " and minDistance " << minDistance << " and current maxTS " << maxTS << endl;
 
-					ScrPrint("Evalueate source with spectral index #", tryData.index);
+					ScrPrint("Evaluate source with spectral index #", tryData.index);
 
 					SourceDataArray tryArr(baseSrcArr);
 					ResetDistantFlags(tryArr, tryData.srcL, tryData.srcB, fixdistance);
@@ -595,8 +611,8 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 		galc = roiMulti.GetGalactic(0).GetCoeff();
 		isoc = roiMulti.GetIsotropic(0).GetCoeff();
 		roiMulti.Write(fileName.c_str());
-		roiMulti.WriteSources(fileName.c_str(), "no", "no", 0, 15, 10, true);
-		roiMulti.WriteHtml(fileName.c_str(), "no", "no", 0, 15, 10);
+		roiMulti.WriteSources(fileName.c_str(), false, false, 0, 15, 10, true);
+		roiMulti.WriteHtml(fileName.c_str(), false, false, 0, 15, 10);
 
 		/// Check if the position calculated of the new source is too far.
 		double distanceOldNewPosition = AlikeSphdistDeg(tryArr[tryName].srcL, tryArr[tryName].srcB, startL, startB);
@@ -612,8 +628,8 @@ for (int cycle=0; cycle<maxIterations; ++cycle) {
 			galc = roiMulti.GetGalactic(0).GetCoeff();
 			isoc = roiMulti.GetIsotropic(0).GetCoeff();
 			roiMulti.Write(fileName.c_str());
-			roiMulti.WriteSources(fileName.c_str(), "no", "no", 0, 15, 10, true);
-			roiMulti.WriteHtml(fileName.c_str(), "no", "no", 0, 15, 10);
+			roiMulti.WriteSources(fileName.c_str(), false, false, 0, 15, 10, true);
+			roiMulti.WriteHtml(fileName.c_str(), false, false, 0, 15, 10);
 			}
 		/// Restore the fixflags
 		tryArr[tryName].fixflag = originalFixflag;

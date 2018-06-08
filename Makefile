@@ -63,6 +63,7 @@ AG_NORM = AG_norm5
 AG_INDEXGEN = AG_indexgen
 AG_EXPRATIO = AG_expratio
 AG_LM6 = AG_lm6
+AG_ADDRINGTOAITOFFMAP = AG_addringtoaitoffmap
 
 # Libraries
 AGILE_MAP = AgileMap
@@ -262,7 +263,7 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_EXPMAPGEN) $(OBJECTS_DIR)/AG_expmapgen5.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_AP) $(OBJECTS_DIR)/AG_ap5.o $(LIBS)
-	
+
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_LM) $(OBJECTS_DIR)/AG_lm5.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SELECT) $(OBJECTS_DIR)/AG_select5.o $(LIBS)
@@ -303,9 +304,12 @@ exe: makeobjdir $(OBJECTS)
 
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_LM6) $(OBJECTS_DIR)/AG_lm6.o $(LIBS)
 
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ADDRINGTOAITOFFMAP) $(OBJECTS_DIR)/AG_addringtoaitoffmap.o $(LIBS)
+
+
 staticlib: makelibdir makeobjdir $(OBJECTS)
 	test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)
-	$(DEL_FILE) $(LIB_DESTDIR)/$(TARGETA) 
+	$(DEL_FILE) $(LIB_DESTDIR)/$(TARGETA)
 	$(AR) $(LIB_DESTDIR)/$(TARGETA) $(OBJECTS_DIR)/*.o
 
 dynamiclib: makelibdir makeobjdir $(OBJECTS)

@@ -1,0 +1,4 @@
+mapPath,s,ql,"map.exp.gz",,,"Map file path"
+ringPath,s,ql,"ring.exp.gz",,,"Ring file path"
+eraseOldData,b,ql,"n",,,"Erase data in input map? [yes/y, np/n]"
+destinationName,s,h,"null",,,""Output map name. If null the input map will be overwritten"

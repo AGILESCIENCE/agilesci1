@@ -1,2 +1,3 @@
 maplist,s,ql,"input.maplist4",,,"Input maplist"
 outprefix,s,ql,"out",,,"Output name prefix for the maps"
+operationmode,s,h,"sum",,,"Operation mode: sum (it adds the maps), sub (it subtracts from the first map the others map)"

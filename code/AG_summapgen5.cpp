@@ -38,6 +38,7 @@ const char* endString = {
 const PilDescription paramsDescr[] = {
     { PilString, "maplist", "Input maplist" },
     { PilString, "outprefix", "Output name prefix for the maps" },
+    { PilString, "operationmode", "Operation mode: sum (it adds the maps), sub (it subtracts from the first map the others map)" },
     { PilNone, "", "" }
 };
 
@@ -63,6 +64,19 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
+    std::string operationMode = std::string(params["operationmode"]);
+    short int om;
+    if(operationMode == "sum")
+        om = +1;
+    else if(operationMode == "sub")
+        om = -1;
+    else
+    {
+        cerr << "Operation mode not correct. Possible values: [sum, sub]." << endl;
+        return EXIT_FAILURE;
+    }
+
+
     AgileMap sumCts = mapData.CtsMap(0);
     AgileMap sumExp = mapData.ExpMap(0);
     double emin = sumCts.GetEmin();
@@ -75,11 +89,20 @@ int main(int argc, char *argv[]) {
         AgileMap otherCts = mapData.CtsMap(i);
         for (int y=0; y<sumCts.Dim(0); ++y)
             for (int x=0; x<sumCts.Dim(1); ++x)
-                sumCts(y, x) += otherCts(y, x);
+            {
+                sumCts(y, x) += (om) * otherCts(y, x);
+                if(sumCts(y, x) < 0)
+                   sumCts(y, x) = 0;
+            }
+
         AgileMap otherExp = mapData.ExpMap(i);
         for (int y=0; y<sumExp.Dim(0); ++y)
             for (int x=0; x<sumExp.Dim(1); ++x)
-                sumExp(y, x) += otherExp(y, x);
+            {
+                sumExp(y, x) += (om) * otherExp(y, x);
+                if (sumExp(y, x) < 0 )
+                    sumExp(y, x) = 0;
+            }
         if(otherCts.GetEmin() < emin)
             emin = otherCts.GetEmin();
         if(otherCts.GetEmax() > emax)

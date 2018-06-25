@@ -3,7 +3,7 @@
 //       Scientific pipeline I/O routine
 //       AG_add_diff
 //       Release: V2.1 -  09/Oct/2010
-//       Contributors: 
+//       Contributors:
 //       Author: Andrew Chen, Tomaso Contessi (IASF-Milano)
 //
 // INPUT
@@ -54,7 +54,7 @@ int AG_findindex(double emin, double * raeffenergy, int numaeffenergies) {
 */
 
 int AG_add_diff(char * diffusefilelist, char * sarfile, char * edpfile, char *  outfile, double emin, double emax){
-	
+
 	EdpGrid edpgrid(edpfile);
 	int status = 0;
 	long pixel[2] = { 1, 1 };
@@ -91,10 +91,10 @@ int AG_add_diff(char * diffusefilelist, char * sarfile, char * edpfile, char *  
 
 
 	string diffusefilename;
-	double * diffuseout;
+	double * diffuseout = 0;
 
 	int bitpix   =  DOUBLE_IMG;
-	int naxis;   
+	int naxis;
 	long naxes[3] ;
 
 	fitsfile * outFits;
@@ -111,7 +111,7 @@ int AG_add_diff(char * diffusefilelist, char * sarfile, char * edpfile, char *  
 		return status;
 		}
 	  else {
-	    fits_movabs_hdu(diffuseFits, 2, NULL, &status);	
+	    fits_movabs_hdu(diffuseFits, 2, NULL, &status);
 	    fits_get_img_param(diffuseFits, 3, &bitpix, &naxis, naxes, &status);
 	    cout << diffusefilename << ": " << naxis << " axes: (" << naxes[0] << ", " << naxes[1] << ", " << naxes[2] << ")" << endl;
 	    if (diffi == 0) {
@@ -120,7 +120,7 @@ int AG_add_diff(char * diffusefilelist, char * sarfile, char * edpfile, char *  
 		for (long i=0 ; i < naxes[0] * naxes[1] ; i++)
 		    diffuseout[i] = 0;
 	    }
-	
+
 	    double * diffuse = new double[naxes[0] * naxes[1]];
 	    if ( fits_read_pix(diffuseFits, TDOUBLE, pixel, naxes[0]*naxes[1], NULL, diffuse, NULL, &status) != 0) {
 		printf("Error reading array from '%s'\n", diffusefilename.c_str());
@@ -129,7 +129,7 @@ int AG_add_diff(char * diffusefilelist, char * sarfile, char * edpfile, char *  
 	    }
 	    else {
 		cout << "Diffuse array " << diffi << " for " << diffusefilename << " successfully created" << endl;
-	
+
 		double elow;
 		double ehigh;
 		double index;
@@ -180,9 +180,9 @@ int AG_add_diff(char * diffusefilelist, char * sarfile, char * edpfile, char *  
 	  }
 	  fits_close_file(diffuseFits, &status);
 	}
-	
+
 	fits_movabs_hdu(outFits, 2, NULL, &status);
-	fits_write_pix(outFits, TDOUBLE, pixel, naxes[0]*naxes[1], diffuseout, &status);	
+	fits_write_pix(outFits, TDOUBLE, pixel, naxes[0]*naxes[1], diffuseout, &status);
 	fits_update_key(outFits, TDOUBLE, "E_MIN", &emin, NULL, &status);
 	fits_update_key(outFits, TDOUBLE, "E_MAX", &emax, NULL, &status);
 	fits_update_key(outFits, TDOUBLE, "INDEX", &bigindex, NULL, &status);
@@ -201,20 +201,20 @@ int main(int argc,char **argv)
 	char outfile[FLEN_FILENAME];
 	double emin = 100.0;
 	double emax = 50000.0;
-	
+
 	status = PILInit(argc,argv);
 	status = PILGetNumParameters(&numpar);
-	status = PILGetString("diffusefilelist", diffusefilelist);	
+	status = PILGetString("diffusefilelist", diffusefilelist);
 	status = PILGetString("sarfile", sarfile);
 	status = PILGetString("edpfile", edpfile);
 	status = PILGetString("outfile", outfile);
 	status = PILGetReal("emin", &emin);
 	status = PILGetReal("emax", &emax);
-	
+
 	status = PILClose(status);
 
 	cout << " "<< endl;
-	cout << " "<< endl;	
+	cout << " "<< endl;
 	cout << "#################################################################"<< endl;
 	cout << "########## AG_add_diff5 v1.2.0 - A.C.                   #########"<< endl;
 	cout << "#################################################################"<< endl;
@@ -228,29 +228,28 @@ int main(int argc,char **argv)
 	cout << "Enter minimum energy = " << emin << endl;
 	cout << "Enter minimum energy = " << emax << endl;
 	cout << " "<< endl;
-	cout << " "<< endl;	
-	
+	cout << " "<< endl;
 
-	cout << "AG_add_diff...............................starting"<< endl;		
-	if (status == 0)	
+
+	cout << "AG_add_diff...............................starting"<< endl;
+	if (status == 0)
 		status = AG_add_diff(diffusefilelist, sarfile, edpfile, outfile, emin, emax);
-	cout << "AG_add_diff............................... exiting"<< endl;		
+	cout << "AG_add_diff............................... exiting"<< endl;
 	if (status) {
 /*		if (status != 105) {
 			char * temp = new char[128];
 			sprintf(temp, "rm %s", outfile);
 			system(temp);
 			}*/
-		printf("AG_add_diff..................... exiting AG_add_diff ERROR:");		
-		fits_report_error(stdout, status);	
-		return status;			
-		}			
+		printf("AG_add_diff..................... exiting AG_add_diff ERROR:");
+		fits_report_error(stdout, status);
+		return status;
+		}
 	else {
 		printf("\n\n\n###################################################################\n");
 		printf("#########  Task AG_add_diff5........... exiting #################\n");
-		printf("#################################################################\n\n\n");					
-		}			
-	
+		printf("#################################################################\n\n\n");
+		}
+
 	return status;
 }
-

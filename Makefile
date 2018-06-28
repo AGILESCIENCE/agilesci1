@@ -25,41 +25,41 @@ SYSTEM= $(shell gcc -dumpmachine)
 LINKERENV= cfitsio, pil, wcs, root, agile
 
 # Applications
-AG_ADD_DIFF = AG_add_diff5
-AG_CHECK_MAP_VALUE = AG_checkMapValue5
-AG_CIRCLE = AG_circle5
-AG_MAP2CSV = AG_map2csv5
-AG_SUMMAPGEN = AG_summapgen5
-AG_DIFF_CONV = AG_diff_conv5
-AG_EXPMAPGEN = AG_expmapgen5
-AG_CTSMAPGEN = AG_ctsmapgen5
-AG_GASMAPGEN = AG_gasmapgen5
-AG_INTMAPGEN = AG_intmapgen5
-AG_DIFMAPGEN = AG_difmapgen5
+AG_ADD_DIFF = AG_add_diff
+AG_CHECK_MAP_VALUE = AG_checkMapValue
+AG_CIRCLE = AG_circle
+AG_MAP2CSV = AG_map2csv
+AG_SUMMAPGEN = AG_summapgen
+AG_DIFF_CONV = AG_diff_conv
+AG_EXPMAPGEN = AG_expmapgen
+AG_CTSMAPGEN = AG_ctsmapgen
+AG_GASMAPGEN = AG_gasmapgen
+AG_INTMAPGEN = AG_intmapgen
+AG_DIFMAPGEN = AG_difmapgen
 TESTEDP = testedp
-AG_AP = AG_ap5
+AG_AP = AG_ap
 AG_LM = AG_lm5
-AG_SELECT = AG_select5
-AG_ITERATIVEGENSRCLIST = AG_iterativeGenSrcList5
-AG_THETAMAPGEN = AG_thetamapgen5
+AG_SELECT = AG_select
+AG_ITERATIVEGENSRCLIST = AG_iterativeGenSrcList
+AG_THETAMAPGEN = AG_thetamapgen
 #AG_MULTI2 = AG_multi2
-AG_MULTI5 = AG_multi5
+AG_MULTI5 = AG_multi
 AG_MULTI5EXT = AG_multi5ext
-AG_MULTISIM5 = AG_multisim5
-AG_DIFFSIM5 = AG_diffsim5
-AG_MULTITERATIVE5 = AG_multiterative5
-AG_PASTEMAP5 = AG_pasteMap5
-AG_PIXEXTRACT= AG_pixextract5
-AG_SPOTFINDER = AG_spotfinder5
+AG_MULTISIM5 = AG_multisim
+AG_DIFFSIM5 = AG_diffsim
+AG_MULTITERATIVE5 = AG_multiterative
+AG_PASTEMAP5 = AG_pasteMap
+AG_PIXEXTRACT= AG_pixextract
+AG_SPOTFINDER = AG_spotfinder
 AG_GENAPP = AG_genapp
 AG_FITPSFARRAY = AG_fitpsfarray
 AG_FITPSFARRAY3 = AG_fitpsfarray3
 AG_FITPSFARRAY3_H = AG_fitpsfarray3_H
-AG_CONVERTTOSKYMAP5 = AG_converttoSkyMap5
-AG_PADMAP5 = AG_padMap5
+AG_CONVERTTOSKYMAP5 = AG_converttoSkyMap
+AG_PADMAP5 = AG_padMap
 AG_CREATEPSD = AG_createpsd
 AG_CREATEPSD3 = AG_createpsd3
-AG_NORM = AG_norm5
+AG_NORM = AG_norm
 AG_INDEXGEN = AG_indexgen
 AG_EXPRATIO = AG_expratio
 AG_LM6 = AG_lm6
@@ -232,53 +232,53 @@ lib: staticlib
 exe: makeobjdir $(OBJECTS)
 	test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
 
-	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5) $(OBJECTS_DIR)/AG_multi5.o $(LIBS)
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5) $(OBJECTS_DIR)/AG_multi.o $(LIBS)
 
-	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTISIM5) $(OBJECTS_DIR)/AG_multisim5.o $(LIBS)
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTISIM5) $(OBJECTS_DIR)/AG_multisim.o $(LIBS)
 
-	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFFSIM5) $(OBJECTS_DIR)/AG_diffsim5.o $(LIBS)
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFFSIM5) $(OBJECTS_DIR)/AG_diffsim.o $(LIBS)
 
-	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5EXT) $(OBJECTS_DIR)/AG_multi5ext.o  $(LIBS)
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5EXT) $(OBJECTS_DIR)/AG_multiext.o  $(LIBS)
 
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(TESTEDP) $(OBJECTS_DIR)/testedp.o  $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTITERATIVE5) $(OBJECTS_DIR)/AG_multiterative5.o  $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTITERATIVE5) $(OBJECTS_DIR)/AG_multiterative.o  $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CHECK_MAP_VALUE) $(OBJECTS_DIR)/AG_checkMapValue5.o  $(LIBS)
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CHECK_MAP_VALUE) $(OBJECTS_DIR)/AG_checkMapValue.o  $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CIRCLE) $(OBJECTS_DIR)/AG_circle5.o  $(LIBS)
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CIRCLE) $(OBJECTS_DIR)/AG_circle.o  $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_MAP2CSV) $(OBJECTS_DIR)/AG_map2csv5.o  $(LIBS)
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_MAP2CSV) $(OBJECTS_DIR)/AG_map2csv.o  $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_SUMMAPGEN) $(OBJECTS_DIR)/AG_summapgen5.o  $(LIBS)
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_SUMMAPGEN) $(OBJECTS_DIR)/AG_summapgen.o  $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_DIFF_CONV) $(OBJECTS_DIR)/AG_diff_conv5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_DIFF_CONV) $(OBJECTS_DIR)/AG_diff_conv.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_PASTEMAP5) $(OBJECTS_DIR)/AG_pasteMap5.o  $(LIBS)
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_PASTEMAP5) $(OBJECTS_DIR)/AG_pasteMap.o  $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_GENAPP) $(OBJECTS_DIR)/AG_genapp.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ADD_DIFF) $(OBJECTS_DIR)/AG_add_diff5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ADD_DIFF) $(OBJECTS_DIR)/AG_add_diff.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_EXPMAPGEN) $(OBJECTS_DIR)/AG_expmapgen5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_EXPMAPGEN) $(OBJECTS_DIR)/AG_expmapgen.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_AP) $(OBJECTS_DIR)/AG_ap5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_AP) $(OBJECTS_DIR)/AG_ap.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_LM) $(OBJECTS_DIR)/AG_lm5.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SELECT) $(OBJECTS_DIR)/AG_select5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SELECT) $(OBJECTS_DIR)/AG_select.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_CTSMAPGEN) $(OBJECTS_DIR)/AG_ctsmapgen5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_CTSMAPGEN) $(OBJECTS_DIR)/AG_ctsmapgen.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_GASMAPGEN) $(OBJECTS_DIR)/AG_gasmapgen5.o  $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_GASMAPGEN) $(OBJECTS_DIR)/AG_gasmapgen.o  $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTMAPGEN) $(OBJECTS_DIR)/AG_intmapgen5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTMAPGEN) $(OBJECTS_DIR)/AG_intmapgen.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFMAPGEN) $(OBJECTS_DIR)/AG_difmapgen5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFMAPGEN) $(OBJECTS_DIR)/AG_difmapgen.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ITERATIVEGENSRCLIST) $(OBJECTS_DIR)/AG_iterativeGenSrcList5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ITERATIVEGENSRCLIST) $(OBJECTS_DIR)/AG_iterativeGenSrcList.o $(LIBS)
 
-	$(CXX) -g $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SPOTFINDER) $(OBJECTS_DIR)/AG_spotfinder5.o $(LIBS)
+	$(CXX) -g $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SPOTFINDER) $(OBJECTS_DIR)/AG_spotfinder.o $(LIBS)
 
 	#$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_THETAMAPGEN) $(OBJECTS_DIR)/AG_ $(LIBS)
 
@@ -288,15 +288,15 @@ exe: makeobjdir $(OBJECTS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY3_H) $(OBJECTS_DIR)/AG_fitpsfarray3_H.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CONVERTTOSKYMAP5) $(OBJECTS_DIR)/AG_converttoSkyMap5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CONVERTTOSKYMAP5) $(OBJECTS_DIR)/AG_converttoSkyMap.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_PADMAP5) $(OBJECTS_DIR)/AG_padMap5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_PADMAP5) $(OBJECTS_DIR)/AG_padMap.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_CREATEPSD) $(OBJECTS_DIR)/AG_createpsd.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_CREATEPSD3) $(OBJECTS_DIR)/AG_createpsd3.o $(LIBS)
 
-	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_NORM) $(OBJECTS_DIR)/AG_norm5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_NORM) $(OBJECTS_DIR)/AG_norm.o $(LIBS)
 
 	$(CXX) -o $(EXE_DESTDIR)/$(AG_INDEXGEN) $(OBJECTS_DIR)/AG_indexgen.o -lz
 

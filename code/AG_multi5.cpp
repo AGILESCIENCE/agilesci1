@@ -62,6 +62,7 @@ const PilDescription c_params[] = {
 	{ PilReal, "minThreshold", "The lower bound for the threshold level in exp-ratio evaluation"},
 	{ PilReal, "maxThreshold", "The upper bound for the threshold level in exp-ratio evaluation"},
 	{ PilReal, "squareSize", "The edge degree dimension of the exp-ratio evaluation area"},
+	{ PilInt,   "contourpoints", "Number of points to determine the contour (0-400)"},
 	{ PilNone,   "",   "" }
 	};
 
@@ -88,7 +89,7 @@ public:
 	AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "#### AG_Multi  v2.0.0 - A.C., T.C., A.T., A.B               #####"<< endl;
+	cout << "#### AG_Multi  v6.0.0 - A.C., T.C., A.T., A.B               #####"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 
@@ -138,6 +139,7 @@ fileName = outfilename;
 fileName += ".log";
 
 roiMulti.SetLogfile(fileName.c_str());
+roiMulti.SetContourPoints(mPars["contourpoints"]);
 roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["mindefaulttolerance"], mPars["integratortype"]);
 roiMulti.SetCorrections(mPars["galmode2"], mPars["galmode2fit"], mPars["isomode2"], mPars["isomode2fit"], mPars["edpcorrection"], mPars["fluxcorrection"]);
 	

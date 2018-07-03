@@ -24,3 +24,4 @@ expratioevaluation,i,h,1,0,1,"Enable exp-ratio evaluation. 1 (for 'yes') or 0 (f
 minThreshold,r,h,0,,,"The lower bound for the threshold level in exp-ratio evaluation"
 maxThreshold,r,h,15,,,"The upper bound for the threshold level in exp-ratio evaluation"
 squareSize,r,h,10,,,"The edge degree dimension of the exp-ratio evaluation area"
+contourpoints,i,l,40,0,400,"Number of points to determine the contour (0-400)"

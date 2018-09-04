@@ -86,9 +86,15 @@ int main(int argc, char *argv[])
     double radius = params["mres"];
     double binstep = 1.0;
     const char *projection = "ARC";
-    cout << "radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
-    cout << "Binstep: " << binstep << endl;
-    cout << "Projection: " << projection << endl;
+	cout << "### Radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
+	cout << "### Binstep: " << binstep << endl;
+	cout << "### Projection: " << projection << endl;
+	
+	//area calculation
+	double pixel1 = DEG2RAD * DEG2RAD * fabs(mdim * mdim);
+	double areapixel =  pixel1 * Sinaa(DEG2RAD*45.);
+	
+	cout << "### Area pixel " << areapixel << endl;
 
     cout << "INTERVALS N=" << intervals.Count() << ":" << endl;
     for (int i=0; i<intervals.Count(); i++)
@@ -200,12 +206,13 @@ int main(int argc, char *argv[])
                 slotExp += exposures[slot][0]; // the map is 1x1
                 slotCounts += counts[slot];
             }
-
+			//slotExp in cm2 s sr
+			//output in cm2 s
             if(status == 0) {
                 expText << std::setprecision(1);
                 expText << beginTime << " " << endTime << " ";
                 expText << std::setprecision(2);
-                expText << slotExp << " " << slotCounts << " ";
+                expText << slotExp / areapixel  << " " << slotCounts << " ";
                 /*
                 for (int slot=0; slot<intervalSlots.Count(); slot++) {
                 	expText << dist_pl_earth[slot] << " " << dist_pl_source[slot] << " ";
@@ -228,7 +235,7 @@ int main(int argc, char *argv[])
     } while (beginTime < tmax);
     expText.close();
     cout << "Total Counts: " << totalCounts << endl;
-    cout << "Total Exposure: " << totalExp << endl;
+    cout << "Total Exposure [cm2 s sr]: " << totalExp << endl;
 
     FitsFile slogfile(selectionLogFilename);
     slogfile.Delete();

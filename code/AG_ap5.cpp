@@ -21,12 +21,15 @@
 #include <Eval.h>
 #include <PilParams.h>
 
+#include "EVTFilter.h"
+#include "LOGFilter.h"
+
 using std::cout;
 using std::endl;
 
 const char* startString = {
 "################################################################\n"
-"###                   Task AG_ap5 v1.0.0 - A.Z.              ###"
+"###                   Task AG_ap5 v1.0.0 - A.B. A.Z.         ###"
 };
 
 const char* endString = {
@@ -60,6 +63,7 @@ const PilDescription paramsDescr[] = {
     { PilReal, "fovradmax", "Max radius of field of view (degrees)" },
     { PilInt, "filtercode", "Event filter code" },
     { PilReal, "timeslot", "Time slot" },
+    { PilInt, "usetelem", "Use telemetry" },
     { PilNone, "", "" }
 };
 
@@ -71,6 +75,7 @@ int main(int argc, char *argv[])
     if (!params.Load(argc, argv))
         return EXIT_FAILURE;
 
+    int timestep = params["timestep"];
     Intervals intervals;
     double tmin = params["tmin"];
     double tmax = params["tmax"];
@@ -86,63 +91,80 @@ int main(int argc, char *argv[])
     double radius = params["mres"];
     double binstep = 1.0;
     const char *projection = "ARC";
-	cout << "### Radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
-	cout << "### Binstep: " << binstep << endl;
-	cout << "### Projection: " << projection << endl;
-	
-	//area calculation
-	double pixel1 = DEG2RAD * DEG2RAD * fabs(mdim * mdim);
-	double areapixel =  pixel1 * Sinaa(DEG2RAD*45.);
-	
-	cout << "### Area pixel " << areapixel << endl;
+    cout << "### Radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
+    cout << "### Binstep: " << binstep << endl;
+    cout << "### Projection: " << projection << endl;
+
+    //area calculation
+    double pixel1 = DEG2RAD * DEG2RAD * fabs(mdim * mdim);
+    double areapixel =  pixel1 * Sinaa(DEG2RAD*45.);
+
+    cout << "### Area pixel " << areapixel << endl;
 
     cout << "INTERVALS N=" << intervals.Count() << ":" << endl;
     for (int i=0; i<intervals.Count(); i++)
         cout << "   " << intervals[i].String() << endl;
 
-    cout << "Selecting the events.." << endl;
+    int usetelem = params["usetelem"];
+    EVTFilter* evtfilter = 0;
+    LOGFilter* logfilter = 0;
     char selectionLogFilename[FLEN_FILENAME];
     char templateLogFilename[FLEN_FILENAME];
-    tmpnam(selectionLogFilename);
-    tmpnam(templateLogFilename);
-    char *logfile = (char*) params["logfile"].GetStr();
-    if (logfile && logfile[0]=='@')
-        logfile++;
-    string logExpr = selection::LogExprString(intervals, params["phasecode"], params["timestep"]);
-    cout << logExpr << endl;
-    int status = selection::MakeSelection(logfile, intervals, logExpr, selectionLogFilename, templateLogFilename);
-    if (status==-118) {
-        cout << endl << "AG_ap5......................no matching events found" << endl;
-        cout << endString << endl;
-        return 0;
-    }
-    else if (status != 0) {
-        cout << endl << "AG_ap5......................selection failed" << endl;
-        cout << endString << endl;
-        return 0;
-    }
-
-    cout << "Selecting the events.." << endl;
     char selectionEvtFilename[FLEN_FILENAME];
     char templateEvtFilename[FLEN_FILENAME];
-    tmpnam(selectionEvtFilename);
-    tmpnam(templateEvtFilename);
+
     char *evtfile = (char*) params["evtfile"].GetStr();
     if (evtfile && evtfile[0]=='@')
         evtfile++;
-    string evtExpr = selection::EvtExprString(intervals, params["emin"], params["emax"],
-                                    params["albrad"], params["fovradmax"], params["fovradmin"],
-                                    params["phasecode"], params["filtercode"]);
-    status = selection::MakeSelection(evtfile, intervals, evtExpr, selectionEvtFilename, templateEvtFilename);
-    if (status==-118) {
-        cout << endl << "AG_ap5......................no matching events found" << endl;
-        cout << endString << endl;
-        return 0;
-    }
-    else if (status != 0) {
-        cout << endl << "AG_ap5......................selection failed" << endl;
-        cout << endString << endl;
-        return 0;
+
+    char *logfile = (char*) params["logfile"].GetStr();
+    if (logfile && logfile[0]=='@')
+        logfile++;
+
+    int status;
+
+    if(usetelem == 0) {
+      cout << "Selecting the events.." << endl;
+
+      tmpnam(selectionLogFilename);
+      tmpnam(templateLogFilename);
+
+      string logExpr = selection::LogExprString(intervals, params["phasecode"], params["timestep"]);
+      cout << logExpr << endl;
+      status = selection::MakeSelection(logfile, intervals, logExpr, selectionLogFilename, templateLogFilename);
+      if (status==-118) {
+          cout << endl << "AG_ap5......................no matching events found" << endl;
+          cout << endString << endl;
+          return 0;
+      }
+      else if (status != 0) {
+          cout << endl << "AG_ap5......................selection failed" << endl;
+          cout << endString << endl;
+          return 0;
+      }
+
+      cout << "Selecting the events.." << endl;
+
+      tmpnam(selectionEvtFilename);
+      tmpnam(templateEvtFilename);
+
+      string evtExpr = selection::EvtExprString(intervals, params["emin"], params["emax"],
+                                      params["albrad"], params["fovradmax"], params["fovradmin"],
+                                      params["phasecode"], params["filtercode"]);
+      status = selection::MakeSelection(evtfile, intervals, evtExpr, selectionEvtFilename, templateEvtFilename);
+      if (status==-118) {
+          cout << endl << "AG_ap5......................no matching events found" << endl;
+          cout << endString << endl;
+          return 0;
+      }
+      else if (status != 0) {
+          cout << endl << "AG_ap5......................selection failed" << endl;
+          cout << endString << endl;
+          return 0;
+      }
+    } else {
+      evtfilter = new EVTFilter(evtfile);
+      logfilter = new LOGFilter(logfile, timestep);
     }
 
     const char *outfile = params["outfile"];
@@ -172,14 +194,25 @@ int main(int argc, char *argv[])
                 cout << "   " << intervalSlots[i].Start() << " " << intervalSlots[i].Stop() << endl;
 
             vector< vector<double> > exposures;
-            status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
+            if(usetelem == 0) {
+              status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
                                "None", projection, mdim, mdim, params["la"], params["ba"],
                                params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
                                params["earth_tol"], params["phasecode"], binstep, params["timestep"],
                                params["index"], tmin, tmax, params["emin"],
                                params["emax"], params["fovradmin"], params["fovradmax"],
-                               selectionLogFilename, templateLogFilename, intervalSlots, exposures, false);
-
+                               selectionLogFilename, templateLogFilename, intervalSlots, exposures, false, 0);
+            } else {
+              int phasecode = params["phasecode"];
+              logfilter->query( tmin, tmax, phasecode );
+              status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
+                             "None", projection, mdim, mdim, params["la"], params["ba"],
+                             params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
+                             params["earth_tol"], params["phasecode"], binstep, params["timestep"],
+                             params["index"], tmin, tmax, params["emin"],
+                             params["emax"], params["fovradmin"], params["fovradmax"],
+                             0, 0, intervalSlots, exposures, false, logfilter);
+            }
 			//TBW
 			/*
 			vector<double>  dist_pl_earth;
@@ -192,14 +225,37 @@ int main(int argc, char *argv[])
                                params["emax"], params["fovradmin"], params["fovradmax"],
                                selectionLogFilename, templateLogFilename, intervalSlots, dist_pl_earth, dist_pl_source);
             */
-			vector<int>  counts;
-			status = eval::EvalCountsInRadius("None", tmin, tmax, radius, 
-						   params["la"], params["ba"], params["lonpole"],
-						   params["emin"], params["emax"], params["fovradmax"],
-						   params["fovradmin"], params["albrad"], params["phasecode"],
-						   params["filtercode"], selectionEvtFilename, templateEvtFilename,
-						   intervalSlots, counts);
+      			vector<int>  counts;
+            if(usetelem == 0) {
+      			  status = eval::EvalCountsInRadius("None", tmin, tmax, radius,
+      						   params["la"], params["ba"], params["lonpole"],
+      						   params["emin"], params["emax"], params["fovradmax"],
+      						   params["fovradmin"], params["albrad"], params["phasecode"],
+      						   params["filtercode"], selectionEvtFilename, templateEvtFilename,
+      						   intervalSlots, counts, 0);
+            } else {
+              double mdim = params["mdim"];
+            	double la = params["la"];
+            	double ba = params["ba"];
+            	evtfilter->setPostfilter1(mdim, la, ba);
 
+              int phasecode = params["phasecode"];
+            	int filtercode =  params["filtercode"];
+            	double emin = params["emin"];
+            	double emax = params["emax"];
+            	double albrad =  params["albrad"];
+            	double fovradmin =  params["fovradmin"];
+            	double fovradmax =  params["fovradmax"];
+              evtfilter->query(tmin, tmax, phasecode, filtercode, emin, emax, albrad, fovradmin, fovradmax );
+
+              status = eval::EvalCountsInRadius("None", tmin, tmax, radius,
+                    params["la"], params["ba"], params["lonpole"],
+                    params["emin"], params["emax"], params["fovradmax"],
+                    params["fovradmin"], params["albrad"], params["phasecode"],
+                    params["filtercode"], 0, 0,
+                    intervalSlots, counts, evtfilter);
+
+            }
             double slotExp = 0;
             int slotCounts = 0;
             for (int slot=0; slot<intervalSlots.Count(); slot++) {
@@ -237,21 +293,23 @@ int main(int argc, char *argv[])
     cout << "Total Counts: " << totalCounts << endl;
     cout << "Total Exposure [cm2 s sr]: " << totalExp << endl;
 
-    FitsFile slogfile(selectionLogFilename);
-    slogfile.Delete();
-    FitsFile tlogfile(templateLogFilename);
-    tlogfile.Delete();
-    FitsFile sevtfile(selectionEvtFilename);
-    sevtfile.Delete();
-    FitsFile tevtfile(templateEvtFilename);
-    tevtfile.Delete();
-
+    if(usetelem == 0) {
+      FitsFile slogfile(selectionLogFilename);
+      slogfile.Delete();
+      FitsFile tlogfile(templateLogFilename);
+      tlogfile.Delete();
+      FitsFile sevtfile(selectionEvtFilename);
+      sevtfile.Delete();
+      FitsFile tevtfile(templateEvtFilename);
+      tevtfile.Delete();
+    }
     if (status == -118) {
         cout << endl << "AG_ap5......................no matching events found" << endl;
     }
     else if (status != 0) {
         cout << endl << "AG_ap5...................... exiting with ERROR:"<< endl;
-        fits_report_error(stdout, status);
+        if(usetelem == 0)
+          fits_report_error(stdout, status);
     }
     cout << endString << endl;
 

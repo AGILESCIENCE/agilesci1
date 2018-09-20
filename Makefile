@@ -136,7 +136,7 @@ ifneq (, $(findstring agile, $(LINKERENV)))
     ifeq (, $(findstring -I $(AGILE)/include, $(CXXFLAGS)))
         CXXFLAGS += -I $(AGILE)/include
     endif
-    LIBS += -L$(AGILE)/lib -lpacket -lagiletelem -lagilesci
+    LIBS += -L$(AGILE)/lib -lagilesci -lagiletelem  -lpacket
 endif
 ifneq (, $(findstring wcs, $(LINKERENV)))
     ifeq (,$(findstring -I $(AGILE)/include, $(CXXFLAGS)))

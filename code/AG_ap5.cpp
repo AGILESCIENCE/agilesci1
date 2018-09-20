@@ -165,12 +165,14 @@ int main(int argc, char *argv[])
     } else {
       evtfilter = new EVTFilter(evtfile);
       logfilter = new LOGFilter(logfile, timestep);
+      /*
       double tmin = intervals[0].Start();
       double tmax;
       for (int i=0; i<intervals.Count(); i++) {
           tmax = intervals[i].Stop();
       }
-      //logfilter->query( tmin, tmax, phasecode );
+      logfilter->query( tmin, tmax, phasecode );
+      */
     }
 
     const char *outfile = params["outfile"];
@@ -245,14 +247,7 @@ int main(int argc, char *argv[])
             	double ba = params["ba"];
             	//evtfilter->setPostfilter1(mdim, la, ba);
 
-              int phasecode = params["phasecode"];
-            	int filtercode =  params["filtercode"];
-            	double emin = params["emin"];
-            	double emax = params["emax"];
-            	double albrad =  params["albrad"];
-            	double fovradmin =  params["fovradmin"];
-            	double fovradmax =  params["fovradmax"];
-              evtfilter->query(tmin, tmax, phasecode, filtercode, emin, emax, albrad, fovradmin, fovradmax );
+              
 
               status = eval::EvalCountsInRadius("None", tmin, tmax, radius,
                     params["la"], params["ba"], params["lonpole"],

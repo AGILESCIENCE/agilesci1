@@ -113,7 +113,7 @@ int main(int argc, char *argv[])
                       params["y_tol"], params["roll_tol"], params["earth_tol"], params["phasecode"],
                       params["binstep"], params["timestep"], params["index"], params["tmin"], params["tmax"],
                       params["emin"], params["emax"], params["fovradmin"], params["fovradmax"],
-                      selectionFilename, templateFilename, intervals, exposures, true);
+                      selectionFilename, templateFilename, intervals, exposures, true, 0);
     FitsFile sfile(selectionFilename);
     sfile.Delete();
     FitsFile tfile(templateFilename);

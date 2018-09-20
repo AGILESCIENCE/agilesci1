@@ -165,6 +165,12 @@ int main(int argc, char *argv[])
     } else {
       evtfilter = new EVTFilter(evtfile);
       logfilter = new LOGFilter(logfile, timestep);
+      double tmin = intervals[0].Start();
+      double tmax;
+      for (int i=0; i<intervals.Count(); i++) {
+          tmax = intervals[i].Stop();
+      }
+      //logfilter->query( tmin, tmax, phasecode );
     }
 
     const char *outfile = params["outfile"];
@@ -204,7 +210,7 @@ int main(int argc, char *argv[])
                                selectionLogFilename, templateLogFilename, intervalSlots, exposures, false, 0);
             } else {
               int phasecode = params["phasecode"];
-              logfilter->query( tmin, tmax, phasecode );
+              //logfilter->query( tmin, tmax, phasecode );
               status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
                              "None", projection, mdim, mdim, params["la"], params["ba"],
                              params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],

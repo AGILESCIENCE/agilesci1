@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
               double mdim = params["mdim"];
             	double la = params["la"];
             	double ba = params["ba"];
-            	evtfilter->setPostfilter1(mdim, la, ba);
+            	//evtfilter->setPostfilter1(mdim, la, ba);
 
               int phasecode = params["phasecode"];
             	int filtercode =  params["filtercode"];

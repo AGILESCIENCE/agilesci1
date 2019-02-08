@@ -177,7 +177,7 @@ public:
 	AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "###### AG_multiExt v2.0.0 - A.C., T.C., A.T., A.B        ########"<< endl;
+	cout << "###### AG_multiExt v3.0.0 - A.C., T.C., A.T., A.B        ########"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 
@@ -246,9 +246,6 @@ if (!extData.Load(extList))
 
 RoiMulti roiMulti;
 
-roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["mindefaulttolerance"], mPars["integratortype"]);
-roiMulti.SetCorrections(0, 0, 0, 0, mPars["edpcorrection"], mPars["fluxcorrection"]);
-
 if (!roiMulti.SetPsf(psdfilename, sarfilename, edpfilename))
 	return -1;
 if (!roiMulti.SetMaps(mapData , galmode, isomode))
@@ -261,6 +258,13 @@ string fileName;
 fileName = outfilename;
 fileName += ".log";
 roiMulti.SetLogfile(fileName.c_str());
+	
+	roiMulti.SetContourPoints(mPars["contourpoints"]);
+	roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["mindefaulttolerance"], mPars["integratortype"]);
+	roiMulti.SetCorrections(mPars["galmode2"], mPars["galmode2fit"], mPars["isomode2"], mPars["isomode2fit"], mPars["edpcorrection"], mPars["fluxcorrection"]);
+	//roiMulti.SetCorrections(0, 0, 0, 0, mPars["edpcorrection"], mPars["fluxcorrection"]);
+
+	
 if (roiMulti.DoFit(srcArr, ranal, ulcl, loccl, 1))
 	return -1;
 

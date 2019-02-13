@@ -1,13 +1,32 @@
+////////////////////////////////////////////////////////////////////////////////
+// DESCRIPTION
+//       AGILE Science Tools
+//       AG_ctsmapgen
+//       First release: 26/Gen/2005
+//       Authors: Andrew Chen, Tomaso Contessi (NEON SAS), Alberto Pellizzoni,
+//		 Andrea Bulgarelli, Alessio Trois, Andrea Zoli (IASF-Milano and INAF/OAS Bologna)
+//
+// NOTICE
+//       Any information contained in this software
+//       is property of the AGILE TEAM and is strictly
+//       private and confidential.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
 /*
- * Copyright (c) 2005-2016
- *     Andrew Chen, Alberto Pellizzoni, Alessio Trois (IASF-Milano),
- *     Andrea Bulgarelli, Andrea Zoli (IASF-Bologna),
- *     Tomaso Contessi (Nuove Idee sas)
- *
- * Any information contained in this software
- * is property of the AGILE TEAM and is strictly
- * private and confidential.
-*/
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+////////////////////////////////////////////////////////////////////////////////////
+
 
 #include <iostream>
 #include <string.h>
@@ -25,12 +44,14 @@ using std::vector;
 
 const char* startString = {
 "################################################################\n"
-"### Task AG_ctsmapgen5 v1.3.0 - A.C., T.C., A.T., A.B., A.Z. ###"
+"### Task AG_ctsmapgen B25 v1.3.0 - A.C. T.C. A.T. A.B. A.Z.  ###\n"
+"################################################################\n"
 };
 
 const char* endString = {
+"#################################################################\n"
 "### Task AG_ctsmapgen5 exiting .............................. ###\n"
-"#################################################################"
+"#################################################################\n"
 };
 
 const PilDescription paramsDescr[] = {

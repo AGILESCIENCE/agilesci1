@@ -1,28 +1,36 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
+//       AGILE Science Tools
 //       AG_fitpsfarray
 //       Release: BUILD 0.1 -  25/May/2010
-//       Contributors: 
 //       Author: Andrew Chen, Alberto Pellizzoni, Alessio Trois (IASF-Milano)
-//
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
 //
 // FILE HISTORY
 //       25/May/2010
-//                      First release: V0.1
-//       		Author: Andrew Chen, Alessio Trois (IASF-Milano)
+//       First release: V0.1
+//       Author: Andrew Chen, Alessio Trois (IASF-Milano)
+//
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
+
 
 #include <stdio.h>
 #include <fstream>
@@ -306,7 +314,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;	
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_fitpsfarray v1.2.0 - A.C., A.T.           #########"<< endl;
+	cout << "########## AG_fitpsfarray B25 v1.2.0 - A.C. A.T.        #########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -319,7 +327,7 @@ int main(int argc,char **argv)
 	AG_fitpsfarray(outfilename, psdfilename);
 	cout << "AG_fitpsfarray............................... exiting"<< endl;		
 		printf("\n\n\n###################################################################\n");
-		printf("#########  Task AG_fitpsfarray........... exiting ###############\n");
+		printf("#########  AG_fitpsfarray B25 ........... exiting ###############\n");
 		printf("#################################################################\n\n\n");					
 	
 	delete[] outfilename;

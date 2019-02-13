@@ -1,31 +1,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
-//       Alike
-//       Release: V0.0 -  26/Gen/2005
-//       Contributors: Andrew Chen, Andrea Giuliani, Stefano Vercellone, Alberto Pellizzoni,
-//		Alessio Trois, Sandro Mereghetti (IASF-Milano)
-//	 V1.2 - 31 Jul 2009
-//	 Contributors: Andrew Chen, Tomaso Contessi
+//       AGILE Science Tools
+//       Alike multi ext
+//       Authors: Andrew Chen, Tomaso Contessi (NEON SAS), Andrea Giuliani, Stefano Vercellone, Alberto Pellizzoni,
+//		 Andrea Bulgarelli, Alessio Trois (IASF-Milano and INAF/OAS Bologna)
 //
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
-//
-// FILE HISTORY
-//       26/Gen/2005
-//                      First release: V1.0
-//       		Author: Andrew Chen, Alessio Trois (IASF-Milano)
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
-
 
 
 #include "RoiMulti5.h"
@@ -177,14 +176,14 @@ public:
 	AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "###### AG_multiExt v3.0.0 - A.C., T.C., A.T., A.B        ########"<< endl;
+	cout << "###### AG_multiExt B25 v3.0.0 - A.C. T.C. A.T. A.B       ########"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 
 	~AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "##########  Task AG_multiExt.......... exiting ##################"<< endl;
+	cout << "##########   AG_multiExt B25 ......... exiting ##################"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 };

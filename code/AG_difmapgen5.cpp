@@ -1,7 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
-// Date: Jan 2016
-// Authors: Andrea Zoli , Andrea Bulgarelli (IASF_Bologna)
-//
+// DESCRIPTION
+//       AGILE Science Tools
+//       AG_diffmapgen
+//		 2016
+//       Authors: Andrea Zoli, Andrea Bulgarelli (INAF/IASF Bologna)
 // INPUT
 //       Two 2d image as fits with the same number of axes
 //
@@ -12,7 +14,21 @@
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
 
 #include <stdio.h>
@@ -196,7 +212,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;
 	cout << "#################################################################"<< endl;
-	cout << "##########   AG_difmapgen5 v1.2.0 - A.Z., A.B.        ###########"<< endl;
+	cout << "##########   AG_difmapgen B25 v1.2.0 - A.Z. A.B.      ###########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -227,7 +243,7 @@ int main(int argc,char **argv)
 	}
 	else {
 		printf("\n\n\n###################################################################\n");
-		printf("#########  Task AG_difmapgen5........... exiting ################\n");
+		printf("#########   AG_difmapgen B25 ........... exiting ################\n");
 		printf("#################################################################\n\n\n");
 	}
 

@@ -1,17 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
+//       AGILE Science Tools
 //       AG_diff_conv
 //       Release: V2.0 -  17/Oct/2010
-//       Contributors: 
-//       Author: Andrew Chen, Alberto Pellizzoni, Alessio Trois (IASF-Milano)
-//
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
+//       Authors: Andrew Chen, Alberto Pellizzoni, Alessio Trois (IASF-Milano)
 //
 // FILE HISTORY
 //       17/Oct/2010
@@ -21,7 +13,21 @@
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
@@ -477,7 +483,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;	
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_diff_conv5 v1.2.0 - A.C., A.T.            #########"<< endl;
+	cout << "########## AG_diff_conv B25 v1.2.0 - A.C. A.T.          #########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -507,8 +513,8 @@ int main(int argc,char **argv)
 		}			
 	else {
 		printf("\n\n\n###################################################################\n");
-		printf("#########  Task AG_diff_conv5........... exiting ################\n");
-		printf("#################################################################\n\n\n");					
+		printf("#########   AG_diff_conv B25 ........... exiting ################\n");
+		printf("#################################################################\n\n");					
 		}			
 	
 	return status;

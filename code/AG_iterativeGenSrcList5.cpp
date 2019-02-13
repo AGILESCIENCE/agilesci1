@@ -1,27 +1,33 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
-//       Alike
-//       Release: V 1.0 -  31/Jul/2009
-//	 Release: V 1.0 Andrea Bulgarelli, developed by Tomaso Contessi
-//
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
+//       AGILE Science Tools
+//       AG_iterativeGenSrcList
+//       Author: Andrea Bulgarelli, Tomaso Contessi
 //
 // FILE HISTORY
 //       31/Jul/2009
-//                      First release: V1.0
+//       First release: V1.0
+//
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
-
 
 #include <fstream>
 #include <iostream>
@@ -118,7 +124,7 @@ static void PrintInput(
 cout << " "<< endl;
 cout << " "<< endl;	
 cout << "#################################################################"<< endl;
-cout << "### AG_iterativeGenSrcList5 v.1.2.0 - A.B., T.C., A.C.        ###"<< endl;
+cout << "###    AG_iterativeGenSrcList B25 v1.2.0 - A.B. T.C.          ###"<< endl;
 cout << "#################################################################"<< endl;
 cout << " "<< endl;
 cout << "INPUT PARAMETERS:" << endl << endl;
@@ -184,7 +190,7 @@ if (status==PIL_OK) {
 		cerr << "Could not open " << outfilename << " for output" << endl;
 
 	printf("\n\n\n#################################################################\n");
-	printf("############ AG_iterativeGenSrcList5........ exiting ############\n");
+	printf("########## AG_iterativeGenSrcList B25........ exiting ###########\n");
 	printf("#################################################################\n\n\n");
 	}
 else

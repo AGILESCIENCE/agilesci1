@@ -2,32 +2,39 @@
 // DESCRIPTION
 //       Scientific pipeline I/O routine
 //       AG_add_diff
-//       Release: V2.1 -  09/Oct/2010
+//       First Release: V2.1.0 -  09/Oct/2010
 //       Contributors:
 //       Author: Andrew Chen, Tomaso Contessi (IASF-Milano)
 //
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
-//
 // FILE HISTORY
 //       27/Feb/2009
-//                      First release: V1.0
+//              First release: V1.0.0
 //       		Author: Andrew Chen (IASF-Milano)
 //       01/Oct/2010
-//                      V2.0
+//              V2.0.0
 //       		Author: Andrew Chen (IASF-Milano)
 //       09/Oct/2010
-//                      V2.1
+//              V2.1.0
 //       		Author: Andrew Chen (IASF-Milano)
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 ////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstdio>
@@ -216,7 +223,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_add_diff5 v1.2.0 - A.C.                   #########"<< endl;
+	cout << "##########        AG_add_diff B25 v2.1.0 - A.C.         #########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -247,8 +254,8 @@ int main(int argc,char **argv)
 		}
 	else {
 		printf("\n\n\n###################################################################\n");
-		printf("#########  Task AG_add_diff5........... exiting #################\n");
-		printf("#################################################################\n\n\n");
+		printf("#########  Task AG_add_diff5 B25....... exiting #################\n");
+		printf("#################################################################\n");
 		}
 
 	return status;

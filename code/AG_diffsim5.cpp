@@ -1,24 +1,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
+//       AGILE Science Tools
 //       AG_diffsim
-//       Contributors:
-//       Author: Andrea Zoli, Andrea Bulgarelli (IASF-Bologna)
+//       Authors: Andrea Zoli, Andrea Bulgarelli (INAF/IASF Bologna)
 //
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
 //
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
-
-// TODO3: test with sources
 
 #include <TRandom3.h>
 #include <RoiMulti5.h>
@@ -55,14 +61,14 @@ class AppScreen {
 public:
     AppScreen() {
         cout << "#################################################################"<< endl;
-        cout << "######## AG_diffsim5 v1.2.0 - A.Z., A.B. ########################"<< endl;
+        cout << "######## AG_diffsim B25 v1.2.0 - A.Z. A.B. ######################"<< endl;
         cout << "#################################################################"<< endl;
         cout << endl << "RoiMulti version: " << ROIMULTI_VERSION << " - " << ROIMULTI_DATE << endl;
     }
 
     ~AppScreen() {
         cout << "#################################################################"<< endl;
-        cout << "##########  Task AG_diffsim5............ exiting ################"<< endl;
+        cout << "##########   AG_diffsim5 B25............ exiting ################"<< endl;
         cout << "#################################################################"<< endl;
     }
 };

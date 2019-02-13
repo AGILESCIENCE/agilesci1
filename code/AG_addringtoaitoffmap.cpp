@@ -1,21 +1,38 @@
-
+////////////////////////////////////////////////////////////////////////////////
+// DESCRIPTION
+//       AGILE Science Tools
+//       Contributors: Leonardo Baroncelli (INAF/OAS Bologna)
+//
+// ./bin/AG_add-ring-to-aitof-map
+//      <input aitof map>
+//      <input ring>
+//      <erase> -> if yes/y the pixels values of 'input aitof map' will be set to 0 at the beginning.
+//      <destName [OPTIONAL]>  -> if not set, the 'the input aitof map' will be overwritten. If set another file will be created.
+//
+// FILE HISTORY
+//       27/Oct/2017
+//              First release: V1.0.0
+//       		Author: Leonardo Baroncelli (INAF/OAS Bologna)
+// NOTICE
+//       Any information contained in this software
+//       is property of the AGILE TEAM and is strictly
+//       private and confidential.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
 /*
- * Copyright (c) 2017
- *     Leonardo Baroncelli
- *
- * Any information contained in this software
- * is property of the AGILE TEAM and is strictly
- * private and confidential.
- *
- * Usage:
- *
- * ./bin/AG_add-ring-to-aitof-map
- *       <input aitof map>
- *       <input ring>
- *       <erase> -> if yes/y the pixels values of 'input aitof map' will be set to 0 at the beginning.
- *       <destName [OPTIONAL]>  -> if not set, the 'the input aitof map' will be overwritten. If set another file will be created.
- *
-*/
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+////////////////////////////////////////////////////////////////////////////////////
 
 
 #include <stdlib.h>
@@ -39,12 +56,14 @@ enum ProjectionType {ARC, AIT};
 
 const char* startString = {
 "################################################################\n"
-"###             Task AG_add-ring-to-aitof-map v0.1           ###"
+"###        AG_add-ring-to-aitof-map B25 v 1.0.0 - L.B.       ###\n"
+"################################################################\n"
 };
 
 const char* endString = {
-"### Task AG_add-ring-to-aitof-map exiting ..................###\n"
-"################################################################"
+"################################################################\n"
+"###  AG_add-ring-to-aitof-map B25 exiting ...................###\n"
+"################################################################\n"
 };
 
 const PilDescription paramsDescr[] = {

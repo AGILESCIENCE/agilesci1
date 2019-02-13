@@ -1,25 +1,28 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
-//       Alike
-//       Release: V 1.0 -  31/Jul/2009
-//	 Release: V 1.0 Andrea Bulgarelli, developed by Tomaso Contessi
+//       AGILE Science Tools
+//       Alike multi iterative
+//       Authors: Andrea Bulgarelli (INAF/OAS Bologna), Tommaso Contessi (IASF-Milano)
 //
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
-//
-// FILE HISTORY
-//       31/Jul/2009
-//                      First release: V1.0
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -281,14 +284,14 @@ public:
 	AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "#### AG_multiterative v2.0.0 - A.B., T.C., A.C.              ####"<< endl;
+	cout << "#### AG_multiterative B25 v2.0.0 - A.B. T.C. A.C.            ####"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 
 	~AppScreen()
 	{
 	cout << "#################################################################"<< endl;
-	cout << "#######  Task AG_multiiterative......... exiting ################"<< endl;
+	cout << "#######   AG_multiiterative B25......... exiting ################"<< endl;
 	cout << "#################################################################"<< endl;
 	}
 };

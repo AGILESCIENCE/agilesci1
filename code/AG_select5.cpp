@@ -1,11 +1,30 @@
+////////////////////////////////////////////////////////////////////////////////
+// DESCRIPTION
+//       AGILE Science Tools
+//       AG select
+//		 Author: Andrea Zoli (INAF/IASF Bologna)
+//
+// NOTICE
+//       Any information contained in this software
+//       is property of the AGILE TEAM and is strictly
+//       private and confidential.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
 /*
- * Copyright (c) 2016
- *     Andrea Zoli (IASF-Bologna)
- *
- * Any information contained in this software
- * is property of the AGILE TEAM and is strictly
- * private and confidential.
-*/
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+////////////////////////////////////////////////////////////////////////////////////
+
 
 #include <iostream>
 #include <fstream>
@@ -25,12 +44,14 @@ using std::endl;
 
 const char* startString = {
 "################################################################\n"
-"###               Task AG_select5 v1.0.0 - A.Z.              ###"
+"###                AG_select B25 v1.0.0 - A.Z.               ###\n"
+"################################################################\n"
 };
 
 const char* endString = {
-"### Task AG_select5 exiting ................................ ###\n"
-"################################################################"
+"################################################################\n"
+"###   AG_select B25 exiting ................................ ###\n"
+"################################################################\n"
 };
 
 const PilDescription paramsDescr[] = {

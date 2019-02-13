@@ -1,27 +1,32 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
+//       AGILE Science Tools
 //       AG_createpsd3
-//       Release: BUILD 0.1 -  10/Jun/2010
-//       Contributors: 
-//       Author: Andrew Chen, Alberto Pellizzoni, Alessio Trois (IASF-Milano)
-//
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
+//       Authors: Andrew Chen, Alberto Pellizzoni, Alessio Trois (IASF-Milano)
 //
 // FILE HISTORY
 //       20/Jun/2010
-//                      First release: V0.1
+//              First release: V0.1
 //       		Author: Andrew Chen, Alessio Trois (IASF-Milano)
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
 
 #include <cstdio>
@@ -358,7 +363,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;	
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_createpsd3 v1.2.0 - A.C., A.T.             ########"<< endl;
+	cout << "########## AG_createpsd3 B25 v1.2.0 - A.C. A.T.          ########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -378,7 +383,7 @@ int main(int argc,char **argv)
 	delete[] outprefix;
 
 	printf("\n\n\n###################################################################\n");
-	printf("#########  Task AG_createpsd3........... exiting ################\n");
+	printf("#########   AG_createpsd3 B25........... exiting ################\n");
 	printf("#################################################################\n\n\n");					
 		
 	return status;

@@ -1,32 +1,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       LogFilter pipeline I/O routine
-//       GRID event report
-//       Release: V0.0 -  16/mar/2005
-//       Contributors: A.A., A.G., S.V., S.M.
-//       Author: Alessio Trois (IASF-Milano)
-//				 Alberto Pellizzoni
+//       AGILE Science Tools
+//       AG thetamapgen
+//		 Author: Andrea Bulgarelli (INAF/IASF Bologna)
 //
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
-//
-// FILE HISTORY
-//       25/Apr/2005
-//                      First release: V1.0
-//                      Authors:       Alessio Trois (IASF-Milano)
-//                             		   Alberto Pellizzoni(IASF-Milano)
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
 
-/// #include <alikeLib.h>
 
 #include <cstring>
 #include <unistd.h>
@@ -35,13 +33,6 @@
 #include <string>
 #include <sstream>
 
-
-/*
-#include "fitsio.h"
-
-#include "MathUtils.h"
-#include "PilParams.h"
-*/
 #include "GenmapParams.h"
 
 using namespace std;
@@ -407,7 +398,7 @@ int status = 0;
 std::cout << " " << std::endl;
 std::cout << " " << std::endl;
 std::cout << "#################################################################" << std::endl;
-std::cout << "### AG_thetamapgen5 v1.2.0 - A.B.                             ###" << std::endl;
+std::cout << "### AG_thetamapgen B25 v1.2.0 - A.B.                          ###" << std::endl;
 std::cout << "#################################################################" << std::endl;
 std::cout << " " << std::endl;
 
@@ -427,7 +418,7 @@ if (status) {
 	}			
 else {
 	printf("\n\n\n###################################################################\n");
-	printf("#########  Task AG_thetamapgen5........... exiting ##############\n");
+	printf("#########    AG_thetamapgen B25 .......... exiting ##############\n");
 	printf("#################################################################\n\n\n");					
 	}
 

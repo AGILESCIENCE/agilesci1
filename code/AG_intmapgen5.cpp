@@ -1,29 +1,35 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
-//       excalibur
-//       Release: V0.0 -  8/Dec/2005
-//       Contributors: 
-//       Author: Andrea Bulgarelli (IASF_Bologna), derivated 
-//	 from AG_expmapgen (Andrew Chen, Alberto Pellizzoni, Alessio Trois (IASF-Milano))
-//
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
+//       AGILE Science Tools
+//       AG_intmapgen 
+//       Author: Andrea Bulgarelli
 //
 // FILE HISTORY
 //       28/Sept/2007
-//                      First release: V1.0
-//       		Author: Andrea Bulgarelli (IASF-Bologna)
+//       First release: V1.0
+//       Author: Andrea Bulgarelli (IASF-Bologna)
+//
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
+
 
 #include <stdio.h>
 #include <iostream>
@@ -156,7 +162,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;	
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_intmapgen5 v1.2.0 - A.B.                  #########"<< endl;
+	cout << "########## AG_intmapgen B25 v1.2.0 - A.B.               #########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;
@@ -185,7 +191,7 @@ int main(int argc,char **argv)
 		}			
 	else {
 		printf("\n\n\n###################################################################\n");
-		printf("#########  Task AG_intmapgen5........... exiting ################\n");
+		printf("#########   AG_intmapgen B25 ........... exiting ################\n");
 		printf("#################################################################\n\n\n");					
 		}			
 	

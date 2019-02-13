@@ -1,32 +1,30 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
-//       excalibur
-//       Release: V0.0 -  8/Dec/2005
-//       Contributors: 
-//       Author: Andrew Chen, Alberto Pellizzoni, Alessio Trois (IASF-Milano)
+//       AGILE Science Tools
+//       AG pixextract
 //
-// INPUT
-//       TBD
-//
-// OUTPUT
-//       TBD
-//
-//
-// FILE HISTORY
-//       8/Dec/2005
-//                      First release: V1.0
-//       		Author: Andrew Chen, Alessio Trois (IASF-Milano)
 // NOTICE
 //       Any information contained in this software
 //       is property of the AGILE TEAM and is strictly
 //       private and confidential.
-//       All rights reserved.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
+/*
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
 ////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////
 
 
-// #include <Alike.h>
 #include <iostream>
 #include <fstream>
 #include <cstring>

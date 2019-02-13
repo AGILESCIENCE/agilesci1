@@ -1,14 +1,30 @@
-
+////////////////////////////////////////////////////////////////////////////////
+// DESCRIPTION
+//       AGILE Science Tools
+//       AG_expratio
+//		 2018
+//       Authors: Leonardo Baroncelli, Giancarlo Zollino (INAF/OAS Bologna)
+//
+// NOTICE
+//       Any information contained in this software
+//       is property of the AGILE TEAM and is strictly
+//       private and confidential.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
 /*
- * Copyright (c) 2017
- *     Leonardo Baroncelli, Giancarlo Zollino
- *
- * Any information contained in this software
- * is property of the AGILE TEAM and is strictly
- * private and confidential.
- * 
- * https://github.com/Leofaber/AG_expratio
-*/
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+////////////////////////////////////////////////////////////////////////////////////
 
 
 #include <fstream>
@@ -21,12 +37,14 @@
 
 const char* startString = {
 "################################################################\n"
-"###                   Task AG_expratio v1.0.5 -              ###"
+"###            AG_expratio B25 v1.0.5 - L.B. G.Z.            ###\n"
+"################################################################\n"
 };
 
 const char* endString = {
-"### Task AG_expratio exiting ............................... ###\n"
-"################################################################"
+"################################################################\n"
+"###  AG_expratio B25 exiting ............................... ###\n"
+"################################################################\n"
 };
 
 const PilDescription paramsDescr[] = {

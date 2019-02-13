@@ -1,12 +1,31 @@
+////////////////////////////////////////////////////////////////////////////////
+// DESCRIPTION
+//       AGILE Science Tools
+//       Alike multi sim
+//       Authors: Andrew Chen, Tommaso Contessi (IASF-Milano),
+//       Andrea Bulgarelli, Andrea Zoli (IASF-Bologna)
+//
+// NOTICE
+//       Any information contained in this software
+//       is property of the AGILE TEAM and is strictly
+//       private and confidential.
+//       Copyright (C) 2005-2019 AGILE Team. All rights reserved.
 /*
- * Copyright (c) 2010-2016
- *     Andrew Chen, Tommaso Contessi (IASF-Milano),
- *     Andrea Bulgarelli, Andrea Zoli (IASF-Bologna),
- *
- * Any information contained in this software
- * is property of the AGILE TEAM and is strictly
- * private and confidential.
-*/
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+////////////////////////////////////////////////////////////////////////////////////
+
 
 #include <TRandom3.h>
 #include <RoiMulti5.h>
@@ -26,12 +45,14 @@ using std::endl;
 
 const char* startString = {
 "#################################################################\n"
-"### Task AG_multisim5 v1.3.0 - A.B., A.C., T.C., A.Z.         ###"
+"###      AG_multisim B25 v1.3.0 - A.B. A.C. T.C. A.Z.         ###\n"
+"#################################################################\n"
 };
 
 const char* endString = {
-"### Task AG_multisim5 exiting ................................ ###\n"
-"##################################################################"
+"##################################################################\n"
+"###    AG_multisim5 B25 exiting .............................. ###\n"
+"##################################################################\n"
 };
 
 const PilDescription paramsDescr[] = {

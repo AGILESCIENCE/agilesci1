@@ -1,9 +1,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
-//       Scientific pipeline I/O routine
+//       AGILE Science Tools
 //       AG_add_diff
 //       First Release: V2.1.0 -  09/Oct/2010
-//       Contributors:
 //       Author: Andrew Chen, Tomaso Contessi (IASF-Milano)
 //
 // FILE HISTORY

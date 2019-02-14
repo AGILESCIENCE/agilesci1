@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // DESCRIPTION
 //       AGILE Science Tools
-//       Contributors: Leonardo Baroncelli (INAF/OAS Bologna)
+//       Authors: Leonardo Baroncelli (INAF/OAS Bologna)
 //
 // ./bin/AG_add-ring-to-aitof-map
 //      <input aitof map>

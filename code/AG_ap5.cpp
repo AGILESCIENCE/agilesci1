@@ -3,7 +3,7 @@
 //       AGILE Science Tools
 //       AG_ap5
 //       First release: 2017
-//       Contributors: Andrea Bulgarelli, Andrea Zoli (INAF/OAS Bologna)
+//       Authors: Andrea Bulgarelli, Andrea Zoli (INAF/OAS Bologna)
 //
 // NOTICE
 //       Any information contained in this software

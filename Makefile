@@ -26,6 +26,7 @@ LINKERENV= cfitsio, pil, wcs, root, agile
 
 # Applications
 AG_ADD_DIFF = AG_add_diff
+AG_INTTIME = AG_intersecttime
 AG_CHECK_MAP_VALUE = AG_checkMapValue
 AG_CIRCLE = AG_circle
 AG_MAP2CSV = AG_map2csv
@@ -233,6 +234,8 @@ exe: makeobjdir $(OBJECTS)
 	test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
 
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTI5) $(OBJECTS_DIR)/AG_multi5.o $(LIBS)
+
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTTIME) $(OBJECTS_DIR)/AG_intersecttime.o $(LIBS)
 
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_MULTISIM5) $(OBJECTS_DIR)/AG_multisim5.o $(LIBS)
 

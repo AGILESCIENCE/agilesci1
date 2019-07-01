@@ -6,6 +6,10 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		DDFA79B7228DCF640021627F /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = DDFA79B6228DCF630021627F /* Makefile */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		DD39B8651C32C013008B5BC0 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -19,9 +23,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		DD17DD762044D1D10089B0E0 /* agilesci1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = agilesci1; sourceTree = BUILT_PRODUCTS_DIR; };
+		DD17DD762044D1D10089B0E0 /* agilesci1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = agilesci1; path = "/Users/bulgarelli/devel.agile/AGILE-GRID-CAT2-Setup/AGILE-GRID-ScienceTools-Setup/agilesci1/build/Debug/agilesci1"; sourceTree = "<absolute>"; };
 		DD17DD772044D4A40089B0E0 /* conf */ = {isa = PBXFileReference; lastKnownFileType = folder; path = conf; sourceTree = "<group>"; };
 		DD39B8711C32C03E008B5BC0 /* code */ = {isa = PBXFileReference; lastKnownFileType = folder; path = code; sourceTree = "<group>"; };
+		DDFA79B6228DCF630021627F /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,9 +43,9 @@
 		DD39B85E1C32C013008B5BC0 = {
 			isa = PBXGroup;
 			children = (
+				DDFA79B6228DCF630021627F /* Makefile */,
 				DD17DD772044D4A40089B0E0 /* conf */,
 				DD39B8711C32C03E008B5BC0 /* code */,
-				DD17DD762044D1D10089B0E0 /* agilesci1 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +105,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDFA79B7228DCF640021627F /* Makefile in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

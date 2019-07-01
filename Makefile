@@ -283,7 +283,7 @@ exe: makeobjdir $(OBJECTS)
 
 	$(CXX) -g $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SPOTFINDER) $(OBJECTS_DIR)/AG_spotfinder5.o $(LIBS)
 
-	#$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_THETAMAPGEN) $(OBJECTS_DIR)/AG_ $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_THETAMAPGEN) $(OBJECTS_DIR)/AG_thetamapgen5.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_FITPSFARRAY) $(OBJECTS_DIR)/AG_fitpsfarray.o $(LIBS)
 

@@ -15,12 +15,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
@@ -109,11 +109,11 @@ int main(int argc, char *argv[])
 	cout << "### Radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
 	cout << "### Binstep: " << binstep << endl;
 	cout << "### Projection: " << projection << endl;
-	
+
 	//area calculation
 	double pixel1 = DEG2RAD * DEG2RAD * fabs(mdim * mdim);
 	double areapixel =  pixel1 * Sinaa(DEG2RAD*45.);
-	
+
 	cout << "### Area pixel " << areapixel << endl;
 
     cout << "INTERVALS N=" << intervals.Count() << ":" << endl;
@@ -192,13 +192,15 @@ int main(int argc, char *argv[])
                 cout << "   " << intervalSlots[i].Start() << " " << intervalSlots[i].Stop() << endl;
 
             vector< vector<double> > exposures;
+            vector<double> summed_exposures;
             status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
                                "None", projection, mdim, mdim, params["la"], params["ba"],
                                params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
                                params["earth_tol"], params["phasecode"], binstep, params["timestep"],
                                params["index"], tmin, tmax, params["emin"],
                                params["emax"], params["fovradmin"], params["fovradmax"],
-                               selectionLogFilename, templateLogFilename, intervalSlots, exposures, false);
+                               selectionLogFilename, templateLogFilename, intervalSlots, exposures, false,
+                               true, summed_exposures);
 
 			//TBW
 			/*
@@ -213,7 +215,7 @@ int main(int argc, char *argv[])
                                selectionLogFilename, templateLogFilename, intervalSlots, dist_pl_earth, dist_pl_source);
             */
 			vector<int>  counts;
-			status = eval::EvalCountsInRadius("None", tmin, tmax, radius, 
+			status = eval::EvalCountsInRadius("None", tmin, tmax, radius,
 						   params["la"], params["ba"], params["lonpole"],
 						   params["emin"], params["emax"], params["fovradmax"],
 						   params["fovradmin"], params["albrad"], params["phasecode"],

@@ -16,12 +16,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
@@ -127,13 +127,14 @@ int main(int argc, char *argv[])
     }
 
     vector< vector<double> > exposures;
+    vector<double> summed_exposures;
     status = eval::EvalExposure(params["outfile"], params["sarFileName"], params["edpFileName"],
                       params["maplist"], params["projection"], params["mdim"], params["mres"],
                       params["la"], params["ba"], params["lonpole"], params["albrad"],
                       params["y_tol"], params["roll_tol"], params["earth_tol"], params["phasecode"],
                       params["binstep"], params["timestep"], params["index"], params["tmin"], params["tmax"],
                       params["emin"], params["emax"], params["fovradmin"], params["fovradmax"],
-                      selectionFilename, templateFilename, intervals, exposures, true);
+                      selectionFilename, templateFilename, intervals, exposures, true, true, summed_exposures);
     FitsFile sfile(selectionFilename);
     sfile.Delete();
     FitsFile tfile(templateFilename);

@@ -4,6 +4,7 @@ evtfile,s,ql,"/hermes/Commissioning/INDEX/GridEvGen.index",,,"Event file index f
 sarFileName,s,ql,"/ananke/chen/work/diffconv/AG_GRID_G0017_SFMG_I0023.sar.gz",,,"Effective area file name"
 edpFileName,s,ql,"/ananke/chen/work/diffconv/AG_GRID_G0017_SFMG_I0023.edp.gz",,,"Energy dispersion file name"
 timelist,s,ql,"None",,,"Time intervals file name (where the search is performed)"
+mres,r,ql,0.25,,,"Bin size (degrees)"
 lonpole,r,ql,180,,,"Rotation of map (degrees)"
 albrad,r,l,100,,,"Radius of earth albedo (degrees)"
 y_tol,r,l,2.0,,,"Boresight movement tolerance (degrees)"

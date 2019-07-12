@@ -60,6 +60,7 @@ const PilDescription paramsDescr[] = {
     { PilString, "sarFileName", "Effective area file name" },
     { PilString, "edpFileName", "Energy dispersion file name" },
     { PilString, "timelist", "Time intervals file name" },
+    { PilReal, "mres", "Bin size (degrees)" },
     { PilReal, "lonpole", "Rotation of map (degrees)" },
     { PilReal, "albrad", "Radius of earth albedo (degrees)" },
     { PilReal, "y_tol", "Boresight movement tolerance (degrees)" },
@@ -104,7 +105,9 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
     cout << endl << "INPUT PARAMETERS:" << endl;
     params.Print();
     double radius = params["radius"]; //mres
-    double mdim = radius*sqrt(2);
+    double mdim = radius*2;
+    //double mdim = params["mdim"];
+    double mres = params["mres"];
     cout << "radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
     double binstep = 1.0;
     const char *projection = "ARC";
@@ -181,7 +184,7 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
 		vector< vector<double> > exposures;
     vector<double> summed_exposures;
 		status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
-						   "None", projection, mdim, mdim, params["la"], params["ba"],
+						   "None", projection, mdim, mres, params["la"], params["ba"],
 						   params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
 						   params["earth_tol"], params["phasecode"], binstep, params["timestep"],
 						   params["index"], tmin, tmax, params["emin"],

@@ -62,6 +62,7 @@ const PilDescription paramsDescr[] = {
     { PilString, "edpFileName", "Energy dispersion file name" },
     { PilString, "timelist", "Time intervals file name" },
     { PilReal, "mres", "Bin size (degrees)" },
+    { PilReal, "radius", "Radius of analysis (degrees)" },
     { PilReal, "la", "Longitude of map center (galactic)" },
     { PilReal, "ba", "Latitude of map center (galactic)" },
     { PilReal, "lonpole", "Rotation of map (degrees)" },
@@ -101,9 +102,11 @@ int main(int argc, char *argv[])
 
     cout << endl << "INPUT PARAMETERS:" << endl;
     params.Print();
-    double mdim = params["mres"];
-    mdim = mdim * sqrt(2);
-    double radius = params["mres"];
+    //double mdim = params["mres"];
+    //mdim = mdim * sqrt(2);
+    double radius = params["radius"];
+    double mres = params["mres"];
+    double mdim = radius * 2;
     double binstep = 1.0;
     const char *projection = "ARC";
 	cout << "### Radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
@@ -194,7 +197,7 @@ int main(int argc, char *argv[])
             vector< vector<double> > exposures;
             vector<double> summed_exposures;
             status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
-                               "None", projection, mdim, mdim, params["la"], params["ba"],
+                               "None", projection, mdim, mres, params["la"], params["ba"],
                                params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
                                params["earth_tol"], params["phasecode"], binstep, params["timestep"],
                                params["index"], tmin, tmax, params["emin"],

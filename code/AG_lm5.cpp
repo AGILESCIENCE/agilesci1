@@ -14,12 +14,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
@@ -60,6 +60,7 @@ const PilDescription paramsDescr[] = {
     { PilString, "sarFileName", "Effective area file name" },
     { PilString, "edpFileName", "Energy dispersion file name" },
     { PilString, "timelist", "Time intervals file name" },
+    { PilReal, "mres", "Bin size (degrees)" },
     { PilReal, "lonpole", "Rotation of map (degrees)" },
     { PilReal, "albrad", "Radius of earth albedo (degrees)" },
     { PilReal, "y_tol", "Boresight movement tolerance (degrees)" },
@@ -76,7 +77,7 @@ const PilDescription paramsDescr[] = {
     { PilReal, "t0", "T0 (TT)" },
     { PilReal, "la", "Longitude of GRB centroid (galactic)" },
     { PilReal, "ba", "Latitude of GRB centroid (galactic)" },
-    { PilReal, "radius", "LM radius of analysis" },   
+    { PilReal, "radius", "LM radius of analysis" },
     { PilReal, "t1s", "t1s (sec) - analysis of signal in [T0-t1s, T0+t2s]" },
     { PilReal, "t2s", "t2s (sec) - analysis of signal in [T0-t1s, T0+t2s]" },
     { PilReal, "t1b", "t1b (sec)" },
@@ -92,9 +93,9 @@ const PilDescription paramsDescr[] = {
 
 int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscalc, double &expcalc)
 {
-	
+
 	int timestep = 1;
-	
+
     Intervals intervals;
     if (!eval::LoadTimeList(params["timelist"], intervals, tmin, tmax)) {
         cerr << "Error loading timelist file '" << params["timelist"].GetStr() << "'" << endl;
@@ -104,7 +105,9 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
     cout << endl << "INPUT PARAMETERS:" << endl;
     params.Print();
     double radius = params["radius"]; //mres
-    double mdim = radius*sqrt(2);
+    double mdim = radius*2;
+    //double mdim = params["mdim"];
+    double mres = params["mres"];
     cout << "radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
     double binstep = 1.0;
     const char *projection = "ARC";
@@ -167,11 +170,11 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
     cout << "***** " << beginTime << " " << endTime << " " <<  endl << endl;
     Interval timeSlot;
     timeSlot.Set(beginTime, endTime);
-    
+
 #ifdef DEBUG
     cout << "Time slot beginTime: " << beginTime << " endTime: " << endTime << endl;
 #endif
-	
+
 	Intervals intervalSlots = Intersection(intervals, timeSlot);
 	if (intervalSlots.Count()) {
 		cout << "Selected slots:" << endl;
@@ -179,30 +182,31 @@ int EvalExpAndCounts(PilParams &params, double tmin, double tmax, int &countscal
 			cout << "   " << intervalSlots[i].Start() << " " << intervalSlots[i].Stop() << endl;
 
 		vector< vector<double> > exposures;
+    vector<double> summed_exposures;
 		status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
-						   "None", projection, mdim, mdim, params["la"], params["ba"],
+						   "None", projection, mdim, mres, params["la"], params["ba"],
 						   params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
 						   params["earth_tol"], params["phasecode"], binstep, params["timestep"],
 						   params["index"], tmin, tmax, params["emin"],
 						   params["emax"], params["fovradmin"], params["fovradmax"],
-						   selectionLogFilename, templateLogFilename, intervalSlots, exposures, false);
+						   selectionLogFilename, templateLogFilename, intervalSlots, exposures, false, true, summed_exposures);
 
 		vector<int>  counts;
-		status = eval::EvalCountsInRadius("None", tmin, tmax, radius, 
+		status = eval::EvalCountsInRadius("None", tmin, tmax, radius,
 						   params["la"], params["ba"], params["lonpole"],
 						   params["emin"], params["emax"], params["fovradmax"],
 						   params["fovradmin"], params["albrad"], params["phasecode"],
 						   params["filtercode"], selectionEvtFilename, templateEvtFilename,
 						   intervalSlots, counts);
-			             
+
 		expcalc = 0;
 		countscalc = 0;
 		for (int slot=0; slot<intervalSlots.Count(); slot++) {
 			expcalc += exposures[slot][0]; // the map is 1x1
-			countscalc += counts[slot]; 
+			countscalc += counts[slot];
 		}
 
-		
+
 	}
 	else
 		cout << "No intervals selected" << endl;
@@ -232,7 +236,7 @@ int main(int argc, char *argv[])
 {
     cout << startString << endl;
 	int status = 0;
-	
+
     PilParams params(paramsDescr);
     if (!params.Load(argc, argv))
         return EXIT_FAILURE;
@@ -244,7 +248,7 @@ int main(int argc, char *argv[])
 	double t2b = params["t2b"];
 	double shiftt1b = params["shiftt1b"];
 	double shiftt2b = params["shiftt2b"];
-	
+
 	double tmin = 0.0;
 	double tmax = 0.0;
 	int counts_s = 0;
@@ -253,33 +257,33 @@ int main(int argc, char *argv[])
 	double exp_b1 = 0.0;
 	int counts_b2 = 0;
 	double exp_b2 = 0.0;
-		
+
 	const char *outfile = params["outfile"];
     std::ofstream resText(outfile);
     resText.setf(ios::fixed);
-    
+
     double timeslot = params["timeslot"];
     double timeslotstart = params["timeslotstart"];
     double timeslotstop = params["timeslotstop"];
     /*
-    
+
     double endTime = beginTime+deltaT;
     if (endTime > tmax)
         endTime = tmax;
 	*/
 	if(timeslot > 0) {
-		t0 = timeslotstart;	
+		t0 = timeslotstart;
 	}
-		
+
 	do {
-	
+
 		tmin = t0-t1s;
 		tmax = t0+t2s;
-	
+
 		status = EvalExpAndCounts(params, tmin, tmax, counts_s, exp_s);
-	
+
 		if(status == 0) {
-			
+
 				resText << std::setprecision(1);
 				resText << tmin << " " << tmax << " ";
 				resText << std::setprecision(2);
@@ -291,25 +295,25 @@ int main(int argc, char *argv[])
 
 		tmin = t0-t1s-shiftt1b-t1b;
 		tmax = t0-t1s-shiftt1b;
-	
+
 		status = EvalExpAndCounts(params, tmin, tmax, counts_b1, exp_b1);
-	
+
 		if(status == 0) {
-			
+
 				resText << std::setprecision(1);
 				resText << tmin << " " << tmax << " ";
 				resText << std::setprecision(2);
 				resText << counts_b1 << " " << exp_b1 << " -1 ";
-			
+
 		}
 		else if(status == -118)
 			return status;
-	
+
 		tmin = t0+t2s+shiftt2b;
 		tmax = t0+t2s+shiftt2b+t2b;
-	
+
 		status = EvalExpAndCounts(params, tmin, tmax, counts_b2, exp_b2);
-	
+
 		if(status == 0) {
 			resText << std::setprecision(1);
 			resText << tmin << " " << tmax << " ";
@@ -318,7 +322,7 @@ int main(int argc, char *argv[])
 		}
 		else if(status == -118)
 			return status;
-	
+
 		int bkg = counts_b1 + counts_b2;
 		int source = counts_s;
 		//int N_on = source + bkg; wrong
@@ -327,7 +331,7 @@ int main(int argc, char *argv[])
 		resText << alpha << " ";
 		double alp1 = alpha / (1 + alpha);
 		double alp2 = alpha + 1;
-	
+
 		cout << "sig cts (N_on)   " << source << endl;
 		cout << "sig exp  " << exp_s << endl;
 		cout << "sig rate " << std::setprecision(10) << source / (double) exp_s << endl;
@@ -336,9 +340,9 @@ int main(int argc, char *argv[])
 		cout << "bkg rate " << std::setprecision(10) << bkg / (double) (exp_b1 + exp_b2) << endl;
 		cout << "alpha: " << std::setprecision(10) << alpha << endl;
 		cout << "N_s = N_on - alpha * N_off: " << std::setprecision(10) << source - alpha * bkg << endl;
-		
+
 		if(status == 0) {
-			
+
 			resText << std::setprecision(2);
 			resText << " off " << bkg << " " << exp_b1 + exp_b2 << " " << std::setprecision(10) << bkg / (double) (exp_b1 + exp_b2);
 		}
@@ -355,13 +359,13 @@ int main(int argc, char *argv[])
 			SA = sqrt(2.) * sqrt(source1 * log( (1 / alp1 ) * ( source1 / (source1 + bkg1) )) + bkg1 * log( alp2 * ( bkg1 / ( source1 + bkg1 ) ) ) );
 			cout <<  "Li&Ma sigma " << S << endl;
 			cout <<  "Li&Ma sigma " << SA << endl;
-			
+
 		} else {
 			cout << "Alpha: 0" << endl;
 			cout << "Li&Ma sigma 0" << endl;
 		}
 		resText << " " << S << endl;
-		
+
 		/*
 		beginTime = endTime;
 		endTime += deltaT;
@@ -371,11 +375,10 @@ int main(int argc, char *argv[])
 		if(timeslot > 0) {
 			t0 = t0 + timeslot;
 		}
-	
-		
+
+
     } while(timeslot > 0 && t0 < timeslotstop );
-    
+
     resText.close();
     return 0;
 }
-

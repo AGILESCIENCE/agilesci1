@@ -15,12 +15,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
- 
+
  You should have received a copy of the GNU General Public License
  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
@@ -62,6 +62,7 @@ const PilDescription paramsDescr[] = {
     { PilString, "edpFileName", "Energy dispersion file name" },
     { PilString, "timelist", "Time intervals file name" },
     { PilReal, "mres", "Bin size (degrees)" },
+    { PilReal, "radius", "Radius of analysis (degrees)" },
     { PilReal, "la", "Longitude of map center (galactic)" },
     { PilReal, "ba", "Latitude of map center (galactic)" },
     { PilReal, "lonpole", "Rotation of map (degrees)" },
@@ -101,19 +102,21 @@ int main(int argc, char *argv[])
 
     cout << endl << "INPUT PARAMETERS:" << endl;
     params.Print();
-    double mdim = params["mres"];
-    mdim = mdim * sqrt(2);
-    double radius = params["mres"];
+    //double mdim = params["mres"];
+    //mdim = mdim * sqrt(2);
+    double radius = params["radius"];
+    double mres = params["mres"];
+    double mdim = radius * 2;
     double binstep = 1.0;
     const char *projection = "ARC";
 	cout << "### Radius for evt: " << radius << " - mdim for exp: " << mdim << endl;
 	cout << "### Binstep: " << binstep << endl;
 	cout << "### Projection: " << projection << endl;
-	
+
 	//area calculation
 	double pixel1 = DEG2RAD * DEG2RAD * fabs(mdim * mdim);
 	double areapixel =  pixel1 * Sinaa(DEG2RAD*45.);
-	
+
 	cout << "### Area pixel " << areapixel << endl;
 
     cout << "INTERVALS N=" << intervals.Count() << ":" << endl;
@@ -192,13 +195,15 @@ int main(int argc, char *argv[])
                 cout << "   " << intervalSlots[i].Start() << " " << intervalSlots[i].Stop() << endl;
 
             vector< vector<double> > exposures;
+            vector<double> summed_exposures;
             status = eval::EvalExposure("None", params["sarFileName"], params["edpFileName"],
-                               "None", projection, mdim, mdim, params["la"], params["ba"],
+                               "None", projection, mdim, mres, params["la"], params["ba"],
                                params["lonpole"], params["albrad"], params["y_tol"], params["roll_tol"],
                                params["earth_tol"], params["phasecode"], binstep, params["timestep"],
                                params["index"], tmin, tmax, params["emin"],
                                params["emax"], params["fovradmin"], params["fovradmax"],
-                               selectionLogFilename, templateLogFilename, intervalSlots, exposures, false);
+                               selectionLogFilename, templateLogFilename, intervalSlots, exposures, false,
+                               true, summed_exposures);
 
 			//TBW
 			/*
@@ -213,7 +218,7 @@ int main(int argc, char *argv[])
                                selectionLogFilename, templateLogFilename, intervalSlots, dist_pl_earth, dist_pl_source);
             */
 			vector<int>  counts;
-			status = eval::EvalCountsInRadius("None", tmin, tmax, radius, 
+			status = eval::EvalCountsInRadius("None", tmin, tmax, radius,
 						   params["la"], params["ba"], params["lonpole"],
 						   params["emin"], params["emax"], params["fovradmax"],
 						   params["fovradmin"], params["albrad"], params["phasecode"],
@@ -223,7 +228,7 @@ int main(int argc, char *argv[])
             double slotExp = 0;
             int slotCounts = 0;
             for (int slot=0; slot<intervalSlots.Count(); slot++) {
-                slotExp += exposures[slot][0]; // the map is 1x1
+                slotExp += summed_exposures[slot]; // the map is 1x1
                 slotCounts += counts[slot];
             }
 			//slotExp in cm2 s sr
@@ -232,7 +237,7 @@ int main(int argc, char *argv[])
                 expText << std::setprecision(1);
                 expText << beginTime << " " << endTime << " ";
                 expText << std::setprecision(2);
-                expText << slotExp / areapixel  << " " << slotCounts << " ";
+                expText << slotExp << " " << slotCounts << " ";
                 /*
                 for (int slot=0; slot<intervalSlots.Count(); slot++) {
                 	expText << dist_pl_earth[slot] << " " << dist_pl_source[slot] << " ";

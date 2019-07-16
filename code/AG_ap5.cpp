@@ -228,7 +228,7 @@ int main(int argc, char *argv[])
             double slotExp = 0;
             int slotCounts = 0;
             for (int slot=0; slot<intervalSlots.Count(); slot++) {
-                slotExp += exposures[slot][0]; // the map is 1x1
+                slotExp += summed_exposures[slot]; // the map is 1x1
                 slotCounts += counts[slot];
             }
 			//slotExp in cm2 s sr
@@ -237,7 +237,7 @@ int main(int argc, char *argv[])
                 expText << std::setprecision(1);
                 expText << beginTime << " " << endTime << " ";
                 expText << std::setprecision(2);
-                expText << slotExp / areapixel  << " " << slotCounts << " ";
+                expText << slotExp << " " << slotCounts << " ";
                 /*
                 for (int slot=0; slot<intervalSlots.Count(); slot++) {
                 	expText << dist_pl_earth[slot] << " " << dist_pl_source[slot] << " ";

@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
                                selectionLogFilename, templateLogFilename, intervalSlots, dist_pl_earth, dist_pl_source);
             */
 			vector<int>  counts;
-			status = eval::EvalCountsInRadius("None", tmin, tmax, radius,
+			status = eval::EvalCountsInRadius(outfile, tmin, tmax, radius,
 						   params["la"], params["ba"], params["lonpole"],
 						   params["emin"], params["emax"], params["fovradmax"],
 						   params["fovradmin"], params["albrad"], params["phasecode"],

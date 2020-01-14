@@ -160,6 +160,14 @@ ifneq (, $(findstring cfitsio, $(LINKERENV)))
     LIBS += -L$(CFITSIO)/lib -lcfitsio
 endif
 
+# fix for anaconda distribution of agile tools
+ifneq (, $(ZLIBPATH))
+    $(info $$ZLIBPATH is [${ZLIBPATH}])
+    ZLIBPATHFIX = -L$(ZLIBPATH)
+endif
+
+
+
 LINK     = $(CXX)
 #for link
 LFLAGS = -shared -Wl,-soname,$(TARGET1) -Wl,-rpath,$(DESTDIR)
@@ -301,7 +309,7 @@ exe: makeobjdir $(OBJECTS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_NORM) $(OBJECTS_DIR)/AG_norm5.o $(LIBS)
 
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INDEXGEN) $(OBJECTS_DIR)/AG_indexgen.o -lz
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INDEXGEN) $(OBJECTS_DIR)/AG_indexgen.o $(ZLIBPATHFIX) -lz
 
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_EXPRATIO) $(OBJECTS_DIR)/AG_expratio.o $(LIBS)
 

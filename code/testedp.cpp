@@ -215,15 +215,16 @@ double detCorrectionSpectraFactorSimple(EdpGrid &edp, int iMin, int iMax, double
 	int phiind=0;
 	
 
+	
 	float avgValuePL = 0.0f;
 	float avgValuePLE = 0.0f;
 	for (int etrue = 0; etrue < eneChanCount-1; etrue++)  {
 		double lastenergy = m_edptrueenergy[etrue+1];
 		//if(etrue == iMax && GetEmax() == 50000)
 		//	lastenergy = 50000;
-		
+		cout << "edp: thetaind  phiind  etrue  eobs m_edptrueenergy[etrue] m_edpobsenergy[eobs] m_edptheta[thetaind] m_edpphi[phiind] edp.Val(m_edptrueenergy[etrue], m_edpobsenergy[eobs], m_edptheta[thetaind], m_edpphi[phiind])" << endl;
 		for (int eobs = iMin;  eobs <= iMax; eobs++) {
-			//cout << "edp: " << m_edptrueenergy[etrue] << " " << m_edpobsenergy[eobs] << " " << m_edptheta[thetaind] << " " << m_edpphi[phiind] << " " <<  edp.Val(m_edptrueenergy[etrue], m_edpobsenergy[eobs], m_edptheta[thetaind], m_edpphi[phiind]) << endl;
+			cout << "edp: " << thetaind << " " << phiind << " " << etrue << " " << eobs << " " << m_edptrueenergy[etrue] << " " << m_edpobsenergy[eobs] << " " << m_edptheta[thetaind] << " " << m_edpphi[phiind] << " " <<  edp.Val(m_edptrueenergy[etrue], m_edpobsenergy[eobs], m_edptheta[thetaind], m_edpphi[phiind]) << endl;
 			edpArr[etrue] += edp.Val(m_edptrueenergy[etrue], m_edpobsenergy[eobs], m_edptheta[thetaind], m_edpphi[phiind]); //CORRETTO
 		}
 		avgValuePL  += edpArr[etrue] * UpdateNormPL(m_edptrueenergy[etrue], lastenergy, index) * 1;

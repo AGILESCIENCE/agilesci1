@@ -301,7 +301,7 @@ exe: makeobjdir $(OBJECTS)
 
 	$(CXX)  $(ALL_CFLAGS_NO_ROOT) -o $(EXE_DESTDIR)/$(AG_NORM) $(OBJECTS_DIR)/AG_norm5.o $(LIBS)
 
-	$(CXX) -o $(EXE_DESTDIR)/$(AG_INDEXGEN) $(OBJECTS_DIR)/AG_indexgen.o -lz
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INDEXGEN) $(OBJECTS_DIR)/AG_indexgen.o -lz
 
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_EXPRATIO) $(OBJECTS_DIR)/AG_expratio.o $(LIBS)
 

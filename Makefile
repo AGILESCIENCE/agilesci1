@@ -184,6 +184,15 @@ MOVE     = mv -f
 CHK_DIR_EXISTS= test -d
 MKDIR    = mkdir -p
 
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+    $(info detected osx)
+    ifneq (, $BUILD_ANACONDA)
+         LIBS += -headerpad_max_install_names
+         $(info $$LIBS is [${LIBS}])
+    endif
+endif
+
 ####### 5) VPATH
 
 VPATH=$(SOURCE_DIR):$(INCLUDE_DIR):

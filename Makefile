@@ -65,6 +65,9 @@ AG_INDEXGEN = AG_indexgen
 AG_EXPRATIO = AG_expratio
 AG_LM6 = AG_lm6
 AG_ADDRINGTOAITOFFMAP = AG_addringtoaitoffmap
+AG_GENSELECTEDEVTLIST = AG_genselectedevtlist
+AG_GENSELECTEDLOGLIST = AG_genselectedloglist
+
 
 # Libraries
 AGILE_MAP = AgileMap
@@ -325,6 +328,10 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_LM6) $(OBJECTS_DIR)/AG_lm6.o $(LIBS)
 
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ADDRINGTOAITOFFMAP) $(OBJECTS_DIR)/AG_addringtoaitoffmap.o $(LIBS)
+
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_GENSELECTEDEVTLIST) $(OBJECTS_DIR)/AG_genselectedevtlist.o $(LIBS)
+
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_GENSELECTEDLOGLIST) $(OBJECTS_DIR)/AG_genselectedloglist.o $(LIBS)
 
 
 staticlib: makelibdir makeobjdir $(OBJECTS)

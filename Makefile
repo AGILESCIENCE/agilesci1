@@ -36,6 +36,7 @@ AG_EXPMAPGEN = AG_expmapgen
 AG_CTSMAPGEN = AG_ctsmapgen
 AG_GASMAPGEN = AG_gasmapgen
 AG_INTMAPGEN = AG_intmapgen
+AG_INTMAPGENFULL = AG_intmapgenfull
 AG_DIFMAPGEN = AG_difmapgen
 TESTEDP = testedp
 AG_AP = AG_ap
@@ -296,6 +297,8 @@ exe: makeobjdir $(OBJECTS)
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_GASMAPGEN) $(OBJECTS_DIR)/AG_gasmapgen5.o  $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTMAPGEN) $(OBJECTS_DIR)/AG_intmapgen5.o $(LIBS)
+
+        $(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTMAPGENFULL) $(OBJECTS_DIR)/AG_intmapgenfull.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFMAPGEN) $(OBJECTS_DIR)/AG_difmapgen5.o $(LIBS)
 

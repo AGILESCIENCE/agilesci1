@@ -298,7 +298,7 @@ exe: makeobjdir $(OBJECTS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTMAPGEN) $(OBJECTS_DIR)/AG_intmapgen5.o $(LIBS)
 
-        $(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTMAPGENFULL) $(OBJECTS_DIR)/AG_intmapgenfull.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_INTMAPGENFULL) $(OBJECTS_DIR)/AG_intmapgenfull.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_DIFMAPGEN) $(OBJECTS_DIR)/AG_difmapgen5.o $(LIBS)
 

@@ -1,0 +1,3 @@
+expfile,s,ql,"/ananke/chen/Alike_dev/data/SIM9999P11.exp",,,"Exposure file name"
+outfile,s,ql,"!/ananke/chen/Alike_dev/data/SIM9999P11.int",,,"Output file name"
+ctsfile,s,ql,"/ananke/chen/Alike_dev/data/SIM9999P11.cts",,,"Counts map file name"

@@ -151,6 +151,10 @@ int main(int argc, char *argv[])
     fitsfile *copyFromPtr;
     fitsfile *copyToPtr;
 
+    int timestep = params["timestep"];
+    int timestep_key;
+    char timestep_comment_key[1024];
+
     /* Open the input file */
     if ( !fits_open_file(&copyFromPtr, selectionFilename, READONLY, &status) )
     {
@@ -158,11 +162,29 @@ int main(int argc, char *argv[])
       if ( !fits_create_file(&copyToPtr, selectionFilenameGZ, &status) )
       {
         /* copy the previous, current, and following HDUs */
-        fits_copy_file(copyFromPtr, copyToPtr, 1, 1, 1, &status);
-
-        fits_close_file(copyToPtr,  &status);
+        if ( !fits_copy_file(copyFromPtr, copyToPtr, 1, 1, 1, &status) )
+        {
+          if ( !fits_write_key(copyToPtr, TINT, "TIMESTEP", &timestep, "The timestep used to select the data.", &status))
+          {
+            fits_close_file(copyToPtr,  &status);
+            fits_close_file(copyFromPtr, &status);
+          }
+        }
       }
-      fits_close_file(copyFromPtr, &status);
+    }
+
+    int hduType;
+    if ( !fits_open_file(&copyToPtr, selectionFilenameGZ, READONLY, &status) )
+    {
+      if ( ! fits_movabs_hdu(copyToPtr, 2, &hduType, &status) )
+      {
+        cout << "Moved to hdu=2. hduType=" << hduType << endl;
+        if ( !fits_read_key(copyToPtr, TINT, "TIMESTEP", &timestep_key, timestep_comment_key, &status))
+        {
+          cout << "Keyword TIMESTEP="<<timestep_key<<" correctly read." << endl;
+          fits_close_file(copyToPtr,  &status);
+        }
+      }
     }
 
 

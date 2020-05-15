@@ -191,9 +191,10 @@ MKDIR    = mkdir -p
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
     $(info detected osx)
+    $(info $$BUILD_ANACONDA is [${BUILD_ANACONDA}])
     ifneq (, $BUILD_ANACONDA)
-         LIBS += -headerpad_max_install_names
-         $(info $$LIBS is [${LIBS}])
+        LIBS += -headerpad_max_install_names
+        $(info $$LIBS is [${LIBS}])
     endif
 endif
 

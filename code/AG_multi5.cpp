@@ -143,11 +143,9 @@ roiMulti.SetLogfile(fileName.c_str());
 roiMulti.SetContourPoints(mPars["contourpoints"]);
 roiMulti.SetMinimizer(mPars["minimizertype"], mPars["minimizeralg"], mPars["minimizerdefstrategy"], mPars["mindefaulttolerance"], mPars["integratortype"]);
 roiMulti.SetCorrections(mPars["galmode2"], mPars["galmode2fit"], mPars["isomode2"], mPars["isomode2fit"], mPars["edpcorrection"], mPars["fluxcorrection"]);
-	
-	SourceDataArray srcArr = ReadSourceFile(mPars["srclist"]);
-	
-	if (!srcArr.Count())
-		cout << "Warning: no point sources loaded" << endl;
+SourceDataArray srcArr = ReadSourceFile(mPars["srclist"]);
+if (!srcArr.Count())
+	cout << "Warning: no point sources loaded" << endl;
 	
 if (roiMulti.DoFit(srcArr, mPars["ranal"], mPars["ulcl"], mPars["loccl"], 1))
 	return -1;

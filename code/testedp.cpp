@@ -182,7 +182,7 @@ double detCorrectionSpectraFactor(EdpGrid &edp, int iMin, int iMax, double index
 			return corr;
 		}
 	}
-
+	return -1.0;
 }
 
 double detCorrectionSpectraFactorSimple(EdpGrid &edp, int iMin, int iMax, double index, double par1) {
@@ -292,7 +292,7 @@ int mainCheckBoundaries(int argc, char *argv[]) {
 	return 0;
 }
 
-int main2(int argc, char *argv[]) {
+void main2(int argc, char *argv[]) {
 
 	char* edpfilename = argv[1];
 	cout << edpfilename << endl;

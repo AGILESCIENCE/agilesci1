@@ -331,8 +331,8 @@ int AG_createpsd3(const char *  dataprefix, const char * outprefix) {
 	int status=0;
 	const int nfilters = 3;
 	const TString filter[] = {"_FM","_F4","_FT3ab"};
-	const int nevtypes = 3;
-	const char evtype[] = "GLS";
+	const int nevtypes = 4;
+	const char evtype[] = "GLST";
 	
 	for (int ev=0; ev<nevtypes; ev++) for (int f=0;f<nfilters;f++) {
 		TString filterev = filter[f] + evtype[ev];

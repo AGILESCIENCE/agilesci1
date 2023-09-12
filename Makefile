@@ -135,7 +135,7 @@ endif
 
 CC = gcc
 
-CXXFLAGS = -g -O2 -pipe -I $(INCLUDE_DIR)
+CXXFLAGS = -O2 -pipe -I $(INCLUDE_DIR)
 
 ifneq (, $(findstring agile, $(LINKERENV)))
     ifeq (, $(findstring -I $(AGILE)/include, $(CXXFLAGS)))
@@ -305,7 +305,7 @@ exe: makeobjdir $(OBJECTS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_ITERATIVEGENSRCLIST) $(OBJECTS_DIR)/AG_iterativeGenSrcList5.o $(LIBS)
 
-	$(CXX) -g $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SPOTFINDER) $(OBJECTS_DIR)/AG_spotfinder5.o $(LIBS)
+	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_SPOTFINDER) $(OBJECTS_DIR)/AG_spotfinder5.o $(LIBS)
 
 	$(CXX)  $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(AG_THETAMAPGEN) $(OBJECTS_DIR)/AG_thetamapgen5.o $(LIBS)
 

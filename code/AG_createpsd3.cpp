@@ -363,7 +363,7 @@ int main(int argc,char **argv)
 	cout << " "<< endl;
 	cout << " "<< endl;	
 	cout << "#################################################################"<< endl;
-	cout << "########## AG_createpsd3 B25 v1.2.0 - A.C. A.T.          ########"<< endl;
+	cout << "########## AG_createpsd3 B25 v1.3.0 - A.C. A.T.          ########"<< endl;
 	cout << "#################################################################"<< endl;
 	cout << " "<< endl;
 	cout << "INPUT PARAMETERS:"<< endl;

@@ -112,8 +112,8 @@ void AG_fitpsfarray(char *  dataprefix, char * theta, char * phi) {
 	const TString filter[] = {"_FM","_F4","_FT3ab"};
 	const int nenergies = 16;
 	const float psfenergy[] = {10.,35,50,71,100,141,200,283,400,632,1000,1732,3000,5477,10000,20000,100000};
-	const int nevtypes = 3;
-	const char evtype[] = "GLS";
+	const int nevtypes = 4;
+	const char evtype[] = "GLST";
 
 	TF1 * Tfitking = new TF1("Tfitking", fitking, 0.0, maxrho, 6);
 	Tfitking->SetParName(0,"B");

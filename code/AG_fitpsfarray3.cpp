@@ -193,14 +193,25 @@ void AG_fitpsfarray(char *  dataprefix, char * theta, char * phi) {
 				psfhist[index].GetYaxis()->SetTitleSize(0.06);
 				psfhist[index].Sumw2();
 			}
-// Fill histograms
+// Fill histograms for G, L, S events
 			for (long row = 0 ; row < evnum ; row++ ) {
 				int ev = 0;
-				for ( ;  ev < 3 && evtype[ev] != evevtype[row]; ev++) {}
-				if (ev < 3 && evcanals[row] >=0 && evcanals[row]<nenergies)
+				for ( ;  ev < (nevtypes-1) && evtype[ev] != evevtype[row]; ev++) {}
+				if (ev < (nevtypes-1) && evcanals[row] >=0 && evcanals[row]<nenergies)
 					if (f != 2 || evtheta[row] != (-1.0) || evphi[row] != (-1.0) || ev != 2)
 						psfhist[ev*nenergies+evcanals[row]].Fill(SphDistDeg(evphi[row], 90.0-evtheta[row], iphi, 90.0-itheta));
 			}
+            
+// Fill histograms for T (G+L+S) events
+            for (long row = 0 ; row < evnum ; row++ ) {
+                int ev = 0;
+                for ( ;  ev < (nevtypes-1); ev++) {
+                    if (evevtype[row] == evtype[ev] && evcanals[row] >=0 && evcanals[row]<nenergies)
+                        if (f != 2 || evtheta[row] != (-1.0) || evphi[row] != (-1.0) || ev != 2)
+                            psfhist[(nevtypes-1)*nenergies+evcanals[row]].Fill(SphDistDeg(evphi[row], 90.0-evtheta[row], iphi, 90.0-itheta));
+                }
+            }
+
 // Fit histograms
 			 for (int ev=0; ev<nevtypes ; ev++) {
 				TString psffilename(dpre+filter[f]+evtype[ev]+".psf3");
